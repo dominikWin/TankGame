@@ -31,7 +31,8 @@ public class Game {
 		while (!Display.isCloseRequested()) {
 			long startTime = System.nanoTime();
 			
-			{//Scope declared to emphasize position between start and end time 
+			{//Scope declared to emphasize position between start and end time
+				Input.update();
 				update(time);
 				render();
 				Display.update();
