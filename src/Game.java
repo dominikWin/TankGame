@@ -21,13 +21,37 @@ public class Game {
 
 	private static void init() {
 		glInit();
+		world = new World();
+		userInterface = new UserInterface();
 	}
 
 	private static void gameLoop() {
+		long lastRunTime = 0; //One second start
+		double time = 0;
 		while (!Display.isCloseRequested()) {
-
+			long startTime = System.nanoTime();
+			
+			{//Scope declared to emphasize position between start and end time 
+				update(time);
+				render();
+				Display.update();
+			}
+			
+			long endTime = System.nanoTime();
+			lastRunTime = endTime - startTime;
+			time = (double) lastRunTime / 1000000000d;
 		}
 		exit();
+	}
+
+	private static void render() {
+		world.render();
+		userInterface.render();
+	}
+
+	private static void update(double time) {
+		world.update(time);
+		userInterface.update(time);
 	}
 
 	private static void exit() {
