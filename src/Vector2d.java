@@ -1,3 +1,5 @@
+import org.lwjgl.opengl.GL11;
+
 /**
  * @author Dominik
  * Stores an X and Y double
@@ -137,6 +139,11 @@ public class Vector2d {
 		double _y = Vector2d.rotate(this, base, angle).y;
 		x = _x;
 		y = _y;
+	}
+	
+	public void glVertexWrite()
+	{
+		GL11.glVertex2d(x, y);
 	}
 
 	public void setX(double x) {
