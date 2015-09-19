@@ -7,8 +7,12 @@ import org.lwjgl.opengl.DisplayMode;
 
 public class Game {
 
-	private static int WIDTH;
-	private static int  HEIGHT;
+	public static int WIDTH;
+	public static int  HEIGHT;
+	
+	private static World world;
+	private static UserInterface userInterface;
+	
 
 	public static void main(String[] args) {
 		createDisplay();
@@ -24,6 +28,10 @@ public class Game {
 		while(!Display.isCloseRequested()) {
 			
 		}
+		exit();
+	}
+
+	private static void exit() {
 		Display.destroy();
 	}
 
@@ -55,6 +63,22 @@ public class Game {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static UserInterface getUserInterface() {
+		return userInterface;
+	}
+
+	public static void setUserInterface(UserInterface userInterface) {
+		Game.userInterface = userInterface;
+	}
+
+	public static World getWorld() {
+		return world;
+	}
+
+	public static void setWorld(World world) {
+		Game.world = world;
 	}
 
 }
