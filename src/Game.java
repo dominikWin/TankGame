@@ -4,6 +4,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL11;
 
 public class Game {
 
@@ -32,6 +33,7 @@ public class Game {
 			long startTime = System.nanoTime();
 			
 			{//Scope declared to emphasize position between start and end time
+				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 				Input.update();
 				update(time);
 				render();
@@ -69,7 +71,7 @@ public class Game {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glOrtho(0, 1, 1, 0, 1, -1);
+		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 	}
 
