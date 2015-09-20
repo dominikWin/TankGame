@@ -15,13 +15,13 @@ public class Player {
 		static final double GUN_LENGTH = 20;
 		static final double TRACK_WIDTH = 10;
 		
-		static final double BODY_MAIN_X1 = 25;
+		static final double BODY_MAIN_X1 = 30;
 		static final double BODY_MAIN_Y1 = 25;
-		static final double BODY_MAIN_X2 = -25;
+		static final double BODY_MAIN_X2 = -30;
 		static final double BODY_MAIN_Y2 = 25;
-		static final double BODY_MAIN_X3 = -25;
+		static final double BODY_MAIN_X3 = -30;
 		static final double BODY_MAIN_Y3 = -25;
-		static final double BODY_MAIN_X4 = 25;
+		static final double BODY_MAIN_X4 = 30;
 		static final double BODY_MAIN_Y4 = -25;
 		static final double BODY_TRACK1_X1 = BODY_MAIN_X1;
 		static final double BODY_TRACK1_Y1 = BODY_MAIN_Y1 + TRACK_WIDTH;
