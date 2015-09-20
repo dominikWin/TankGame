@@ -24,7 +24,7 @@ public class Game {
 		glInit();
 		world = new World();
 		userInterface = new UserInterface();
-//		Input.showMouse(false);
+		// Input.showMouse(false);
 	}
 
 	private static void gameLoop() {
@@ -32,15 +32,19 @@ public class Game {
 		double time = 0;
 		while (!Display.isCloseRequested()) {
 			long startTime = System.nanoTime();
-			
-			{//Scope declared to emphasize position between start and end time
+
+			{// Scope declared to emphasize position between start and end time
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 				Input.update();
 				update(time);
+				glTranslated(-(world.getPlayer().location.getX() - Game.WIDTH / 2),
+						-(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
 				render();
+				glTranslated((world.getPlayer().location.getX() - Game.WIDTH / 2),
+						(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
 				Display.update();
 			}
-			
+
 			long endTime = System.nanoTime();
 			lastRunTime = endTime - startTime;
 			time = (double) lastRunTime / 1000000000d;

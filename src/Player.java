@@ -93,7 +93,8 @@ public class Player {
 
 		// gunAngle = new Vector2d(Input.getMousePosition()., y)
 
-		Vector2d mouseLoc = Input.getMousePosition();
+		Vector2d mouseLoc = Vector2d.add(Input.getMousePosition(), new Vector2d((location.getX() - Game.WIDTH / 2),
+				(location.getY() - Game.HEIGHT / 2)));
 		Vector2d relative = Vector2d.add(location.inverse(), mouseLoc);
 
 		double mouseAngle = Math.toDegrees(Math.atan2(relative.getY(), relative.getX()));
@@ -113,6 +114,7 @@ public class Player {
 		glColor3d(1, 1, 1);
 		renderBody();
 		renderGun();
+
 	}
 
 	private void renderGun() {
