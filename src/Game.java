@@ -24,6 +24,7 @@ public class Game {
 		glInit();
 		world = new World();
 		userInterface = new UserInterface();
+//		Input.showMouse(false);
 	}
 
 	private static void gameLoop() {
