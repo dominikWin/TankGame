@@ -50,7 +50,7 @@ public class Vector2d {
 	 * @return Vector2d obj rotated around base by the angle
 	 */
 	public static Vector2d rotate(Vector2d obj, Vector2d base, double angle) {
-		if (angle == 0) return obj;
+//		if (angle == 0) return obj;
 		//Convert to radians
 		angle = Math.toRadians(angle);
 		//Define values
@@ -61,7 +61,7 @@ public class Vector2d {
 		obj.y -= base.y;
 		//Calculate new pos
 		double x = (obj.x * cos) + (obj.y * sin);
-		double y = (obj.x * sin) + (obj.y * cos);
+		double y = (obj.x * sin) - (obj.y * cos);
 		//Re-add base offset
 		x += base.x;
 		y += base.y;
@@ -122,10 +122,11 @@ public class Vector2d {
 	 * Rotates point angle degrees around point (0, 0)
 	 */
 	public void rotate(double angle) {
-		double _x = Vector2d.rotate(this, new Vector2d(0, 0), angle).x;
-		double _y = Vector2d.rotate(this, new Vector2d(0, 0), angle).y;
-		x = _x;
-		y = _y;
+//		double _x = Vector2d.rotate(this, new Vector2d(0, 0), angle).x;
+//		double _y = Vector2d.rotate(this, new Vector2d(0, 0), angle).y;
+//		x = _x;
+//		y = _y;
+		rotate(new Vector2d(0, 0), angle);
 	}
 
 	
@@ -157,5 +158,9 @@ public class Vector2d {
 	@Override
 	public String toString() {
 		return "Vector2d[" + x + ", " + y + "]";
+	}
+
+	public Vector2d inverse() {
+		return new Vector2d(-x, -y);
 	}
 }

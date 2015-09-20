@@ -27,7 +27,7 @@ public class Game {
 	}
 
 	private static void gameLoop() {
-		long lastRunTime = 0; //One second start
+		long lastRunTime = 0;
 		double time = 0;
 		while (!Display.isCloseRequested()) {
 			long startTime = System.nanoTime();
