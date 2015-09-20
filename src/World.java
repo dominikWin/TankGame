@@ -1,20 +1,27 @@
+import java.util.ArrayList;
 
 public class World {
 	private Player player;
 	private Map map;
+	private ArrayList<Bullet> bullets;
+	
 	public World() {
 		setMap(new Map("res/maps/map.csv"));
 		setPlayer(new Player(getMap().getPlayerSpawn(), 0, 0));
+		setBullets(new ArrayList<>());
 	}
 	
 	public void update(double time) {
 		getPlayer().update(time);
 		getMap().update(time);
+		bullets.forEach(b -> b.update(time));
+		System.out.println(bullets);
 	}
 	
 	public void render() {
 		getPlayer().render();
 		getMap().render();
+		bullets.forEach(b -> b.render());
 	}
 
 	public Player getPlayer() {
@@ -31,5 +38,13 @@ public class World {
 
 	public void setMap(Map map) {
 		this.map = map;
+	}
+
+	public ArrayList<Bullet> getBullets() {
+		return bullets;
+	}
+
+	public void setBullets(ArrayList<Bullet> bullets) {
+		this.bullets = bullets;
 	}
 }

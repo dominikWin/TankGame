@@ -100,6 +100,9 @@ public class Player {
 		double mouseAngle = Math.toDegrees(Math.atan2(relative.getY(), relative.getX()));
 
 		gunAngle = mouseAngle;
+		
+		if(Input.getKeyDown(Keyboard.KEY_SPACE))
+			Game.getWorld().getBullets().add(new Bullet(new Vector2d(location, gunAngle, Model.GUN_LENGTH + Model.GUN_OFFSET_LENGTH), gunAngle, 500));
 
 		while (gunAngle < 0)
 			gunAngle += 360;
