@@ -1,5 +1,7 @@
 import static org.lwjgl.opengl.GL11.*;
 
+import java.awt.Polygon;
+
 import org.lwjgl.input.Keyboard;
 
 public class Player {
@@ -70,6 +72,7 @@ public class Player {
 	}
 
 	public void update(double time) {
+		double x = location.getX(), y = location.getY(), angle = bodyAngle;
 		if (Input.getKey(Keyboard.KEY_W)) {
 			location = new Vector2d(location, bodyAngle, time * DRIVE_SPEED_FOREWARD);
 		}
@@ -82,6 +85,12 @@ public class Player {
 		if (Input.getKey(Keyboard.KEY_D)) {
 			bodyAngle += TURNING_SPEED * time;
 		}
+
+		if (Game.getWorld().getMap().isPlayerIntersecting()) {
+			location = new Vector2d(x, y);
+			bodyAngle = angle;
+		}
+
 		// gunAngle = new Vector2d(Input.getMousePosition()., y)
 
 		Vector2d mouseLoc = Input.getMousePosition();
@@ -153,6 +162,23 @@ public class Player {
 			loc6.glVertexWrite();
 		}
 		glEnd();
+	}
+
+	public Polygon getBoundingBox() {
+		Vector2d loc1 = new Vector2d(Model.BODY_TRACK1_X1, Model.BODY_TRACK1_Y1);
+		Vector2d loc2 = new Vector2d(Model.BODY_TRACK1_X2, Model.BODY_TRACK1_Y2);
+		Vector2d loc3 = new Vector2d(Model.BODY_TRACK2_X1, Model.BODY_TRACK2_Y1);
+		Vector2d loc4 = new Vector2d(Model.BODY_TRACK2_X2, Model.BODY_TRACK2_Y2);
+		loc1.rotate(bodyAngle);
+		loc2.rotate(bodyAngle);
+		loc3.rotate(bodyAngle);
+		loc4.rotate(bodyAngle);
+		loc1.add(location);
+		loc2.add(location);
+		loc3.add(location);
+		loc4.add(location);
+		return new Polygon(new int[] { (int) loc1.getX(), (int) loc2.getX(), (int) loc3.getX(), (int) loc4.getX() },
+				new int[] { (int) loc1.getY(), (int) loc2.getY(), (int) loc3.getY(), (int) loc4.getY() }, 4);
 	}
 
 	private void renderBody() {
