@@ -16,7 +16,6 @@ public class World {
 		getMap().update(time);
 		bullets.forEach(b -> b.update(time));
 		bullets.removeIf(b -> b.destroyed);
-		System.out.println(bullets);
 	}
 	
 	public void render() {
