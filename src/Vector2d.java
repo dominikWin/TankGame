@@ -67,6 +67,10 @@ public class Vector2d {
 		y += base.y;
 		return new Vector2d(x, y);
 	}
+	
+	public static Vector2d multiply(Vector2d vector, double value) {
+		return new Vector2d(vector.getX() * value, vector.getY() * value);
+	}
 
 	private double x, y;
 

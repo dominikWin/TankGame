@@ -1,19 +1,51 @@
 import static org.lwjgl.opengl.GL11.*;
 
 public class Bullet {
+	public static final double RADIUS = 3;
 	Vector2d location;
-	double angle, speed;
-	
+	Vector2d velocity;
+	boolean destroyed = false;
+	int bounces = 2;
+
 	public Bullet(Vector2d location, double angle, double speed) {
 		this.location = location;
-		this.angle = angle;
-		this.speed = speed;
+		velocity = new Vector2d(new Vector2d(0, 0), angle, speed);
 	}
-	
+
+	public Bullet(Vector2d location, double angle, double speed, int bounces) {
+		this.location = location;
+		velocity = new Vector2d(new Vector2d(0, 0), angle, speed);
+		this.bounces = bounces;
+	}
+
 	public void update(double time) {
-		location = new Vector2d(location, angle, speed * time);
+		Vector2d _location = new Vector2d(location.getX(), location.getY());
+		location.add(Vector2d.multiply(velocity, time));
+		if (Game.getWorld().getMap().isBulletIntersecting(this)) {
+			if (bounces <= 0) {
+				destroyed = true;
+				return;
+			}
+			bounces--;
+
+			location = _location;
+			Vector2d xIncrease = Vector2d.multiply(velocity, time);
+			xIncrease.setY(0);
+			location.add(xIncrease);
+			if (Game.getWorld().getMap().isBulletIntersecting(this))
+				velocity.setX(-velocity.getX());
+
+			location = _location;
+			Vector2d yIncrease = Vector2d.multiply(velocity, time);
+			xIncrease.setX(0);
+			location.add(yIncrease);
+			if (Game.getWorld().getMap().isBulletIntersecting(this))
+				velocity.setY(-velocity.getY());
+
+			location = _location;
+		}
 	}
-	
+
 	public void render() {
 		glPointSize(3);
 		glBegin(GL_POINTS);
@@ -22,7 +54,7 @@ public class Bullet {
 		}
 		glEnd();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Bullet[" + location + "]";

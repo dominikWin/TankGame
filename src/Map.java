@@ -105,6 +105,23 @@ public class Map {
 			}
 		return false;
 	}
+	
+	public boolean isBulletIntersecting(Bullet b) {
+		for (int y = 0; y < map.length; y++)
+			for (int x = 0; x < map[0].length; x++) {
+				if (map[y][x] == 1) {
+					Polygon p = new Polygon(
+							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
+									x * BLOCK_SIZE },
+							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
+									y * BLOCK_SIZE + BLOCK_SIZE },
+							4);
+					if(p.intersects(b.location.getX(), b.location.getY(), Bullet.RADIUS, Bullet.RADIUS)) 
+						return true;
+				}
+			}
+		return false;
+	}
 
 	public void render() {
 		glBegin(GL_QUADS);
