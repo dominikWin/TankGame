@@ -1,9 +1,12 @@
+package core;
 
 
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import core.util.Vector2d;
 /**
  * @author Dominik
  * Handles input

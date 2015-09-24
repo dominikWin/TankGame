@@ -1,3 +1,4 @@
+package core;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -5,6 +6,11 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+
+import core.util.Logger;
+import core.util.astar.AStar;
+import core.util.astar.AreaMap;
+import core.util.astar.ClosestHeuristic;
 
 public class Game {
 
@@ -21,10 +27,14 @@ public class Game {
 	}
 
 	private static void init() {
+		Logger.log("Starting TankGame");
 		glInit();
 		world = new World();
+		AreaMap map = new AreaMap(26, 26, world.getMap().getObsticleMap());
+		AStar pathFinder = new AStar(map, new ClosestHeuristic());
+		pathFinder.calcShortestPath(1,
+				1, 6, 6);
 		userInterface = new UserInterface();
-		// Input.showMouse(false);
 	}
 
 	private static void gameLoop() {
@@ -68,6 +78,7 @@ public class Game {
 
 	private static void exit(int status) {
 		Display.destroy();
+		Logger.close();
 		System.exit(status);
 	}
 
@@ -89,7 +100,7 @@ public class Game {
 
 			Game.WIDTH = Display.getDisplayMode().getWidth();
 			Game.HEIGHT = Display.getDisplayMode().getHeight();
-			System.out.println(Display.getDisplayMode());
+			Logger.log("Display created with display mode:" + Display.getDisplayMode());
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}

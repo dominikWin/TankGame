@@ -1,4 +1,8 @@
+package core;
 import java.util.ArrayList;
+
+import core.objects.Bullet;
+import core.objects.Player;
 
 public class World {
 	private Player player;

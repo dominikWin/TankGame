@@ -1,16 +1,25 @@
+package core.objects;
+
+
 import static org.lwjgl.opengl.GL11.*;
 
 import java.awt.Polygon;
 
 import org.lwjgl.input.Keyboard;
 
+import core.Game;
+import core.Input;
+import core.util.Vector2d;
+
 public class Player {
 	private static final int DRIVE_SPEED_BACKWARD = 250;
 	private static final int DRIVE_SPEED_FOREWARD = 250;
 	private static final int TURNING_SPEED = 180;
-	Vector2d location;
+	private static final int FIRE_DELAY_MILS = 250;
+	public Vector2d location;
 	double gunAngle;
 	double bodyAngle;
+	long lastFireTime = 0;
 
 	private static class Model {
 
@@ -65,7 +74,7 @@ public class Player {
 		this.location = location;
 	}
 
-	Player(Vector2d location, double gunAngle, double bodyAngle) {
+	public Player(Vector2d location, double gunAngle, double bodyAngle) {
 		this.location = location;
 		this.bodyAngle = bodyAngle;
 		this.gunAngle = gunAngle;
@@ -93,16 +102,19 @@ public class Player {
 
 		// gunAngle = new Vector2d(Input.getMousePosition()., y)
 
-		Vector2d mouseLoc = Vector2d.add(Input.getMousePosition(), new Vector2d((location.getX() - Game.WIDTH / 2),
-				(location.getY() - Game.HEIGHT / 2)));
+		Vector2d mouseLoc = Vector2d.add(Input.getMousePosition(),
+				new Vector2d((location.getX() - Game.WIDTH / 2), (location.getY() - Game.HEIGHT / 2)));
 		Vector2d relative = Vector2d.add(location.inverse(), mouseLoc);
 
 		double mouseAngle = Math.toDegrees(Math.atan2(relative.getY(), relative.getX()));
 
 		gunAngle = mouseAngle;
-		
-		if(Input.getKeyDown(Keyboard.KEY_SPACE))
-			Game.getWorld().getBullets().add(new Bullet(new Vector2d(location, gunAngle, Model.GUN_LENGTH + Model.GUN_OFFSET_LENGTH), gunAngle, 500));
+
+		if (Input.getKey(Keyboard.KEY_SPACE) && lastFireTime + FIRE_DELAY_MILS < System.currentTimeMillis()) {
+			Game.getWorld().getBullets().add(new Bullet(
+					new Vector2d(location, gunAngle, Model.GUN_LENGTH + Model.GUN_OFFSET_LENGTH), gunAngle, 500));
+			lastFireTime = System.currentTimeMillis();
+		}
 
 		while (gunAngle < 0)
 			gunAngle += 360;

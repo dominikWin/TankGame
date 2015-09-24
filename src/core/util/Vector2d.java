@@ -1,3 +1,5 @@
+package core.util;
+
 import org.lwjgl.opengl.GL11;
 
 /**

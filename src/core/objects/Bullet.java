@@ -1,10 +1,15 @@
+package core.objects;
+
 import static org.lwjgl.opengl.GL11.*;
+
+import core.Game;
+import core.util.Vector2d;
 
 public class Bullet {
 	public static final double RADIUS = 3;
-	Vector2d location;
+	public Vector2d location;
 	Vector2d velocity;
-	boolean destroyed = false;
+	public boolean destroyed = false;
 	int bounces = 2;
 
 	public Bullet(Vector2d location, double angle, double speed) {
