@@ -12,7 +12,7 @@ public class CSVParser {
 	}
 
 	private static String[][] parseCSV(String text) {
-		Logger.log(text);
+		Logger.log("Starting parsing on text:\n" + text);
 
 		int lines = text.split("\n").length;
 
@@ -22,6 +22,7 @@ public class CSVParser {
 	}
 
 	private static String readFile(String filePath) {
+		Logger.log("Opening file " + filePath);
 		File file = new File(filePath);
 		assert(file.exists());
 		assert(file.isFile());
@@ -30,7 +31,7 @@ public class CSVParser {
 		try {
 			s = new Scanner(file);
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			Logger.log("Error reading file " + filePath, Logger.ERROR);
 			e.printStackTrace();
 		}
 		assert(s != null);

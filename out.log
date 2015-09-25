@@ -1,8 +1,10 @@
-[2015-09-25 17:23:07.744] [info] 11654@dominik-ubuntu Begin parsing file res/maps/map2.csv
-[2015-09-25 17:23:07.765] [info] 11654@dominik-ubuntu >>
+[2015-09-25 17:31:17.899] [info] 11915@dominik-ubuntu Begin parsing file res/maps/map2.csv
+[2015-09-25 17:31:17.904] [info] 11915@dominik-ubuntu Opening file res/maps/map2.csv
+[2015-09-25 17:31:17.919] [info] 11915@dominik-ubuntu >>
+	Starting parsing on text:
 	1,1,1,1
 	1,0,2,1
 	1,1,1,1
 <<END>>
-[2015-09-25 17:23:07.766] [info] 11654@dominik-ubuntu Found 3 lines in file
-[2015-09-25 17:23:07.766] [info] 11654@dominik-ubuntu null
+[2015-09-25 17:31:17.92] [info] 11915@dominik-ubuntu Found 3 lines in file
+[2015-09-25 17:31:17.92] [info] 11915@dominik-ubuntu null
