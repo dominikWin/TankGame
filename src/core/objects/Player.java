@@ -9,6 +9,7 @@ import org.lwjgl.input.Keyboard;
 
 import core.Game;
 import core.Input;
+import core.Map;
 import core.util.Vector2d;
 
 public class Player {
@@ -78,6 +79,14 @@ public class Player {
 		this.location = location;
 		this.bodyAngle = bodyAngle;
 		this.gunAngle = gunAngle;
+	}
+	
+	public int getMapLocationX() {
+		return (int) (location.getX() / Map.BLOCK_SIZE);
+	}
+	
+	public int getMapLocationY() {
+		return (int) (location.getY() / Map.BLOCK_SIZE);
 	}
 
 	public void update(double time) {

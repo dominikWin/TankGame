@@ -2,6 +2,7 @@ package core.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CSVParser {
@@ -14,11 +15,16 @@ public class CSVParser {
 	private static String[][] parseCSV(String text) {
 		Logger.log("Starting parsing on text:\n" + text);
 
-		int lines = text.split("\n").length;
-
-		Logger.log("Found " + lines + " lines in file");
-
-		return null;
+		String[] lines = text.split("\n");
+		ArrayList<String[]> array = new ArrayList<>();
+		for (int i = 0; i < lines.length; i++) {
+			array.add(lines[i].split(","));
+		}
+		String[][] out = new String[array.size()][array.get(0).length];
+		for (int i = 0; i < out.length; i++) {
+			out[i] = array.get(i);
+		}
+		return out;
 	}
 
 	private static String readFile(String filePath) {

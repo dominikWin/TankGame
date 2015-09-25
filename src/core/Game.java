@@ -9,7 +9,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import core.util.CSVParser;
 import core.util.Logger;
 import core.util.astar.AStar;
 import core.util.astar.AreaMap;
@@ -24,20 +23,22 @@ public class Game {
 	private static UserInterface userInterface;
 
 	public static void main(String[] args) {
-		Logger.log(Arrays.deepToString(CSVParser.parseCSVFile("res/maps/map2.csv")));
-//		createDisplay();
-//		init();
-//		gameLoop();
+		createDisplay();
+		init();
+		gameLoop();
 	}
 
 	private static void init() {
 		Logger.log("Starting TankGame");
 		glInit();
 		world = new World();
-		AreaMap map = new AreaMap(26, 26, world.getMap().getObsticleMap());
+		Logger.log(Arrays.deepToString(world.getMap().map));
+		Logger.log(Arrays.deepToString(Map.inverse(world.getMap().map)));
+		AreaMap map = new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
+				world.getMap().getObsticleMap());
 		AStar pathFinder = new AStar(map, new ClosestHeuristic());
-		pathFinder.calcShortestPath(1,
-				1, 6, 6);
+		pathFinder.calcShortestPath(1, 1, world.getPlayer().getMapLocationY(), world.getPlayer().getMapLocationX());
+		pathFinder.printPath();
 		userInterface = new UserInterface();
 	}
 

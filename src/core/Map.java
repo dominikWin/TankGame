@@ -1,29 +1,40 @@
 package core;
+
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
 
 import core.objects.Bullet;
+import core.util.CSVParser;
+import core.util.Logger;
 import core.util.Vector2d;
 
 import static org.lwjgl.opengl.GL11.*;
 
 public class Map {
 
-	private static int BLOCK_SIZE = 100;
+	public static int BLOCK_SIZE = 100;
 	int[][] map;
 
 	public Map(String fileName) {
-//		map = readFile(fileName);
+		map = extractMap(CSVParser.parseCSVFile("res/maps/map2.csv"));
 	}
 
 	public int getLines() {
 		return map.length;
+	}
+	
+	public Dimension getSize() {
+		return new Dimension(map[0].length, map.length);
+	}
+	
+	public static int[][] inverse(int[][] array) {
+		int[][] out = new int[array[0].length][array.length];
+		for(int line = 0; line < array.length; line++)
+			for(int data = 0; data < array[0].length; data++)
+				out[data][line] = array[line][data];
+		return out;
 	}
 
 	public void update(double time) {
@@ -87,6 +98,22 @@ public class Map {
 				}
 			}
 		return false;
+	}
+
+	public static int[][] extractMap(String[][] array) {
+		int[][] out = new int[array.length][array[0].length];
+		for (int line = 0; line < out.length; line++) {
+			for (int data = 0; data < out[0].length; data++) {
+				int tmp = 0;
+				try {
+					tmp = Integer.parseInt(array[line][data]);
+				} catch (NumberFormatException e) {
+					Logger.log("Can't get integer out of text " + array[line][data], Logger.ERROR);
+				}
+				out[line][data] = tmp;
+			}
+		}
+		return out;
 	}
 
 	public void render() {
