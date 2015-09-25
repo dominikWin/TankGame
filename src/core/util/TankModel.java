@@ -1,10 +1,8 @@
 package core.util;
 
-import static org.lwjgl.opengl.GL11.GL_LINES;
-import static org.lwjgl.opengl.GL11.GL_LINE_LOOP;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glColor3d;
-import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.*;
+
+import java.awt.Color;
 
 public class TankModel {
 
@@ -59,7 +57,14 @@ public class TankModel {
 		renderBody(location, bodyAngle, gunAngle);
 		renderGun(location, bodyAngle, gunAngle);
 	}
-	
+
+	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle, Color color) {
+		glColor3b((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue());
+		renderBody(location, bodyAngle, gunAngle);
+		renderGun(location, bodyAngle, gunAngle);
+		glColor3d(1, 1, 1);
+	}
+
 	private static void renderBody(Vector2d location, double bodyAngle, double gunAngle) {
 		glBegin(GL_LINES);
 		{
@@ -124,7 +129,7 @@ public class TankModel {
 		}
 		glEnd();
 	}
-	
+
 	private static void renderGunChassis(Vector2d location, double bodyAngle, double gunAngle) {
 		glBegin(GL_LINE_LOOP);
 		{

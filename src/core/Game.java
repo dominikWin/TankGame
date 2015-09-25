@@ -19,6 +19,8 @@ public class Game {
 
 	private static World world;
 	private static UserInterface userInterface;
+	private static AreaMap map;
+	private static AStar pathFinder;
 
 	private static void createDisplay() {
 		try {
@@ -98,10 +100,9 @@ public class Game {
 		Logger.log("Starting TankGame");
 		glInit();
 		world = new World();
-		AreaMap map = new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
+		map = new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
 				world.getMap().getObsticleMap());
-		AStar pathFinder = new AStar(map, new ClosestHeuristic());
-		pathFinder.calcShortestPath(1, 1, world.getPlayer().getMapLocationY(), world.getPlayer().getMapLocationX());
+		setPathFinder(new AStar(map, new ClosestHeuristic()));
 		userInterface = new UserInterface();
 	}
 
@@ -127,6 +128,14 @@ public class Game {
 	private static void update(double time) {
 		world.update(time);
 		userInterface.update(time);
+	}
+
+	public static AStar getPathFinder() {
+		return pathFinder;
+	}
+
+	public static void setPathFinder(AStar pathFinder) {
+		Game.pathFinder = pathFinder;
 	}
 
 }
