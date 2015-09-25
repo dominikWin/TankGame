@@ -21,6 +21,15 @@ public class AreaMap {
                 createMap();
                 registerEdges();
         }
+        public void clear() {
+                startLocationX = 0;
+                startLocationY = 0;
+                goalLocationX = 0;
+                goalLocationY = 0;
+                createMap();
+                registerEdges();
+        }
+
         private void createMap() {
                 Node node;
                 map = new ArrayList<ArrayList<Node>>();
@@ -34,7 +43,57 @@ public class AreaMap {
                         }
                 }
         }
+        
+        
 
+        public float getDistanceBetween(Node node1, Node node2) {
+                //if the nodes are on top or next to each other, return 1
+                if (node1.getX() == node2.getX() || node1.getY() == node2.getY()){
+                        return 1*(mapHeight+mapWith);
+                } else { //if they are diagonal to each other return diagonal distance: sqrt(1^2+1^2)
+                        return (float) 1.7*(mapHeight+mapWith);
+                }
+        }
+        public Node getGoalLocation() {
+                return map.get(goalLocationX).get(goalLocationY);
+        }
+
+        public int getGoalLocationX() {
+                return goalLocationX;
+        }
+
+        public int getGoalLocationY() {
+                return goalLocationY;
+        }
+
+        public int getMapHeight() {
+                return mapHeight;
+        }
+
+        public int getMapWith() {
+                return mapWith;
+        }
+
+        public Node getNode(int x, int y) {
+                return map.get(x).get(y);
+        }
+        
+        public ArrayList<ArrayList<Node>> getNodes() {
+                return map;
+        }
+
+        public int getStartLocationX() {
+                return startLocationX;
+        }
+
+        public int getStartLocationY() {
+                return startLocationY;
+        }
+        
+        public Node getStartNode() {
+                return map.get(startLocationX).get(startLocationY);
+        }
+        
         /**
          * Registers the nodes edges (connections to its neighbors).
          */
@@ -62,78 +121,19 @@ public class AreaMap {
                 }
         }
         
-        
-
-        public ArrayList<ArrayList<Node>> getNodes() {
-                return map;
-        }
-        public void setObstical(int x, int y, boolean isObstical) {
-                map.get(x).get(y).setObstical(isObstical);
-        }
-
-        public Node getNode(int x, int y) {
-                return map.get(x).get(y);
-        }
-
-        public void setStartLocation(int x, int y) {
-                map.get(startLocationX).get(startLocationY).setStart(false);
-                map.get(x).get(y).setStart(true);
-                startLocationX = x;
-                startLocationY = y;
-        }
-
         public void setGoalLocation(int x, int y) {
                 map.get(goalLocationX).get(goalLocationY).setGoal(false);
                 map.get(x).get(y).setGoal(true);
                 goalLocationX = x;
                 goalLocationY = y;
         }
-
-        public int getStartLocationX() {
-                return startLocationX;
+        public void setObstical(int x, int y, boolean isObstical) {
+                map.get(x).get(y).setObstical(isObstical);
         }
-
-        public int getStartLocationY() {
-                return startLocationY;
-        }
-        
-        public Node getStartNode() {
-                return map.get(startLocationX).get(startLocationY);
-        }
-
-        public int getGoalLocationX() {
-                return goalLocationX;
-        }
-
-        public int getGoalLocationY() {
-                return goalLocationY;
-        }
-        
-        public Node getGoalLocation() {
-                return map.get(goalLocationX).get(goalLocationY);
-        }
-        
-        public float getDistanceBetween(Node node1, Node node2) {
-                //if the nodes are on top or next to each other, return 1
-                if (node1.getX() == node2.getX() || node1.getY() == node2.getY()){
-                        return 1*(mapHeight+mapWith);
-                } else { //if they are diagonal to each other return diagonal distance: sqrt(1^2+1^2)
-                        return (float) 1.7*(mapHeight+mapWith);
-                }
-        }
-        
-        public int getMapWith() {
-                return mapWith;
-        }
-        public int getMapHeight() {
-                return mapHeight;
-        }
-        public void clear() {
-                startLocationX = 0;
-                startLocationY = 0;
-                goalLocationX = 0;
-                goalLocationY = 0;
-                createMap();
-                registerEdges();
+        public void setStartLocation(int x, int y) {
+                map.get(startLocationX).get(startLocationY).setStart(false);
+                map.get(x).get(y).setStart(true);
+                startLocationX = x;
+                startLocationY = y;
         }
 }

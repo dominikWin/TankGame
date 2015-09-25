@@ -13,15 +13,6 @@ import core.Map;
 import core.util.Vector2d;
 
 public class Player {
-	private static final int DRIVE_SPEED_BACKWARD = 250;
-	private static final int DRIVE_SPEED_FOREWARD = 250;
-	private static final int TURNING_SPEED = 180;
-	private static final int FIRE_DELAY_MILS = 250;
-	public Vector2d location;
-	double gunAngle;
-	double bodyAngle;
-	long lastFireTime = 0;
-
 	private static class Model {
 
 		static final double GUN_LENGTH = 20;
@@ -70,6 +61,15 @@ public class Player {
 		static final double GUN_MAIN_X6 = 0;
 		static final double GUN_MAIN_Y6 = -7;
 	}
+	private static final int DRIVE_SPEED_BACKWARD = 250;
+	private static final int DRIVE_SPEED_FOREWARD = 250;
+	private static final int TURNING_SPEED = 180;
+	private static final int FIRE_DELAY_MILS = 250;
+	public Vector2d location;
+	double gunAngle;
+	double bodyAngle;
+
+	long lastFireTime = 0;
 
 	Player(Vector2d location) {
 		this.location = location;
@@ -81,115 +81,6 @@ public class Player {
 		this.gunAngle = gunAngle;
 	}
 	
-	public int getMapLocationX() {
-		return (int) (location.getX() / Map.BLOCK_SIZE);
-	}
-	
-	public int getMapLocationY() {
-		return (int) (location.getY() / Map.BLOCK_SIZE);
-	}
-
-	public void update(double time) {
-		double x = location.getX(), y = location.getY(), angle = bodyAngle;
-		if (Input.getKey(Keyboard.KEY_W)) {
-			location = new Vector2d(location, bodyAngle, time * DRIVE_SPEED_FOREWARD);
-		}
-		if (Input.getKey(Keyboard.KEY_A)) {
-			bodyAngle -= TURNING_SPEED * time;
-		}
-		if (Input.getKey(Keyboard.KEY_S)) {
-			location = new Vector2d(location, 180 + bodyAngle, time * DRIVE_SPEED_BACKWARD);
-		}
-		if (Input.getKey(Keyboard.KEY_D)) {
-			bodyAngle += TURNING_SPEED * time;
-		}
-
-		if (Game.getWorld().getMap().isPlayerIntersecting()) {
-			location = new Vector2d(x, y);
-			bodyAngle = angle;
-		}
-
-		// gunAngle = new Vector2d(Input.getMousePosition()., y)
-
-		Vector2d mouseLoc = Vector2d.add(Input.getMousePosition(),
-				new Vector2d((location.getX() - Game.WIDTH / 2), (location.getY() - Game.HEIGHT / 2)));
-		Vector2d relative = Vector2d.add(location.inverse(), mouseLoc);
-
-		double mouseAngle = Math.toDegrees(Math.atan2(relative.getY(), relative.getX()));
-
-		gunAngle = mouseAngle;
-
-		if (Input.getKey(Keyboard.KEY_SPACE) && lastFireTime + FIRE_DELAY_MILS < System.currentTimeMillis()) {
-			Game.getWorld().getBullets().add(new Bullet(
-					new Vector2d(location, gunAngle, Model.GUN_LENGTH + Model.GUN_OFFSET_LENGTH), gunAngle, 500));
-			lastFireTime = System.currentTimeMillis();
-		}
-
-		while (gunAngle < 0)
-			gunAngle += 360;
-		while (bodyAngle < 0)
-			bodyAngle += 360;
-
-		gunAngle %= 360;
-		bodyAngle %= 360;
-	}
-
-	public void render() {
-		glColor3d(1, 1, 1);
-		renderBody();
-		renderGun();
-
-	}
-
-	private void renderGun() {
-		renderGunChassis();
-		renderGunBarrel();
-	}
-
-	private void renderGunBarrel() {
-		glBegin(GL_LINES);
-		{
-			// Barrel
-			Vector2d locB1 = new Vector2d(location, gunAngle, Model.GUN_OFFSET_LENGTH);
-			Vector2d locB2 = new Vector2d(location, gunAngle, Model.GUN_LENGTH);
-			locB1.glVertexWrite();
-			locB2.glVertexWrite();
-		}
-		glEnd();
-	}
-
-	private void renderGunChassis() {
-		glBegin(GL_LINE_LOOP);
-		{
-			// Chassis
-			Vector2d loc1 = new Vector2d(Model.GUN_MAIN_X1, Model.GUN_MAIN_Y1);
-			Vector2d loc2 = new Vector2d(Model.GUN_MAIN_X2, Model.GUN_MAIN_Y2);
-			Vector2d loc3 = new Vector2d(Model.GUN_MAIN_X3, Model.GUN_MAIN_Y3);
-			Vector2d loc4 = new Vector2d(Model.GUN_MAIN_X4, Model.GUN_MAIN_Y4);
-			Vector2d loc5 = new Vector2d(Model.GUN_MAIN_X5, Model.GUN_MAIN_Y5);
-			Vector2d loc6 = new Vector2d(Model.GUN_MAIN_X6, Model.GUN_MAIN_Y6);
-			loc1.rotate(gunAngle);
-			loc2.rotate(gunAngle);
-			loc3.rotate(gunAngle);
-			loc4.rotate(gunAngle);
-			loc5.rotate(gunAngle);
-			loc6.rotate(gunAngle);
-			loc1.add(location);
-			loc2.add(location);
-			loc3.add(location);
-			loc4.add(location);
-			loc5.add(location);
-			loc6.add(location);
-			loc1.glVertexWrite();
-			loc2.glVertexWrite();
-			loc3.glVertexWrite();
-			loc4.glVertexWrite();
-			loc5.glVertexWrite();
-			loc6.glVertexWrite();
-		}
-		glEnd();
-	}
-
 	public Polygon getBoundingBox() {
 		Vector2d loc1 = new Vector2d(Model.BODY_TRACK1_X1, Model.BODY_TRACK1_Y1);
 		Vector2d loc2 = new Vector2d(Model.BODY_TRACK1_X2, Model.BODY_TRACK1_Y2);
@@ -205,6 +96,21 @@ public class Player {
 		loc4.add(location);
 		return new Polygon(new int[] { (int) loc1.getX(), (int) loc2.getX(), (int) loc3.getX(), (int) loc4.getX() },
 				new int[] { (int) loc1.getY(), (int) loc2.getY(), (int) loc3.getY(), (int) loc4.getY() }, 4);
+	}
+	
+	public int getMapLocationX() {
+		return (int) (location.getX() / Map.BLOCK_SIZE);
+	}
+
+	public int getMapLocationY() {
+		return (int) (location.getY() / Map.BLOCK_SIZE);
+	}
+
+	public void render() {
+		glColor3d(1, 1, 1);
+		renderBody();
+		renderGun();
+
 	}
 
 	private void renderBody() {
@@ -270,5 +176,99 @@ public class Player {
 			locT4.glVertexWrite();
 		}
 		glEnd();
+	}
+
+	private void renderGun() {
+		renderGunChassis();
+		renderGunBarrel();
+	}
+
+	private void renderGunBarrel() {
+		glBegin(GL_LINES);
+		{
+			// Barrel
+			Vector2d locB1 = new Vector2d(location, gunAngle, Model.GUN_OFFSET_LENGTH);
+			Vector2d locB2 = new Vector2d(location, gunAngle, Model.GUN_LENGTH);
+			locB1.glVertexWrite();
+			locB2.glVertexWrite();
+		}
+		glEnd();
+	}
+
+	private void renderGunChassis() {
+		glBegin(GL_LINE_LOOP);
+		{
+			// Chassis
+			Vector2d loc1 = new Vector2d(Model.GUN_MAIN_X1, Model.GUN_MAIN_Y1);
+			Vector2d loc2 = new Vector2d(Model.GUN_MAIN_X2, Model.GUN_MAIN_Y2);
+			Vector2d loc3 = new Vector2d(Model.GUN_MAIN_X3, Model.GUN_MAIN_Y3);
+			Vector2d loc4 = new Vector2d(Model.GUN_MAIN_X4, Model.GUN_MAIN_Y4);
+			Vector2d loc5 = new Vector2d(Model.GUN_MAIN_X5, Model.GUN_MAIN_Y5);
+			Vector2d loc6 = new Vector2d(Model.GUN_MAIN_X6, Model.GUN_MAIN_Y6);
+			loc1.rotate(gunAngle);
+			loc2.rotate(gunAngle);
+			loc3.rotate(gunAngle);
+			loc4.rotate(gunAngle);
+			loc5.rotate(gunAngle);
+			loc6.rotate(gunAngle);
+			loc1.add(location);
+			loc2.add(location);
+			loc3.add(location);
+			loc4.add(location);
+			loc5.add(location);
+			loc6.add(location);
+			loc1.glVertexWrite();
+			loc2.glVertexWrite();
+			loc3.glVertexWrite();
+			loc4.glVertexWrite();
+			loc5.glVertexWrite();
+			loc6.glVertexWrite();
+		}
+		glEnd();
+	}
+
+	public void update(double time) {
+		double x = location.getX(), y = location.getY(), angle = bodyAngle;
+		if (Input.getKey(Keyboard.KEY_W)) {
+			location = new Vector2d(location, bodyAngle, time * DRIVE_SPEED_FOREWARD);
+		}
+		if (Input.getKey(Keyboard.KEY_A)) {
+			bodyAngle -= TURNING_SPEED * time;
+		}
+		if (Input.getKey(Keyboard.KEY_S)) {
+			location = new Vector2d(location, 180 + bodyAngle, time * DRIVE_SPEED_BACKWARD);
+		}
+		if (Input.getKey(Keyboard.KEY_D)) {
+			bodyAngle += TURNING_SPEED * time;
+		}
+
+		if (Game.getWorld().getMap().isPlayerIntersecting()) {
+			location = new Vector2d(x, y);
+			bodyAngle = angle;
+		}
+
+		// gunAngle = new Vector2d(Input.getMousePosition()., y)
+
+		Vector2d mouseLoc = Vector2d.add(Input.getMousePosition(),
+				new Vector2d((location.getX() - Game.WIDTH / 2), (location.getY() - Game.HEIGHT / 2)));
+		Vector2d relative = Vector2d.add(location.inverse(), mouseLoc);
+
+		double mouseAngle = Math.toDegrees(Math.atan2(relative.getY(), relative.getX()));
+
+		gunAngle = mouseAngle;
+
+		if (Input.getKey(Keyboard.KEY_SPACE) && lastFireTime + FIRE_DELAY_MILS < System.currentTimeMillis()) {
+			Game.getWorld().getBullets().add(new Bullet(
+					new Vector2d(location, gunAngle, Model.GUN_LENGTH + Model.GUN_OFFSET_LENGTH), gunAngle, 500));
+			lastFireTime = System.currentTimeMillis();
+		}
+
+		while (gunAngle < 0)
+			gunAngle += 360;
+		while (bodyAngle < 0)
+			bodyAngle += 360;
+
+		gunAngle %= 360;
+		bodyAngle %= 360;
 	}
 }

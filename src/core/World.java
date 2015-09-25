@@ -15,40 +15,40 @@ public class World {
 		setBullets(new ArrayList<>());
 	}
 	
-	public void update(double time) {
-		getPlayer().update(time);
-		getMap().update(time);
-		bullets.forEach(b -> b.update(time));
-		bullets.removeIf(b -> b.destroyed);
+	public ArrayList<Bullet> getBullets() {
+		return bullets;
 	}
 	
-	public void render() {
-		getPlayer().render();
-		getMap().render();
-		bullets.forEach(b -> b.render());
+	public Map getMap() {
+		return map;
 	}
 
 	public Player getPlayer() {
 		return player;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
+	public void render() {
+		getPlayer().render();
+		getMap().render();
+		bullets.forEach(b -> b.render());
 	}
 
-	public Map getMap() {
-		return map;
+	public void setBullets(ArrayList<Bullet> bullets) {
+		this.bullets = bullets;
 	}
 
 	public void setMap(Map map) {
 		this.map = map;
 	}
 
-	public ArrayList<Bullet> getBullets() {
-		return bullets;
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 
-	public void setBullets(ArrayList<Bullet> bullets) {
-		this.bullets = bullets;
+	public void update(double time) {
+		getPlayer().update(time);
+		getMap().update(time);
+		bullets.forEach(b -> b.update(time));
+		bullets.removeIf(b -> b.destroyed);
 	}
 }

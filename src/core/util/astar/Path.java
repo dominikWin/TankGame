@@ -11,6 +11,31 @@ public class Path {
         public Path() {
         }
         
+        /**
+         * Append a waypoint to the path.  
+         * 
+         * @param x The x coordinate of the waypoint.
+         * @param y The y coordinate of the waypoint.
+         */
+        public void appendWayPoint(Node n) {
+                waypoints.add(n);
+        }
+
+        /**
+         * Check if this path contains the WayPoint
+         * 
+         * @param x The x coordinate of the waypoint.
+         * @param y The y coordinate of the waypoint.
+         * @return True if the path contains the waypoint.
+         */
+        public boolean contains(int x, int y) {
+                for(Node node : waypoints) {
+                        if (node.getX() == x && node.getY() == y)
+                                return true;
+                }
+                return false;
+        }
+
         public int getLength() {
                 return waypoints.size();
         }
@@ -40,16 +65,6 @@ public class Path {
         }
 
         /**
-         * Append a waypoint to the path.  
-         * 
-         * @param x The x coordinate of the waypoint.
-         * @param y The y coordinate of the waypoint.
-         */
-        public void appendWayPoint(Node n) {
-                waypoints.add(n);
-        }
-
-        /**
          * Add a waypoint to the beginning of the path.  
          * 
          * @param x The x coordinate of the waypoint.
@@ -57,21 +72,6 @@ public class Path {
          */
         public void prependWayPoint(Node n) {
                 waypoints.add(0, n);
-        }
-
-        /**
-         * Check if this path contains the WayPoint
-         * 
-         * @param x The x coordinate of the waypoint.
-         * @param y The y coordinate of the waypoint.
-         * @return True if the path contains the waypoint.
-         */
-        public boolean contains(int x, int y) {
-                for(Node node : waypoints) {
-                        if (node.getX() == x && node.getY() == y)
-                                return true;
-                }
-                return false;
         }
 
 }

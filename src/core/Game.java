@@ -22,24 +22,36 @@ public class Game {
 	private static World world;
 	private static UserInterface userInterface;
 
-	public static void main(String[] args) {
-		createDisplay();
-		init();
-		gameLoop();
+	private static void createDisplay() {
+		try {
+			Display.setDisplayModeAndFullscreen(new DisplayMode(1280, 720));
+			Display.setFullscreen(false);
+			Display.setVSyncEnabled(true);
+			Display.setResizable(false);
+
+			Game.WIDTH = Display.getDisplayMode().getWidth();
+			Game.HEIGHT = Display.getDisplayMode().getHeight();
+			Logger.log("Display created with display mode:" + Display.getDisplayMode());
+		} catch (LWJGLException e) {
+			e.printStackTrace();
+		}
+		;
+		try {
+			Display.create();
+		} catch (LWJGLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	private static void init() {
-		Logger.log("Starting TankGame");
-		glInit();
-		world = new World();
-		Logger.log(Arrays.deepToString(world.getMap().map));
-		Logger.log(Arrays.deepToString(Map.inverse(world.getMap().map)));
-		AreaMap map = new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
-				world.getMap().getObsticleMap());
-		AStar pathFinder = new AStar(map, new ClosestHeuristic());
-		pathFinder.calcShortestPath(1, 1, world.getPlayer().getMapLocationY(), world.getPlayer().getMapLocationX());
-		pathFinder.printPath();
-		userInterface = new UserInterface();
+	private static void exit() {
+		exit(0);
+	}
+
+	private static void exit(int status) {
+		Display.destroy();
+		Logger.close();
+		System.exit(status);
 	}
 
 	private static void gameLoop() {
@@ -67,24 +79,12 @@ public class Game {
 		exit();
 	}
 
-	private static void render() {
-		world.render();
-		userInterface.render();
+	public static UserInterface getUserInterface() {
+		return userInterface;
 	}
 
-	private static void update(double time) {
-		world.update(time);
-		userInterface.update(time);
-	}
-
-	private static void exit() {
-		exit(0);
-	}
-
-	private static void exit(int status) {
-		Display.destroy();
-		Logger.close();
-		System.exit(status);
+	public static World getWorld() {
+		return world;
 	}
 
 	private static void glInit() {
@@ -96,42 +96,42 @@ public class Game {
 		glMatrixMode(GL_MODELVIEW);
 	}
 
-	private static void createDisplay() {
-		try {
-			Display.setDisplayModeAndFullscreen(new DisplayMode(1280, 720));
-			Display.setFullscreen(false);
-			Display.setVSyncEnabled(true);
-			Display.setResizable(false);
-
-			Game.WIDTH = Display.getDisplayMode().getWidth();
-			Game.HEIGHT = Display.getDisplayMode().getHeight();
-			Logger.log("Display created with display mode:" + Display.getDisplayMode());
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		}
-		;
-		try {
-			Display.create();
-		} catch (LWJGLException e) {
-			e.printStackTrace();
-		}
-
+	private static void init() {
+		Logger.log("Starting TankGame");
+		glInit();
+		world = new World();
+		Logger.log(Arrays.deepToString(world.getMap().map));
+		Logger.log(Arrays.deepToString(Map.inverse(world.getMap().map)));
+		AreaMap map = new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
+				world.getMap().getObsticleMap());
+		AStar pathFinder = new AStar(map, new ClosestHeuristic());
+		pathFinder.calcShortestPath(1, 1, world.getPlayer().getMapLocationY(), world.getPlayer().getMapLocationX());
+		pathFinder.printPath();
+		userInterface = new UserInterface();
 	}
 
-	public static UserInterface getUserInterface() {
-		return userInterface;
+	public static void main(String[] args) {
+		createDisplay();
+		init();
+		gameLoop();
+	}
+
+	private static void render() {
+		world.render();
+		userInterface.render();
 	}
 
 	public static void setUserInterface(UserInterface userInterface) {
 		Game.userInterface = userInterface;
 	}
 
-	public static World getWorld() {
-		return world;
-	}
-
 	public static void setWorld(World world) {
 		Game.world = world;
+	}
+
+	private static void update(double time) {
+		world.update(time);
+		userInterface.update(time);
 	}
 
 }

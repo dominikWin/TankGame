@@ -6,12 +6,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CSVParser {
-	public static String[][] parseCSVFile(String filePath) {
-		Logger.log("Begin parsing file " + filePath);
-		String text = readFile(filePath);
-		return parseCSV(text);
-	}
-
 	private static String[][] parseCSV(String text) {
 		Logger.log("Starting parsing on text:\n" + text);
 
@@ -25,6 +19,12 @@ public class CSVParser {
 			out[i] = array.get(i);
 		}
 		return out;
+	}
+
+	public static String[][] parseCSVFile(String filePath) {
+		Logger.log("Begin parsing file " + filePath);
+		String text = readFile(filePath);
+		return parseCSV(text);
 	}
 
 	private static String readFile(String filePath) {

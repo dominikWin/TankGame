@@ -5,6 +5,35 @@ import java.util.Collections;
 
 
 public class AStar {
+        private class SortedNodeList {
+
+                private ArrayList<Node> list = new ArrayList<Node>();
+
+                public void add(Node node) {
+                        list.add(node);
+                        Collections.sort(list);
+                }
+
+                public void clear() {
+                        list.clear();
+                }
+
+                public boolean contains(Node n) {
+                        return list.contains(n);
+                }
+
+                public Node getFirst() {
+                        return list.get(0);
+                }
+
+                public void remove(Node n) {
+                        list.remove(n);
+                }
+
+                public int size() {
+                        return list.size();
+                }
+        }
         private AreaMap map;
         private AStarHeuristic heuristic;
         //private int startX;
@@ -16,6 +45,7 @@ public class AStar {
          */
         private ArrayList<Node> closedList;
         private SortedNodeList openList;
+
         public Path shortestPath;
 
         public AStar(AreaMap map, AStarHeuristic heuristic) {
@@ -26,6 +56,8 @@ public class AStar {
                 openList = new SortedNodeList();
         }
 
+        
+        
         public Path calcShortestPath(int startX, int startY, int goalX, int goalY) {
                 //this.startX = startX;
                 //this.startY = startY;
@@ -99,8 +131,6 @@ public class AStar {
                 return null;
         }
 
-        
-        
         public void printPath() {
                 Node node;
                 for(int x=0; x<map.getMapWith(); x++) {
@@ -144,36 +174,6 @@ public class AStar {
                 }
                 this.shortestPath = path;
                 return path;
-        }
-
-        private class SortedNodeList {
-
-                private ArrayList<Node> list = new ArrayList<Node>();
-
-                public Node getFirst() {
-                        return list.get(0);
-                }
-
-                public void clear() {
-                        list.clear();
-                }
-
-                public void add(Node node) {
-                        list.add(node);
-                        Collections.sort(list);
-                }
-
-                public void remove(Node n) {
-                        list.remove(n);
-                }
-
-                public int size() {
-                        return list.size();
-                }
-
-                public boolean contains(Node n) {
-                        return list.contains(n);
-                }
         }
 
 }

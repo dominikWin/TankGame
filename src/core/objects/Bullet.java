@@ -23,6 +23,20 @@ public class Bullet {
 		this.bounces = bounces;
 	}
 
+	public void render() {
+		glPointSize(3);
+		glBegin(GL_POINTS);
+		{
+			location.glVertexWrite();
+		}
+		glEnd();
+	}
+
+	@Override
+	public String toString() {
+		return "Bullet[" + location + "]";
+	}
+
 	public void update(double time) {
 		Vector2d _location = new Vector2d(location.getX(), location.getY());
 		location.add(Vector2d.multiply(velocity, time));
@@ -49,19 +63,5 @@ public class Bullet {
 
 			location = _location;
 		}
-	}
-
-	public void render() {
-		glPointSize(3);
-		glBegin(GL_POINTS);
-		{
-			location.glVertexWrite();
-		}
-		glEnd();
-	}
-
-	@Override
-	public String toString() {
-		return "Bullet[" + location + "]";
 	}
 }

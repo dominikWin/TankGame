@@ -15,30 +15,28 @@ import static org.lwjgl.opengl.GL11.*;
 public class Map {
 
 	public static int BLOCK_SIZE = 100;
-	int[][] map;
-
-	public Map(String fileName) {
-		map = extractMap(CSVParser.parseCSVFile("res/maps/map.csv"));
+	public static int[][] extractMap(String[][] array) {
+		int[][] out = new int[array.length][array[0].length];
+		for (int line = 0; line < out.length; line++) {
+			for (int data = 0; data < out[0].length; data++) {
+				int tmp = 0;
+				try {
+					tmp = Integer.parseInt(array[line][data]);
+				} catch (NumberFormatException e) {
+					Logger.log("Can't get integer out of text " + array[line][data], Logger.ERROR);
+				}
+				out[line][data] = tmp;
+			}
+		}
+		return out;
 	}
 
-	public int getLines() {
-		return map.length;
-	}
-	
-	public Dimension getSize() {
-		return new Dimension(map[0].length, map.length);
-	}
-	
 	public static int[][] inverse(int[][] array) {
 		int[][] out = new int[array[0].length][array.length];
 		for(int line = 0; line < array.length; line++)
 			for(int data = 0; data < array[0].length; data++)
 				out[data][line] = array[line][data];
 		return out;
-	}
-
-	public void update(double time) {
-
 	}
 
 	public static boolean polygonIntersectPolygon(Polygon p1, Polygon p2) {
@@ -55,6 +53,24 @@ public class Map {
 		}
 		return false;
 	}
+	
+	int[][] map;
+	
+	public Map(String fileName) {
+		map = extractMap(CSVParser.parseCSVFile("res/maps/map.csv"));
+	}
+
+	public int getLines() {
+		return map.length;
+	}
+
+	public int[][] getObsticleMap() {
+		int[][] tmp = new int[map.length][map[0].length];
+		for (int y = 0; y < map.length; y++)
+			for (int x = 0; x < map[0].length; x++)
+				tmp[y][x] = map[y][x] != 1 ? 0 : 1;
+		return tmp;
+	}
 
 	public Vector2d getPlayerSpawn() {
 		for (int y = 0; y < map.length; y++)
@@ -66,21 +82,8 @@ public class Map {
 		return new Vector2d(0, 0);
 	}
 
-	public boolean isPlayerIntersecting() {
-		for (int y = 0; y < map.length; y++)
-			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] == 1) {
-					Polygon p = new Polygon(
-							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
-									x * BLOCK_SIZE },
-							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
-									y * BLOCK_SIZE + BLOCK_SIZE },
-							4);
-					if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox()))
-						return true;
-				}
-			}
-		return false;
+	public Dimension getSize() {
+		return new Dimension(map[0].length, map.length);
 	}
 
 	public boolean isBulletIntersecting(Bullet b) {
@@ -100,20 +103,21 @@ public class Map {
 		return false;
 	}
 
-	public static int[][] extractMap(String[][] array) {
-		int[][] out = new int[array.length][array[0].length];
-		for (int line = 0; line < out.length; line++) {
-			for (int data = 0; data < out[0].length; data++) {
-				int tmp = 0;
-				try {
-					tmp = Integer.parseInt(array[line][data]);
-				} catch (NumberFormatException e) {
-					Logger.log("Can't get integer out of text " + array[line][data], Logger.ERROR);
+	public boolean isPlayerIntersecting() {
+		for (int y = 0; y < map.length; y++)
+			for (int x = 0; x < map[0].length; x++) {
+				if (map[y][x] == 1) {
+					Polygon p = new Polygon(
+							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
+									x * BLOCK_SIZE },
+							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
+									y * BLOCK_SIZE + BLOCK_SIZE },
+							4);
+					if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox()))
+						return true;
 				}
-				out[line][data] = tmp;
 			}
-		}
-		return out;
+		return false;
 	}
 
 	public void render() {
@@ -146,11 +150,7 @@ public class Map {
 		return Arrays.deepToString(map);
 	}
 
-	public int[][] getObsticleMap() {
-		int[][] tmp = new int[map.length][map[0].length];
-		for (int y = 0; y < map.length; y++)
-			for (int x = 0; x < map[0].length; x++)
-				tmp[y][x] = map[y][x] != 1 ? 0 : 1;
-		return tmp;
+	public void update(double time) {
+
 	}
 }

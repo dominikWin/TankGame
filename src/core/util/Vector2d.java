@@ -45,6 +45,10 @@ public class Vector2d {
 		return Math.sqrt(Math.pow(obj1.getX() - obj2.getX(), 2) + Math.pow(obj1.y - obj2.y, 2));
 	}
 
+	public static Vector2d multiply(Vector2d vector, double value) {
+		return new Vector2d(vector.getX() * value, vector.getY() * value);
+	}
+	
 	/**
 	 * @param obj
 	 * @param base
@@ -68,10 +72,6 @@ public class Vector2d {
 		x += base.x;
 		y += base.y;
 		return new Vector2d(x, y);
-	}
-	
-	public static Vector2d multiply(Vector2d vector, double value) {
-		return new Vector2d(vector.getX() * value, vector.getY() * value);
 	}
 
 	private double x, y;
@@ -114,6 +114,16 @@ public class Vector2d {
 		return y;
 	}
 
+	public void glVertexWrite()
+	{
+		GL11.glVertex2d(x, y);
+	}
+
+	public Vector2d inverse() {
+		return new Vector2d(-x, -y);
+	}
+
+	
 	/**
 	 * @param amount
 	 * Multiples x & y by amount
@@ -122,7 +132,7 @@ public class Vector2d {
 		x *= amount;
 		y *= amount;
 	}
-
+	
 	/**
 	 * @param angle
 	 * Rotates point angle degrees around point (0, 0)
@@ -135,7 +145,6 @@ public class Vector2d {
 		rotate(new Vector2d(0, 0), angle);
 	}
 
-	
 	/**
 	 * @param base
 	 * @param angle
@@ -146,11 +155,6 @@ public class Vector2d {
 		double _y = Vector2d.rotate(this, base, angle).y;
 		x = _x;
 		y = _y;
-	}
-	
-	public void glVertexWrite()
-	{
-		GL11.glVertex2d(x, y);
 	}
 
 	public void setX(double x) {
@@ -164,9 +168,5 @@ public class Vector2d {
 	@Override
 	public String toString() {
 		return "Vector2d[" + x + ", " + y + "]";
-	}
-
-	public Vector2d inverse() {
-		return new Vector2d(-x, -y);
 	}
 }

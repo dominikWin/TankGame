@@ -5,11 +5,11 @@ public class UserInterface {
 
 	}
 
-	public void update(double time) {
+	public void render() {
 
 	}
 
-	public void render() {
+	public void update(double time) {
 
 	}
 }
