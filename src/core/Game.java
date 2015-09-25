@@ -100,13 +100,10 @@ public class Game {
 		Logger.log("Starting TankGame");
 		glInit();
 		world = new World();
-		Logger.log(Arrays.deepToString(world.getMap().map));
-		Logger.log(Arrays.deepToString(Map.inverse(world.getMap().map)));
 		AreaMap map = new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
 				world.getMap().getObsticleMap());
 		AStar pathFinder = new AStar(map, new ClosestHeuristic());
 		pathFinder.calcShortestPath(1, 1, world.getPlayer().getMapLocationY(), world.getPlayer().getMapLocationX());
-		pathFinder.printPath();
 		userInterface = new UserInterface();
 	}
 
