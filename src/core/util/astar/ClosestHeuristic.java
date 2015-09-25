@@ -7,7 +7,8 @@ package core.util.astar;
  */
 public class ClosestHeuristic implements AStarHeuristic {
 
-        public float getEstimatedDistanceToGoal(int startX, int startY, int goalX, int goalY) {         
+        @Override
+		public float getEstimatedDistanceToGoal(int startX, int startY, int goalX, int goalY) {         
                 float dx = goalX - startX;
                 float dy = goalY - startY;
                 
@@ -15,7 +16,7 @@ public class ClosestHeuristic implements AStarHeuristic {
                 
                 //Optimization! Changed to distance^2 distance: (but looks more "ugly")
                 
-                float result = (float) (dx*dx)+(dy*dy);
+                float result = dx*dx+(dy*dy);
                 
                 
                 return result;

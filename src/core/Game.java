@@ -62,7 +62,7 @@ public class Game {
 
 			long endTime = System.nanoTime();
 			lastRunTime = endTime - startTime;
-			time = (double) lastRunTime / 1000000000d;
+			time = lastRunTime / 1000000000d;
 		}
 		exit();
 	}

@@ -24,7 +24,8 @@ public class Node implements Comparable<Node> {
         boolean isStart;
         boolean isGoal;
         
-        public String toString() {
+        @Override
+		public String toString() {
         	return "Node[" + x + ", " + y + "]";
         }
         
@@ -242,7 +243,8 @@ public class Node implements Comparable<Node> {
                 return (node.x == x) && (node.y == y);
         }
 
-        public int compareTo(Node otherNode) {
+        @Override
+		public int compareTo(Node otherNode) {
                 float thisTotalDistanceFromGoal = heuristicDistanceFromGoal + distanceFromStart;
                 float otherTotalDistanceFromGoal = otherNode.getHeuristicDistanceFromGoal() + otherNode.getDistanceFromStart();
                 
