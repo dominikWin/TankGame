@@ -50,13 +50,13 @@ public class Logger {
 
 	private static String tabLines(String message) {
 		String out = '\t' + message;
-		out.replace("\n", "\n\t");
+		out = out.replace("\n", "\n\t");
 		return out;
 	}
 
 	private static void output(String out) {
 		if(LIVE_PRINT)
-			System.out.println(out);
+			System.out.print(out);
 		if(FILE_PRINT)
 			writeToFile(out);
 	}

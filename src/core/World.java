@@ -10,7 +10,7 @@ public class World {
 	private ArrayList<Bullet> bullets;
 	
 	public World() {
-		setMap(new Map("res/maps/map.csv"));
+		setMap(new Map("res/maps/map2.csv"));
 		setPlayer(new Player(getMap().getPlayerSpawn(), 0, 0));
 		setBullets(new ArrayList<>());
 	}

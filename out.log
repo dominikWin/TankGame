@@ -1,3 +1,8 @@
-[2015-09-23 20:27:04.751] [info] 6081@dominik-ubuntu Display created with display mode:1280 x 720 x 0 @0Hz
-[2015-09-23 20:27:05.102] [info] 6081@dominik-ubuntu Starting TankGame
-[2015-09-23 20:27:20.521] [info] 6081@dominik-ubuntu Log closing
+[2015-09-25 17:23:07.744] [info] 11654@dominik-ubuntu Begin parsing file res/maps/map2.csv
+[2015-09-25 17:23:07.765] [info] 11654@dominik-ubuntu >>
+	1,1,1,1
+	1,0,2,1
+	1,1,1,1
+<<END>>
+[2015-09-25 17:23:07.766] [info] 11654@dominik-ubuntu Found 3 lines in file
+[2015-09-25 17:23:07.766] [info] 11654@dominik-ubuntu null

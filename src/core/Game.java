@@ -2,11 +2,14 @@ package core;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.util.Arrays;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import core.util.CSVParser;
 import core.util.Logger;
 import core.util.astar.AStar;
 import core.util.astar.AreaMap;
@@ -21,9 +24,10 @@ public class Game {
 	private static UserInterface userInterface;
 
 	public static void main(String[] args) {
-		createDisplay();
-		init();
-		gameLoop();
+		Logger.log(Arrays.deepToString(CSVParser.parseCSVFile("res/maps/map2.csv")));
+//		createDisplay();
+//		init();
+//		gameLoop();
 	}
 
 	private static void init() {
