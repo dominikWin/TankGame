@@ -18,7 +18,7 @@ public class Map {
 	int[][] map;
 
 	public Map(String fileName) {
-		map = extractMap(CSVParser.parseCSVFile("res/maps/map2.csv"));
+		map = extractMap(CSVParser.parseCSVFile("res/maps/map.csv"));
 	}
 
 	public int getLines() {
