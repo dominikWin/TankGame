@@ -8,13 +8,13 @@ import core.util.astar.Node;
 import core.util.astar.Path;
 
 public class Enemy {
-	private static final int SPEED = 100;
-
-	private static final double MAP_SIZE_DESTINATION_MULTIPLYER = .01;
-
 	enum EnemyState {
 		WAITING_FOR_PATH, MOVING, SHOOTING;
 	}
+
+	private static final int SPEED = 100;
+
+	private static final double MAP_SIZE_DESTINATION_MULTIPLYER = .01;
 
 	Path shortestPath;
 
@@ -43,11 +43,9 @@ public class Enemy {
 		updateNextLoc();
 	}
 
-	private void updateNextLoc() {
-		Node tmp = shortestPath.waypoints.remove(0);
-		currentDestinationX = tmp.getY();
-		currentDestinationY = tmp.getX();
-		enemyState = EnemyState.MOVING;
+	private boolean atDestinationNode() {
+		return Vector2d.distance(getLocFromMapLoc(currentDestinationX, currentDestinationY), location) < Map.BLOCK_SIZE
+				* MAP_SIZE_DESTINATION_MULTIPLYER;
 	}
 
 	private Vector2d getLocFromMapLoc(int x, int y) {
@@ -78,6 +76,10 @@ public class Enemy {
 		return startY;
 	}
 
+	private boolean isFinalDestination() {
+		return shortestPath.waypoints.isEmpty();
+	}
+
 	public void render() {
 		TankModel.renderTank(location, bodyAngle, gunAngle, 1, 0, 0);
 	}
@@ -91,11 +93,11 @@ public class Enemy {
 	}
 
 	public void setX(int x) {
-		this.startX = x;
+		startX = x;
 	}
 
 	public void setY(int y) {
-		this.startY = y;
+		startY = y;
 	}
 
 	public void update(double time) {
@@ -110,13 +112,25 @@ public class Enemy {
 		}
 	}
 
+	private void updateFinalLoc() {
+		if (going) {
+			shortestPath = Pathfinder.getPathToLocation(patrolX, patrolY, startX, startY);
+			going = false;
+		} else {
+			shortestPath = Pathfinder.getPathToLocation(startX, startY, patrolX, patrolY);
+			going = true;
+		}
+		updateNextLoc();
+	}
+
 	private void updateMovement(double time) {
 		if (atDestinationNode()) {
 			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
-			if (isFinalDestination())
+			if (isFinalDestination()) {
 				updateFinalLoc();
-			else
+			} else {
 				updateNextLoc();
+			}
 		} else {
 			gunAngle = bodyAngle = getLocFromMapLoc(currentDestinationX, currentDestinationY)
 					.getAngleFromPoint(location);
@@ -124,25 +138,11 @@ public class Enemy {
 		}
 	}
 
-	private void updateFinalLoc() {
-		if (going) {
-			shortestPath = Pathfinder.getPathToLocation(patrolX, patrolY, startX, startY);
-			going = false;
-		}
-		else {
-			shortestPath = Pathfinder.getPathToLocation(startX, startY, patrolX, patrolY);
-			going = true;
-		}
-		updateNextLoc();
-	}
-
-	private boolean isFinalDestination() {
-		return shortestPath.waypoints.isEmpty();
-	}
-
-	private boolean atDestinationNode() {
-		return Vector2d.distance(getLocFromMapLoc(currentDestinationX, currentDestinationY), location) < Map.BLOCK_SIZE
-				* MAP_SIZE_DESTINATION_MULTIPLYER;
+	private void updateNextLoc() {
+		Node tmp = shortestPath.waypoints.remove(0);
+		currentDestinationX = tmp.getY();
+		currentDestinationY = tmp.getX();
+		enemyState = EnemyState.MOVING;
 	}
 
 }

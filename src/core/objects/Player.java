@@ -20,7 +20,7 @@ public class Player {
 	public Vector2d location;
 	double gunAngle;
 	double bodyAngle;
-	
+
 	Path shortestPath;
 
 	long lastFireTime = 0;
