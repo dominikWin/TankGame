@@ -1,15 +1,15 @@
 package core.objects;
 
-import core.Game;
 import core.Map;
+import core.util.Pathfinder;
 import core.util.TankModel;
 import core.util.Vector2d;
-import core.util.astar.AStar;
-import core.util.astar.ClosestHeuristic;
 import core.util.astar.Node;
 import core.util.astar.Path;
 
 public class Enemy {
+	private static final int SPEED = 100;
+
 	private static final double MAP_SIZE_DESTINATION_MULTIPLYER = .01;
 
 	enum EnemyState {
@@ -28,8 +28,10 @@ public class Enemy {
 	double gunAngle, bodyAngle;
 	private int currentDestinationX;
 	private int currentDestinationY;
+	boolean going;
 
 	public Enemy(int x, int y, int patrolX, int patrolY) {
+		going = true;
 		bodyAngle = gunAngle = 0;
 		setX(x);
 		setY(y);
@@ -37,9 +39,7 @@ public class Enemy {
 		setPatrolX(patrolX);
 		setPatrolY(patrolY);
 		enemyState = EnemyState.WAITING_FOR_PATH;
-		shortestPath = Game.getPathFinder().calcShortestPath(y, x, patrolY, patrolX);
-		Game.getPathFinder().printPath();
-		// Logger.log(shortestPath.waypoints.toString());
+		shortestPath = Pathfinder.getPathToLocation(x, y, patrolX, patrolY);
 		updateNextLoc();
 	}
 
@@ -111,22 +111,28 @@ public class Enemy {
 	}
 
 	private void updateMovement(double time) {
-		if(atDestinationNode()) {
+		if (atDestinationNode()) {
 			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
-			if(isFinalDestination())
+			if (isFinalDestination())
 				updateFinalLoc();
 			else
-			updateNextLoc();
-		}
-		else {
-			gunAngle = bodyAngle = getLocFromMapLoc(currentDestinationX, currentDestinationY).getAngleFromPoint(location);
-			location = new Vector2d(location, bodyAngle, 100*time);			
+				updateNextLoc();
+		} else {
+			gunAngle = bodyAngle = getLocFromMapLoc(currentDestinationX, currentDestinationY)
+					.getAngleFromPoint(location);
+			location = new Vector2d(location, bodyAngle, SPEED * time);
 		}
 	}
 
 	private void updateFinalLoc() {
-		Game.setPathFinder(new AStar(Game.getMap(), new ClosestHeuristic()));
-		shortestPath = Game.getPathFinder().calcShortestPath(patrolY, patrolX, startY, startX);
+		if (going) {
+			shortestPath = Pathfinder.getPathToLocation(patrolX, patrolY, startX, startY);
+			going = false;
+		}
+		else {
+			shortestPath = Pathfinder.getPathToLocation(startX, startY, patrolX, patrolY);
+			going = true;
+		}
 		updateNextLoc();
 	}
 
@@ -135,7 +141,8 @@ public class Enemy {
 	}
 
 	private boolean atDestinationNode() {
-		return Vector2d.distance(getLocFromMapLoc(currentDestinationX, currentDestinationY), location) < Map.BLOCK_SIZE * MAP_SIZE_DESTINATION_MULTIPLYER;
+		return Vector2d.distance(getLocFromMapLoc(currentDestinationX, currentDestinationY), location) < Map.BLOCK_SIZE
+				* MAP_SIZE_DESTINATION_MULTIPLYER;
 	}
 
 }

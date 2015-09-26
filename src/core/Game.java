@@ -8,9 +8,6 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import core.util.Logger;
-import core.util.astar.AStar;
-import core.util.astar.AreaMap;
-import core.util.astar.ClosestHeuristic;
 
 public class Game {
 
@@ -19,8 +16,6 @@ public class Game {
 
 	private static World world;
 	private static UserInterface userInterface;
-	private static AreaMap map;
-	private static AStar pathFinder;
 
 	private static void createDisplay() {
 		try {
@@ -79,10 +74,6 @@ public class Game {
 		exit();
 	}
 
-	public static AStar getPathFinder() {
-		return pathFinder;
-	}
-
 	public static UserInterface getUserInterface() {
 		return userInterface;
 	}
@@ -104,11 +95,6 @@ public class Game {
 		Logger.log("Starting TankGame");
 		Logger.log("Creating world");
 		world = new World();
-		Logger.log("Creating map");
-		setMap(new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
-				world.getMap().getObsticleMap()));
-		Logger.log("Creating pathfinder");
-		setPathFinder(new AStar(getMap(), new ClosestHeuristic()));
 		Logger.log("Initializing OpenGL");
 		glInit();
 		Logger.log("Initializing world");
@@ -128,10 +114,6 @@ public class Game {
 		userInterface.render();
 	}
 
-	public static void setPathFinder(AStar pathFinder) {
-		Game.pathFinder = pathFinder;
-	}
-
 	public static void setUserInterface(UserInterface userInterface) {
 		Game.userInterface = userInterface;
 	}
@@ -144,13 +126,4 @@ public class Game {
 		world.update(time);
 		userInterface.update(time);
 	}
-
-	public static AreaMap getMap() {
-		return map;
-	}
-
-	public static void setMap(AreaMap map) {
-		Game.map = map;
-	}
-
 }
