@@ -11,8 +11,8 @@ public class CSVParser {
 
 		String[] lines = text.split("\n");
 		ArrayList<String[]> array = new ArrayList<>();
-		for (int i = 0; i < lines.length; i++) {
-			array.add(lines[i].split(","));
+		for (String line : lines) {
+			array.add(line.split(","));
 		}
 		String[][] out = new String[array.size()][array.get(0).length];
 		for (int i = 0; i < out.length; i++) {
@@ -30,9 +30,9 @@ public class CSVParser {
 	private static String readFile(String filePath) {
 		Logger.log("Opening file " + filePath);
 		File file = new File(filePath);
-		assert(file.exists());
-		assert(file.isFile());
-		assert(file.canRead());
+		assert file.exists();
+		assert file.isFile();
+		assert file.canRead();
 		Scanner s = null;
 		try {
 			s = new Scanner(file);
@@ -40,10 +40,11 @@ public class CSVParser {
 			Logger.log("Error reading file " + filePath, Logger.ERROR);
 			e.printStackTrace();
 		}
-		assert(s != null);
+		assert s != null;
 		String out = "";
-		while (s.hasNextLine())
+		while (s.hasNextLine()) {
 			out += s.nextLine() + "\n";
+		}
 		return out;
 	}
 }

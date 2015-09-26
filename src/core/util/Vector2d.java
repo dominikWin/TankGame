@@ -31,8 +31,8 @@ public class Vector2d {
 	 * @return new Vector2d in between two obj1 & obj2, with obj1s bias from 0-1
 	 */
 	public static Vector2d between(Vector2d obj1, Vector2d obj2, double object1Bias) {
-		return new Vector2d((obj1.x * object1Bias) + ((obj2.x * (1 - object1Bias)) / 2),
-				(obj1.y * object1Bias) + ((obj2.y * (1 - object1Bias)) / 2));
+		return new Vector2d(obj1.x * object1Bias + obj2.x * (1 - object1Bias) / 2,
+				obj1.y * object1Bias + obj2.y * (1 - object1Bias) / 2);
 	}
 
 	/**
@@ -65,8 +65,8 @@ public class Vector2d {
 		obj.x -= base.x;
 		obj.y -= base.y;
 		// Calculate new pos
-		double x = (obj.x * cos) + (obj.y * sin);
-		double y = (obj.x * sin) - (obj.y * cos);
+		double x = obj.x * cos + obj.y * sin;
+		double y = obj.x * sin - obj.y * cos;
 		// Re-add base offset
 		x += base.x;
 		y += base.y;
@@ -105,16 +105,16 @@ public class Vector2d {
 		y += other.y;
 	}
 
-	public double getX() {
-		return x;
-	}
-
 	public double getAngleFromOrigin() {
 		return Math.atan2(y, x);
 	}
 
 	public double getAngleFromPoint(Vector2d point) {
 		return Math.atan2(y - point.getY(), x - point.getX());
+	}
+
+	public double getX() {
+		return x;
 	}
 
 	public double getY() {

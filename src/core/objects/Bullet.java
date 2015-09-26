@@ -51,15 +51,17 @@ public class Bullet {
 			Vector2d xIncrease = Vector2d.multiply(velocity, time);
 			xIncrease.setY(0);
 			location.add(xIncrease);
-			if (Game.getWorld().getMap().isBulletIntersecting(this))
+			if (Game.getWorld().getMap().isBulletIntersecting(this)) {
 				velocity.setX(-velocity.getX());
+			}
 
 			location = _location;
 			Vector2d yIncrease = Vector2d.multiply(velocity, time);
 			xIncrease.setX(0);
 			location.add(yIncrease);
-			if (Game.getWorld().getMap().isBulletIntersecting(this))
+			if (Game.getWorld().getMap().isBulletIntersecting(this)) {
 				velocity.setY(-velocity.getY());
+			}
 
 			location = _location;
 		}

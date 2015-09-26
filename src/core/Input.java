@@ -1,15 +1,14 @@
 package core;
 
-
 import java.util.ArrayList;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import core.util.Vector2d;
+
 /**
- * @author Dominik
- * Handles input
+ * @author Dominik Handles input
  */
 public class Input {
 	private static ArrayList<Integer> currentKeys = new ArrayList<Integer>();
@@ -106,7 +105,7 @@ public class Input {
 
 	/**
 	 * @param show
-	 * Sets mouse visibility
+	 *            Sets mouse visibility
 	 */
 	public static void showMouse(boolean show) {
 		Mouse.setGrabbed(true);
@@ -118,21 +117,33 @@ public class Input {
 	public static void update() {
 		Input.upKeys.clear();
 		for (int i = 0; i < Input.NUM_KEYCODES; i++)
-			if (!Input.getKey(i) && Input.currentKeys.contains(i)) Input.upKeys.add(i);
+			if (!Input.getKey(i) && Input.currentKeys.contains(i)) {
+				Input.upKeys.add(i);
+			}
 		Input.downKeys.clear();
 		for (int i = 0; i < Input.NUM_KEYCODES; i++)
-			if (Input.getKey(i) && !Input.currentKeys.contains(i)) Input.downKeys.add(i);
+			if (Input.getKey(i) && !Input.currentKeys.contains(i)) {
+				Input.downKeys.add(i);
+			}
 		Input.currentKeys.clear();
 		for (int i = 0; i < Input.NUM_KEYCODES; i++)
-			if (Input.getKey(i)) Input.currentKeys.add(i);
+			if (Input.getKey(i)) {
+				Input.currentKeys.add(i);
+			}
 		Input.upMouse.clear();
 		for (int i = 0; i < Input.NUM_MOUSEBUTTONS; i++)
-			if (!Input.getMouse(i) && Input.currentMouse.contains(i)) Input.upMouse.add(i);
+			if (!Input.getMouse(i) && Input.currentMouse.contains(i)) {
+				Input.upMouse.add(i);
+			}
 		Input.downMouse.clear();
 		for (int i = 0; i < Input.NUM_MOUSEBUTTONS; i++)
-			if (Input.getMouse(i) && !Input.currentMouse.contains(i)) Input.downMouse.add(i);
+			if (Input.getMouse(i) && !Input.currentMouse.contains(i)) {
+				Input.downMouse.add(i);
+			}
 		Input.currentMouse.clear();
 		for (int i = 0; i < Input.NUM_MOUSEBUTTONS; i++)
-			if (Input.getMouse(i)) Input.currentMouse.add(i);
+			if (Input.getMouse(i)) {
+				Input.currentMouse.add(i);
+			}
 	}
 }

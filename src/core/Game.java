@@ -67,8 +67,8 @@ public class Game {
 				glTranslated(-(world.getPlayer().location.getX() - Game.WIDTH / 2),
 						-(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
 				render();
-				glTranslated((world.getPlayer().location.getX() - Game.WIDTH / 2),
-						(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
+				glTranslated(world.getPlayer().location.getX() - Game.WIDTH / 2,
+						world.getPlayer().location.getY() - Game.HEIGHT / 2, 0);
 				Display.update();
 			}
 
@@ -77,6 +77,10 @@ public class Game {
 			time = lastRunTime / 1000000000d;
 		}
 		exit();
+	}
+
+	public static AStar getPathFinder() {
+		return pathFinder;
 	}
 
 	public static UserInterface getUserInterface() {
@@ -124,6 +128,10 @@ public class Game {
 		userInterface.render();
 	}
 
+	public static void setPathFinder(AStar pathFinder) {
+		Game.pathFinder = pathFinder;
+	}
+
 	public static void setUserInterface(UserInterface userInterface) {
 		Game.userInterface = userInterface;
 	}
@@ -135,14 +143,6 @@ public class Game {
 	private static void update(double time) {
 		world.update(time);
 		userInterface.update(time);
-	}
-
-	public static AStar getPathFinder() {
-		return pathFinder;
-	}
-
-	public static void setPathFinder(AStar pathFinder) {
-		Game.pathFinder = pathFinder;
 	}
 
 }

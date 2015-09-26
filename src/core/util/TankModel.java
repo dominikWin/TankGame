@@ -50,19 +50,6 @@ public class TankModel {
 	public static final double GUN_MAIN_X6 = 0;
 	public static final double GUN_MAIN_Y6 = -7;
 
-	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle) {
-		glColor3d(1, 1, 1);
-		renderBody(location, bodyAngle, gunAngle);
-		renderGun(location, bodyAngle, gunAngle);
-	}
-
-	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle, double r, double g, double b) {
-		glColor3d(r, g, b);
-		renderBody(location, bodyAngle, gunAngle);
-		renderGun(location, bodyAngle, gunAngle);
-		glColor3d(1, 1, 1);
-	}
-
 	private static void renderBody(Vector2d location, double bodyAngle, double gunAngle) {
 		glBegin(GL_LINES);
 		{
@@ -128,6 +115,23 @@ public class TankModel {
 		glEnd();
 	}
 
+	private static void renderGun(Vector2d location, double bodyAngle, double gunAngle) {
+		renderGunChassis(location, bodyAngle, gunAngle);
+		renderGunBarrel(location, bodyAngle, gunAngle);
+	}
+
+	private static void renderGunBarrel(Vector2d location, double bodyAngle, double gunAngle) {
+		glBegin(GL_LINES);
+		{
+			// Barrel
+			Vector2d locB1 = new Vector2d(location, gunAngle, TankModel.GUN_OFFSET_LENGTH);
+			Vector2d locB2 = new Vector2d(location, gunAngle, TankModel.GUN_LENGTH);
+			locB1.glVertexWrite();
+			locB2.glVertexWrite();
+		}
+		glEnd();
+	}
+
 	private static void renderGunChassis(Vector2d location, double bodyAngle, double gunAngle) {
 		glBegin(GL_LINE_LOOP);
 		{
@@ -160,20 +164,16 @@ public class TankModel {
 		glEnd();
 	}
 
-	private static void renderGun(Vector2d location, double bodyAngle, double gunAngle) {
-		renderGunChassis(location, bodyAngle, gunAngle);
-		renderGunBarrel(location, bodyAngle, gunAngle);
+	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle) {
+		glColor3d(1, 1, 1);
+		renderBody(location, bodyAngle, gunAngle);
+		renderGun(location, bodyAngle, gunAngle);
 	}
 
-	private static void renderGunBarrel(Vector2d location, double bodyAngle, double gunAngle) {
-		glBegin(GL_LINES);
-		{
-			// Barrel
-			Vector2d locB1 = new Vector2d(location, gunAngle, TankModel.GUN_OFFSET_LENGTH);
-			Vector2d locB2 = new Vector2d(location, gunAngle, TankModel.GUN_LENGTH);
-			locB1.glVertexWrite();
-			locB2.glVertexWrite();
-		}
-		glEnd();
+	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle, double r, double g, double b) {
+		glColor3d(r, g, b);
+		renderBody(location, bodyAngle, gunAngle);
+		renderGun(location, bodyAngle, gunAngle);
+		glColor3d(1, 1, 1);
 	}
 }

@@ -2,6 +2,9 @@
 
 bin/
 
+# Eclipse setting
+.settings/
+
 # Log Files
 *.log
 

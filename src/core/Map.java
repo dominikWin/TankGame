@@ -36,9 +36,11 @@ public class Map {
 
 	public static int[][] inverse(int[][] array) {
 		int[][] out = new int[array[0].length][array.length];
-		for (int line = 0; line < array.length; line++)
-			for (int data = 0; data < array[0].length; data++)
+		for (int line = 0; line < array.length; line++) {
+			for (int data = 0; data < array[0].length; data++) {
 				out[data][line] = array[line][data];
+			}
+		}
 		return out;
 	}
 
@@ -63,102 +65,24 @@ public class Map {
 		map = extractMap(CSVParser.parseCSVFile("res/maps/map.csv"));
 	}
 
-	void init() {
-		Game.getWorld().initiateEnemys();
-	}
-
-	public int getLines() {
-		return map.length;
-	}
-
-	public int[][] getObsticleMap() {
-		int[][] tmp = new int[map.length][map[0].length];
-		for (int y = 0; y < map.length; y++)
-			for (int x = 0; x < map[0].length; x++)
-				tmp[y][x] = map[y][x] != 1 ? 0 : 1;
-		return tmp;
-	}
-
-	public Vector2d getPlayerSpawn() {
-		for (int y = 0; y < map.length; y++)
-			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] == 2)
-					return new Vector2d(x * BLOCK_SIZE + BLOCK_SIZE / 2, y * BLOCK_SIZE + BLOCK_SIZE / 2);
-			}
-		System.err.println("Spawn not found!");
-		return new Vector2d(0, 0);
-	}
-
-	public Dimension getSize() {
-		return new Dimension(map[0].length, map.length);
-	}
-
-	public boolean isBulletIntersecting(Bullet b) {
-		for (int y = 0; y < map.length; y++)
-			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] == 1) {
-					Polygon p = new Polygon(
-							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
-									x * BLOCK_SIZE },
-							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
-									y * BLOCK_SIZE + BLOCK_SIZE },
-							4);
-					if (p.intersects(b.location.getX(), b.location.getY(), Bullet.RADIUS, Bullet.RADIUS))
-						return true;
-				}
-			}
-		return false;
-	}
-
-	public boolean isPlayerIntersecting() {
-		for (int y = 0; y < map.length; y++)
-			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] == 1) {
-					Polygon p = new Polygon(
-							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
-									x * BLOCK_SIZE },
-							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
-									y * BLOCK_SIZE + BLOCK_SIZE },
-							4);
-					if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox()))
-						return true;
-				}
-			}
-		return false;
-	}
-
-	public void render() {
-		glBegin(GL_QUADS);
-		{
-			for (int y = 0; y < map.length; y++)
-				for (int x = 0; x < map[0].length; x++) {
-					if (map[y][x] == 1) {
-						Polygon p = new Polygon(
-								new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
-										x * BLOCK_SIZE },
-								new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
-										y * BLOCK_SIZE + BLOCK_SIZE },
-								4);
-						if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox()))
-							glColor3d(1, 0, 0);
-						glVertex2d(x * BLOCK_SIZE, y * BLOCK_SIZE);
-						glVertex2d(x * BLOCK_SIZE + BLOCK_SIZE, y * BLOCK_SIZE);
-						glVertex2d(x * BLOCK_SIZE + BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE);
-						glVertex2d(x * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE);
-						glColor3d(1, 1, 1);
-					}
-				}
+	private boolean containsNumber(int number) {
+		for (int[] i : map) {
+			for (int j : i)
+				if (j == number)
+					return true;
 		}
-		glEnd();
+		return false;
 	}
 
-	@Override
-	public String toString() {
-		return Arrays.deepToString(map);
-	}
-
-	public void update(double time) {
-
+	public ArrayList<Enemy> getEnemes() {
+		ArrayList<Enemy> enemies = new ArrayList<>();
+		for (int i = 0; i < getEnemyCount(); i++) {
+			int number = 256 + i * 2;
+			int numberPath = 257 + i * 2;
+			enemies.add(new Enemy(getNumberLocX(number), getNumberLocY(number), getNumberLocX(numberPath),
+					getNumberLocY(numberPath)));
+		}
+		return enemies;
 	}
 
 	public int getEnemyCount() {
@@ -173,17 +97,20 @@ public class Map {
 					Logger.log("Found enemy " + number + " without patrol location " + (number + 1), Logger.ERROR);
 					Game.exit(1);
 				}
-			} else {
+			} else
 				return enemys;
-			}
 
 		}
 	}
 
+	public int getLines() {
+		return map.length;
+	}
+
 	public int getNumberLocX(int number) {
-		for (int y = 0; y < map.length; y++) {
+		for (int[] element : map) {
 			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] == number)
+				if (element[x] == number)
 					return x;
 			}
 		}
@@ -204,22 +131,104 @@ public class Map {
 		return -1;
 	}
 
-	public ArrayList<Enemy> getEnemes() {
-		ArrayList<Enemy> enemies = new ArrayList<>();
-		for (int i = 0; i < getEnemyCount(); i++) {
-			int number = 256 + (i * 2);
-			int numberPath = 257 + (i * 2);
-			enemies.add(new Enemy(getNumberLocX(number), getNumberLocY(number), getNumberLocX(numberPath),
-					getNumberLocY(numberPath)));
+	public int[][] getObsticleMap() {
+		int[][] tmp = new int[map.length][map[0].length];
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[0].length; x++) {
+				tmp[y][x] = map[y][x] != 1 ? 0 : 1;
+			}
 		}
-		return enemies;
+		return tmp;
 	}
 
-	private boolean containsNumber(int number) {
-		for (int[] i : map)
-			for (int j : i)
-				if (j == number)
-					return true;
+	public Vector2d getPlayerSpawn() {
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[0].length; x++) {
+				if (map[y][x] == 2)
+					return new Vector2d(x * BLOCK_SIZE + BLOCK_SIZE / 2, y * BLOCK_SIZE + BLOCK_SIZE / 2);
+			}
+		}
+		System.err.println("Spawn not found!");
+		return new Vector2d(0, 0);
+	}
+
+	public Dimension getSize() {
+		return new Dimension(map[0].length, map.length);
+	}
+
+	void init() {
+		Game.getWorld().initiateEnemys();
+	}
+
+	public boolean isBulletIntersecting(Bullet b) {
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[0].length; x++) {
+				if (map[y][x] == 1) {
+					Polygon p = new Polygon(
+							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
+									x * BLOCK_SIZE },
+							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
+									y * BLOCK_SIZE + BLOCK_SIZE },
+							4);
+					if (p.intersects(b.location.getX(), b.location.getY(), Bullet.RADIUS, Bullet.RADIUS))
+						return true;
+				}
+			}
+		}
 		return false;
+	}
+
+	public boolean isPlayerIntersecting() {
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[0].length; x++) {
+				if (map[y][x] == 1) {
+					Polygon p = new Polygon(
+							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
+									x * BLOCK_SIZE },
+							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
+									y * BLOCK_SIZE + BLOCK_SIZE },
+							4);
+					if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox()))
+						return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public void render() {
+		glBegin(GL_QUADS);
+		{
+			for (int y = 0; y < map.length; y++) {
+				for (int x = 0; x < map[0].length; x++) {
+					if (map[y][x] == 1) {
+						Polygon p = new Polygon(
+								new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
+										x * BLOCK_SIZE },
+								new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
+										y * BLOCK_SIZE + BLOCK_SIZE },
+								4);
+						if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox())) {
+							glColor3d(1, 0, 0);
+						}
+						glVertex2d(x * BLOCK_SIZE, y * BLOCK_SIZE);
+						glVertex2d(x * BLOCK_SIZE + BLOCK_SIZE, y * BLOCK_SIZE);
+						glVertex2d(x * BLOCK_SIZE + BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE);
+						glVertex2d(x * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE);
+						glColor3d(1, 1, 1);
+					}
+				}
+			}
+		}
+		glEnd();
+	}
+
+	@Override
+	public String toString() {
+		return Arrays.deepToString(map);
+	}
+
+	public void update(double time) {
+
 	}
 }

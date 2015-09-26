@@ -1,4 +1,5 @@
 package core;
+
 import java.util.ArrayList;
 
 import core.objects.Bullet;
@@ -10,28 +11,38 @@ public class World {
 	private Map map;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Enemy> enemies;
-	
+
 	public World() {
 		setMap(new Map("res/maps/map2.csv"));
 		setPlayer(new Player(getMap().getPlayerSpawn(), 0, 0));
 		setBullets(new ArrayList<>());
 		setEnemies(new ArrayList<>());
 	}
-	
-	public void init() {
-		map.init();
-	}
-	
+
 	public ArrayList<Bullet> getBullets() {
 		return bullets;
 	}
-	
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
 	public Map getMap() {
 		return map;
 	}
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public void init() {
+		map.init();
+	}
+
+	public void initiateEnemys() {
+		for (Enemy e : map.getEnemes()) {
+			enemies.add(e);
+		}
 	}
 
 	public void render() {
@@ -43,6 +54,10 @@ public class World {
 
 	public void setBullets(ArrayList<Bullet> bullets) {
 		this.bullets = bullets;
+	}
+
+	public void setEnemies(ArrayList<Enemy> enemies) {
+		this.enemies = enemies;
 	}
 
 	public void setMap(Map map) {
@@ -59,18 +74,5 @@ public class World {
 		getMap().update(time);
 		bullets.forEach(b -> b.update(time));
 		bullets.removeIf(b -> b.destroyed);
-	}
-
-	public void initiateEnemys() {
-		for(Enemy e : map.getEnemes())
-			enemies.add(e);
-	}
-
-	public ArrayList<Enemy> getEnemies() {
-		return enemies;
-	}
-
-	public void setEnemies(ArrayList<Enemy> enemies) {
-		this.enemies = enemies;
 	}
 }

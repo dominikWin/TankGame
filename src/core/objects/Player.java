@@ -11,7 +11,6 @@ import core.util.TankModel;
 import core.util.Vector2d;
 
 public class Player {
-	
 
 	private static final int DRIVE_SPEED_BACKWARD = 250;
 	private static final int DRIVE_SPEED_FOREWARD = 250;
@@ -85,7 +84,7 @@ public class Player {
 		// gunAngle = new Vector2d(Input.getMousePosition()., y)
 
 		Vector2d mouseLoc = Vector2d.add(Input.getMousePosition(),
-				new Vector2d((location.getX() - Game.WIDTH / 2), (location.getY() - Game.HEIGHT / 2)));
+				new Vector2d(location.getX() - Game.WIDTH / 2, location.getY() - Game.HEIGHT / 2));
 		Vector2d relative = Vector2d.add(location.inverse(), mouseLoc);
 
 		double mouseAngle = Math.toDegrees(Math.atan2(relative.getY(), relative.getX()));
@@ -93,15 +92,19 @@ public class Player {
 		gunAngle = mouseAngle;
 
 		if (Input.getKey(Keyboard.KEY_SPACE) && lastFireTime + FIRE_DELAY_MILS < System.currentTimeMillis()) {
-			Game.getWorld().getBullets().add(new Bullet(
-					new Vector2d(location, gunAngle, TankModel.GUN_LENGTH + TankModel.GUN_OFFSET_LENGTH), gunAngle, 500));
+			Game.getWorld().getBullets()
+					.add(new Bullet(
+							new Vector2d(location, gunAngle, TankModel.GUN_LENGTH + TankModel.GUN_OFFSET_LENGTH),
+							gunAngle, 500));
 			lastFireTime = System.currentTimeMillis();
 		}
 
-		while (gunAngle < 0)
+		while (gunAngle < 0) {
 			gunAngle += 360;
-		while (bodyAngle < 0)
+		}
+		while (bodyAngle < 0) {
 			bodyAngle += 360;
+		}
 
 		gunAngle %= 360;
 		bodyAngle %= 360;

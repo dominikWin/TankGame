@@ -7,12 +7,13 @@ import core.util.Vector2d;
 import core.util.astar.Path;
 
 public class Enemy {
-	Path shortestPath;
-	Vector2d location;
-
 	enum EnemyState {
 		WAITING_FOR_PATH, MOVING, SHOOTING;
 	}
+
+	Path shortestPath;
+
+	Vector2d location;
 
 	EnemyState enemyState;
 	private int patrolX;
@@ -23,11 +24,11 @@ public class Enemy {
 
 	public Enemy(int x, int y, int patrolX, int patrolY) {
 		bodyAngle = gunAngle = 0;
-		this.setX(x);
-		this.setY(y);
+		setX(x);
+		setY(y);
 		location = getLocFromMapLoc(x, y);
-		this.setPatrolX(patrolX);
-		this.setPatrolY(patrolY);
+		setPatrolX(patrolX);
+		setPatrolY(patrolY);
 		enemyState = EnemyState.WAITING_FOR_PATH;
 		shortestPath = Game.getPathFinder().calcShortestPath(x, y, patrolX, patrolY);
 		Game.getPathFinder().printPath();
@@ -46,44 +47,44 @@ public class Enemy {
 		return (int) (location.getY() / Map.BLOCK_SIZE);
 	}
 
-	public void update(double time) {
-		
-	}
-
-	public void render() {
-		TankModel.renderTank(location, bodyAngle, gunAngle, 1,0,0);
-	}
-
 	public int getPatrolX() {
 		return patrolX;
-	}
-
-	public void setPatrolX(int patrolX) {
-		this.patrolX = patrolX;
 	}
 
 	public int getPatrolY() {
 		return patrolY;
 	}
 
-	public void setPatrolY(int patrolY) {
-		this.patrolY = patrolY;
+	public int getX() {
+		return x;
 	}
 
 	public int getY() {
 		return y;
 	}
 
-	public void setY(int y) {
-		this.y = y;
+	public void render() {
+		TankModel.renderTank(location, bodyAngle, gunAngle, 1, 0, 0);
 	}
 
-	public int getX() {
-		return x;
+	public void setPatrolX(int patrolX) {
+		this.patrolX = patrolX;
+	}
+
+	public void setPatrolY(int patrolY) {
+		this.patrolY = patrolY;
 	}
 
 	public void setX(int x) {
 		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public void update(double time) {
+
 	}
 
 }
