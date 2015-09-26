@@ -164,7 +164,7 @@ public class Game {
 				setGameState(GameState.PLAYING);
 				break;
 			case PLAYING:
-				setGameState(gameState.PAUSED);
+				setGameState(GameState.PAUSED);
 				break;
 			}
 		}

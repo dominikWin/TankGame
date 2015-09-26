@@ -5,6 +5,7 @@ import java.awt.Polygon;
 import org.lwjgl.input.Keyboard;
 
 import core.Game;
+import core.Game.GameState;
 import core.Input;
 import core.Map;
 import core.util.TankModel;
@@ -94,6 +95,9 @@ public class Player {
 
 		gunAngle = mouseAngle;
 
+		if (isIntersectingBullet())
+			kill();
+
 		if (Input.getKey(Keyboard.KEY_SPACE) && lastFireTime + FIRE_DELAY_MILS < System.currentTimeMillis()) {
 			Game.getWorld().getBullets()
 					.add(new Bullet(
@@ -111,5 +115,24 @@ public class Player {
 
 		gunAngle %= 360;
 		bodyAngle %= 360;
+
+	}
+
+	public boolean isIntersectingBullet() {
+		Polygon polygon = getBoundingBox();
+		for (Bullet b : Game.getWorld().getBullets()) {
+			if (polygon.contains(b.location.getX(), b.location.getY()))
+				return true;
+		}
+		return false;
+	}
+
+	private void kill() {
+		Game.setGameState(GameState.DEAD);
+	}
+
+	public boolean isIntersectingBullet(Bullet bullet) {
+		Polygon polygon = getBoundingBox();
+		return polygon.contains(bullet.location.getX(), bullet.location.getY());
 	}
 }
