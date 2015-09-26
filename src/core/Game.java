@@ -7,15 +7,23 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import core.ui.UserInterface;
 import core.util.Logger;
 
 public class Game {
 
-	public static int WIDTH;
-	public static int HEIGHT;
+	public enum GameState {
+		LOADING, MAIN_MENU, PLAYING, PAUSED, DEAD;
+	}
 
+	public static int WIDTH;
+
+	public static int HEIGHT;
 	private static World world;
+
 	private static UserInterface userInterface;
+
+	public static GameState gameState;
 
 	private static void createDisplay() {
 		try {
@@ -50,6 +58,7 @@ public class Game {
 	}
 
 	private static void gameLoop() {
+		gameState = GameState.MAIN_MENU;
 		long lastRunTime = 0;
 		double time = 0;
 		while (!Display.isCloseRequested()) {
@@ -59,11 +68,7 @@ public class Game {
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 				Input.update();
 				update(time);
-				glTranslated(-(world.getPlayer().location.getX() - Game.WIDTH / 2),
-						-(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
 				render();
-				glTranslated(world.getPlayer().location.getX() - Game.WIDTH / 2,
-						world.getPlayer().location.getY() - Game.HEIGHT / 2, 0);
 				Display.update();
 			}
 
@@ -72,6 +77,15 @@ public class Game {
 			time = lastRunTime / 1000000000d;
 		}
 		exit();
+	}
+
+	private static void render() {
+		glTranslated(-(world.getPlayer().location.getX() - Game.WIDTH / 2),
+				-(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
+		renderWithShift();
+		glTranslated(world.getPlayer().location.getX() - Game.WIDTH / 2,
+				world.getPlayer().location.getY() - Game.HEIGHT / 2, 0);
+		renderWithoutShift();
 	}
 
 	public static UserInterface getUserInterface() {
@@ -93,6 +107,8 @@ public class Game {
 
 	private static void init() {
 		Logger.log("Starting TankGame");
+		Logger.log("Intitating gameState");
+		gameState = GameState.LOADING;
 		Logger.log("Creating world");
 		world = new World();
 		Logger.log("Initializing OpenGL");
@@ -109,9 +125,13 @@ public class Game {
 		gameLoop();
 	}
 
-	private static void render() {
-		world.render();
+	private static void renderWithoutShift() {
 		userInterface.render();
+	}
+
+	private static void renderWithShift() {
+		if (gameState == GameState.PLAYING)
+			world.render();
 	}
 
 	public static void setUserInterface(UserInterface userInterface) {
@@ -123,7 +143,8 @@ public class Game {
 	}
 
 	private static void update(double time) {
-		world.update(time);
+		if (gameState == GameState.PLAYING)
+			world.update(time);
 		userInterface.update(time);
 	}
 }

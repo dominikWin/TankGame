@@ -9,7 +9,7 @@ import core.util.astar.Path;
 
 public class Enemy {
 	enum EnemyState {
-		WAITING_FOR_PATH, MOVING, SHOOTING;
+		MOVING, SHOOTING, SEARCHING;
 	}
 
 	private static final int SPEED = 100;
@@ -38,7 +38,7 @@ public class Enemy {
 		location = getLocFromMapLoc(x, y);
 		setPatrolX(patrolX);
 		setPatrolY(patrolY);
-		enemyState = EnemyState.WAITING_FOR_PATH;
+		enemyState = EnemyState.SEARCHING;
 		shortestPath = Pathfinder.getPathToLocation(x, y, patrolX, patrolY);
 		updateNextLoc();
 	}
@@ -107,7 +107,7 @@ public class Enemy {
 			break;
 		case SHOOTING:
 			break;
-		case WAITING_FOR_PATH:
+		case SEARCHING:
 			break;
 		}
 	}
