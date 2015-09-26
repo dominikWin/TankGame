@@ -4,10 +4,14 @@ import core.Game;
 import core.Map;
 import core.util.TankModel;
 import core.util.Vector2d;
+import core.util.astar.AStar;
+import core.util.astar.ClosestHeuristic;
 import core.util.astar.Node;
 import core.util.astar.Path;
 
 public class Enemy {
+	private static final double MAP_SIZE_DESTINATION_MULTIPLYER = .01;
+
 	enum EnemyState {
 		WAITING_FOR_PATH, MOVING, SHOOTING;
 	}
@@ -33,15 +37,16 @@ public class Enemy {
 		setPatrolX(patrolX);
 		setPatrolY(patrolY);
 		enemyState = EnemyState.WAITING_FOR_PATH;
-		shortestPath = Game.getPathFinder().calcShortestPath(x, y, patrolX, patrolY);
+		shortestPath = Game.getPathFinder().calcShortestPath(y, x, patrolY, patrolX);
+		Game.getPathFinder().printPath();
 		// Logger.log(shortestPath.waypoints.toString());
 		updateNextLoc();
 	}
 
 	private void updateNextLoc() {
 		Node tmp = shortestPath.waypoints.remove(0);
-		currentDestinationX = tmp.getX();
-		currentDestinationY = tmp.getY();
+		currentDestinationX = tmp.getY();
+		currentDestinationY = tmp.getX();
 		enemyState = EnemyState.MOVING;
 	}
 
@@ -106,8 +111,30 @@ public class Enemy {
 	}
 
 	private void updateMovement(double time) {
-		gunAngle = bodyAngle = location.getAngleFromPoint(Game.getWorld().getPlayer().location);
-		
+		if(atDestinationNode()) {
+			if(isFinalDestination())
+				updateFinalLoc();
+			else
+			updateNextLoc();
+		}
+		else {
+			gunAngle = bodyAngle = getLocFromMapLoc(currentDestinationX, currentDestinationY).getAngleFromPoint(location);
+			location = new Vector2d(location, bodyAngle, 100*time);			
+		}
+	}
+
+	private void updateFinalLoc() {
+		Game.setPathFinder(new AStar(Game.getMap(), new ClosestHeuristic()));
+		shortestPath = Game.getPathFinder().calcShortestPath(patrolY, patrolX, startY, startX);
+		updateNextLoc();
+	}
+
+	private boolean isFinalDestination() {
+		return shortestPath.waypoints.isEmpty();
+	}
+
+	private boolean atDestinationNode() {
+		return Vector2d.distance(getLocFromMapLoc(currentDestinationX, currentDestinationY), location) < Map.BLOCK_SIZE * MAP_SIZE_DESTINATION_MULTIPLYER;
 	}
 
 }

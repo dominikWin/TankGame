@@ -9,6 +9,7 @@ import core.Input;
 import core.Map;
 import core.util.TankModel;
 import core.util.Vector2d;
+import core.util.astar.Path;
 
 public class Player {
 
@@ -19,6 +20,8 @@ public class Player {
 	public Vector2d location;
 	double gunAngle;
 	double bodyAngle;
+	
+	Path shortestPath;
 
 	long lastFireTime = 0;
 

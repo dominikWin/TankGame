@@ -105,10 +105,10 @@ public class Game {
 		Logger.log("Creating world");
 		world = new World();
 		Logger.log("Creating map");
-		map = new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
-				world.getMap().getObsticleMap());
+		setMap(new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
+				world.getMap().getObsticleMap()));
 		Logger.log("Creating pathfinder");
-		setPathFinder(new AStar(map, new ClosestHeuristic()));
+		setPathFinder(new AStar(getMap(), new ClosestHeuristic()));
 		Logger.log("Initializing OpenGL");
 		glInit();
 		Logger.log("Initializing world");
@@ -143,6 +143,14 @@ public class Game {
 	private static void update(double time) {
 		world.update(time);
 		userInterface.update(time);
+	}
+
+	public static AreaMap getMap() {
+		return map;
+	}
+
+	public static void setMap(AreaMap map) {
+		Game.map = map;
 	}
 
 }

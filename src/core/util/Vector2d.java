@@ -110,7 +110,7 @@ public class Vector2d {
 	}
 
 	public double getAngleFromPoint(Vector2d point) {
-		return Math.toDegrees(Math.atan2(y - point.getY(), x - point.getX())) + 180;
+		return Math.toDegrees(Math.atan2(y - point.getY(), x - point.getX()));
 	}
 
 	public double getX() {
