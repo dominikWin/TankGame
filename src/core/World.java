@@ -2,17 +2,20 @@ package core;
 import java.util.ArrayList;
 
 import core.objects.Bullet;
+import core.objects.Enemy;
 import core.objects.Player;
 
 public class World {
 	private Player player;
 	private Map map;
 	private ArrayList<Bullet> bullets;
+	private ArrayList<Enemy> enemies;
 	
 	public World() {
 		setMap(new Map("res/maps/map2.csv"));
 		setPlayer(new Player(getMap().getPlayerSpawn(), 0, 0));
 		setBullets(new ArrayList<>());
+		setEnemies(new ArrayList<>());
 	}
 	
 	public ArrayList<Bullet> getBullets() {
@@ -29,6 +32,7 @@ public class World {
 
 	public void render() {
 		getPlayer().render();
+		enemies.forEach(e -> e.render());
 		getMap().render();
 		bullets.forEach(b -> b.render());
 	}
@@ -47,8 +51,22 @@ public class World {
 
 	public void update(double time) {
 		getPlayer().update(time);
+		enemies.forEach(e -> e.update(time));
 		getMap().update(time);
 		bullets.forEach(b -> b.update(time));
 		bullets.removeIf(b -> b.destroyed);
+	}
+
+	public void initiateEnemys() {
+		for(Enemy e : map.getEnemes())
+			enemies.add(e);
+	}
+
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
+	public void setEnemies(ArrayList<Enemy> enemies) {
+		this.enemies = enemies;
 	}
 }

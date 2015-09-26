@@ -48,7 +48,7 @@ public class Game {
 		exit(0);
 	}
 
-	private static void exit(int status) {
+	static void exit(int status) {
 		Display.destroy();
 		Logger.close();
 		System.exit(status);

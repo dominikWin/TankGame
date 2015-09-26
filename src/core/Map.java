@@ -3,9 +3,11 @@ package core;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import core.objects.Bullet;
+import core.objects.Enemy;
 import core.util.CSVParser;
 import core.util.Logger;
 import core.util.Vector2d;
@@ -15,6 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class Map {
 
 	public static int BLOCK_SIZE = 100;
+
 	public static int[][] extractMap(String[][] array) {
 		int[][] out = new int[array.length][array[0].length];
 		for (int line = 0; line < out.length; line++) {
@@ -33,8 +36,8 @@ public class Map {
 
 	public static int[][] inverse(int[][] array) {
 		int[][] out = new int[array[0].length][array.length];
-		for(int line = 0; line < array.length; line++)
-			for(int data = 0; data < array[0].length; data++)
+		for (int line = 0; line < array.length; line++)
+			for (int data = 0; data < array[0].length; data++)
 				out[data][line] = array[line][data];
 		return out;
 	}
@@ -53,11 +56,12 @@ public class Map {
 		}
 		return false;
 	}
-	
+
 	int[][] map;
-	
+
 	public Map(String fileName) {
 		map = extractMap(CSVParser.parseCSVFile("res/maps/map.csv"));
+		Game.getWorld().initiateEnemys();
 	}
 
 	public int getLines() {
@@ -152,5 +156,67 @@ public class Map {
 
 	public void update(double time) {
 
+	}
+
+	public int getEnemyCount() {
+		int enemys = 0;
+		int number = 256;
+		while (true) {
+			if (containsNumber(number)) {
+				if (containsNumber(number + 1)) {
+					enemys++;
+					number += 2;
+				} else {
+					Logger.log("Found enemy " + number + " without patrol location " + (number + 1), Logger.ERROR);
+					Game.exit(1);
+				}
+			} else {
+				return enemys;
+			}
+
+		}
+	}
+
+	public int getNumberLocX(int number) {
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[0].length; x++) {
+				if (map[y][x] == number)
+					return x;
+			}
+		}
+		Logger.log("Can't find number " + number + " in map", Logger.ERROR);
+		Game.exit(1);
+		return -1;
+	}
+
+	public int getNumberLocY(int number) {
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[0].length; x++) {
+				if (map[y][x] == number)
+					return y;
+			}
+		}
+		Logger.log("Can't find number " + number + " in map", Logger.ERROR);
+		Game.exit(1);
+		return -1;
+	}
+
+	public ArrayList<Enemy> getEnemes() {
+		ArrayList<Enemy> enemies = new ArrayList<>();
+		for (int i = 0; i < getEnemyCount(); i++) {
+			int number = 256 + (i * 2);
+			int numberPath = 257 + (i * 2);
+			enemies.add(new Enemy(getNumberLocX(number), getNumberLocY(number), getNumberLocX(numberPath),
+					getNumberLocY(numberPath)));
+		}
+		return enemies;
+	}
+
+	private boolean containsNumber(int number) {
+		for (int[] i : map)
+			for (int j : i)
+				if (j == number)
+					return true;
+		return false;
 	}
 }
