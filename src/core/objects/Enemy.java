@@ -4,6 +4,7 @@ import core.Game;
 import core.Map;
 import core.util.TankModel;
 import core.util.Vector2d;
+import core.util.astar.Node;
 import core.util.astar.Path;
 
 public class Enemy {
@@ -18,9 +19,11 @@ public class Enemy {
 	EnemyState enemyState;
 	private int patrolX;
 	private int patrolY;
-	private int y;
-	private int x;
+	private int startY;
+	private int startX;
 	double gunAngle, bodyAngle;
+	private int currentDestinationX;
+	private int currentDestinationY;
 
 	public Enemy(int x, int y, int patrolX, int patrolY) {
 		bodyAngle = gunAngle = 0;
@@ -31,8 +34,15 @@ public class Enemy {
 		setPatrolY(patrolY);
 		enemyState = EnemyState.WAITING_FOR_PATH;
 		shortestPath = Game.getPathFinder().calcShortestPath(x, y, patrolX, patrolY);
-		Game.getPathFinder().printPath();
-		System.out.println();
+		// Logger.log(shortestPath.waypoints.toString());
+		updateNextLoc();
+	}
+
+	private void updateNextLoc() {
+		Node tmp = shortestPath.waypoints.remove(0);
+		currentDestinationX = tmp.getX();
+		currentDestinationY = tmp.getY();
+		enemyState = EnemyState.MOVING;
 	}
 
 	private Vector2d getLocFromMapLoc(int x, int y) {
@@ -56,11 +66,11 @@ public class Enemy {
 	}
 
 	public int getX() {
-		return x;
+		return startX;
 	}
 
 	public int getY() {
-		return y;
+		return startY;
 	}
 
 	public void render() {
@@ -76,15 +86,28 @@ public class Enemy {
 	}
 
 	public void setX(int x) {
-		this.x = x;
+		this.startX = x;
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		this.startY = y;
 	}
 
 	public void update(double time) {
+		switch (enemyState) {
+		case MOVING:
+			updateMovement(time);
+			break;
+		case SHOOTING:
+			break;
+		case WAITING_FOR_PATH:
+			break;
+		}
+	}
 
+	private void updateMovement(double time) {
+		gunAngle = bodyAngle = location.getAngleFromPoint(Game.getWorld().getPlayer().location);
+		
 	}
 
 }
