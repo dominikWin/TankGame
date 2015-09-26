@@ -112,6 +112,7 @@ public class Enemy {
 
 	private void updateMovement(double time) {
 		if(atDestinationNode()) {
+			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
 			if(isFinalDestination())
 				updateFinalLoc();
 			else
