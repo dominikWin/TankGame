@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 import core.Game;
@@ -17,7 +18,10 @@ import core.ui.menus.MainMenu;
 import core.util.Logger;
 
 public class UserInterface {
-	private static final boolean ANTI_ALIAS_FONT = false;
+	private static final boolean ANTI_ALIAS_FONT = true;
+	public static final int PRIMARY_FONT_SIZE = 32;
+	public static final int SECONDARY_FONT_SIZE = 24;
+	
 	Menu mainMenu;
 	Font font;
 	ArrayList<TrueTypeFont> fonts;
@@ -28,7 +32,7 @@ public class UserInterface {
 		mainMenu = new MainMenu();
 	}
 
-	public TrueTypeFont getFont(int size) {
+	private TrueTypeFont getFont(int size) {
 		for (int i = 0; i < fontSizes.size(); i++) {
 			if (fontSizes.get(i) == size)
 				return fonts.get(i);
@@ -36,11 +40,29 @@ public class UserInterface {
 		return addFont(size);
 	}
 
-	TrueTypeFont addFont(float size) {
+	private TrueTypeFont addFont(float size) {
 		Logger.log("Adding font in size " + size);
 		fonts.add(new TrueTypeFont(font.deriveFont(size), ANTI_ALIAS_FONT));
 		fontSizes.add((int) size);
 		return fonts.get(fonts.size() - 1);
+	}
+
+	public void drawText(float x, float y, int size, String text) {
+		drawText(x, y, size, text, Color.white);
+	}
+
+	public void drawText(float x, float y, int size, String text, Color color) {
+		getFont(size).drawString(x, y, text, color);
+	}
+
+	public void drawTextCentered(float x, float y, int size, String text) {
+		drawTextCentered(x, y, size, text, Color.white);
+	}
+
+	public void drawTextCentered(float x, float y, int size, String text, Color color) {
+		float _x = x - (getFont(size).getWidth(text) / 2);
+		float _y = y - (getFont(size).getHeight(text) / 2);
+		drawText(_x, _y, size, text, color);
 	}
 
 	private void loadFonts() {

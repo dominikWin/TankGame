@@ -3,6 +3,7 @@ package core;
 import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -47,7 +48,7 @@ public class Game {
 
 	}
 
-	private static void exit() {
+	public static void exit() {
 		exit(0);
 	}
 
@@ -83,12 +84,16 @@ public class Game {
 	}
 
 	private static void render() {
+		renderWithoutShift();
+		
 		glTranslated(-(world.getPlayer().location.getX() - Game.WIDTH / 2),
 				-(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
+		
 		renderWithShift();
+		
 		glTranslated(world.getPlayer().location.getX() - Game.WIDTH / 2,
 				world.getPlayer().location.getY() - Game.HEIGHT / 2, 0);
-		renderWithoutShift();
+		
 	}
 
 	public static UserInterface getUserInterface() {
@@ -123,6 +128,7 @@ public class Game {
 	}
 
 	public static void main(String[] args) {
+		// Windows runs Java?
 		createDisplay();
 		init();
 		gameLoop();
@@ -146,6 +152,22 @@ public class Game {
 	}
 
 	private static void update(double time) {
+		if(Input.getKeyDown(Keyboard.KEY_ESCAPE)) {
+			switch (getGameState()) {
+			case DEAD:
+				break;
+			case LOADING:
+				break;
+			case MAIN_MENU:
+				break;
+			case PAUSED:
+				setGameState(GameState.PLAYING);
+				break;
+			case PLAYING:
+				setGameState(gameState.PAUSED);
+				break;
+			}
+		}
 		if (getGameState() == GameState.PLAYING)
 			world.update(time);
 		userInterface.update(time);
