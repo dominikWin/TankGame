@@ -3,6 +3,7 @@ package core;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -190,6 +191,8 @@ public class Map {
 							4);
 					if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox()))
 						return true;
+					
+				
 				}
 			}
 		}
