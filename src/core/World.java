@@ -18,6 +18,10 @@ public class World {
 		setEnemies(new ArrayList<>());
 	}
 	
+	public void init() {
+		map.init();
+	}
+	
 	public ArrayList<Bullet> getBullets() {
 		return bullets;
 	}
@@ -31,8 +35,8 @@ public class World {
 	}
 
 	public void render() {
-		getPlayer().render();
 		enemies.forEach(e -> e.render());
+		getPlayer().render();
 		getMap().render();
 		bullets.forEach(b -> b.render());
 	}

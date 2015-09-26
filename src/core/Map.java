@@ -61,6 +61,9 @@ public class Map {
 
 	public Map(String fileName) {
 		map = extractMap(CSVParser.parseCSVFile("res/maps/map.csv"));
+	}
+
+	void init() {
 		Game.getWorld().initiateEnemys();
 	}
 

@@ -2,6 +2,7 @@ package core.objects;
 
 import core.Game;
 import core.Map;
+import core.util.TankModel;
 import core.util.Vector2d;
 import core.util.astar.Path;
 
@@ -28,8 +29,9 @@ public class Enemy {
 		this.setPatrolX(patrolX);
 		this.setPatrolY(patrolY);
 		enemyState = EnemyState.WAITING_FOR_PATH;
-		shortestPath = Game.getPathFinder().calcShortestPath(getMapLocationX(), getMapLocationY(), patrolX, patrolY);
+		shortestPath = Game.getPathFinder().calcShortestPath(x, y, patrolX, patrolY);
 		Game.getPathFinder().printPath();
+		System.out.println();
 	}
 
 	private Vector2d getLocFromMapLoc(int x, int y) {
@@ -49,7 +51,7 @@ public class Enemy {
 	}
 
 	public void render() {
-
+		TankModel.renderTank(location, bodyAngle, gunAngle, 1,0,0);
 	}
 
 	public int getPatrolX() {

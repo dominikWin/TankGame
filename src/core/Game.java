@@ -98,11 +98,18 @@ public class Game {
 
 	private static void init() {
 		Logger.log("Starting TankGame");
-		glInit();
+		Logger.log("Creating world");
 		world = new World();
+		Logger.log("Creating map");
 		map = new AreaMap((int) world.getMap().getSize().getHeight(), (int) world.getMap().getSize().getWidth(),
 				world.getMap().getObsticleMap());
+		Logger.log("Creating pathfinder");
 		setPathFinder(new AStar(map, new ClosestHeuristic()));
+		Logger.log("Initializing OpenGL");
+		glInit();
+		Logger.log("Initializing world");
+		world.init();
+		Logger.log("Creating user interface");
 		userInterface = new UserInterface();
 	}
 

@@ -2,8 +2,6 @@ package core.util;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.awt.Color;
-
 public class TankModel {
 
 	public static final double GUN_LENGTH = 20;
@@ -58,8 +56,8 @@ public class TankModel {
 		renderGun(location, bodyAngle, gunAngle);
 	}
 
-	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle, Color color) {
-		glColor3b((byte) color.getRed(), (byte) color.getGreen(), (byte) color.getBlue());
+	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle, double r, double g, double b) {
+		glColor3d(r, g, b);
 		renderBody(location, bodyAngle, gunAngle);
 		renderGun(location, bodyAngle, gunAngle);
 		glColor3d(1, 1, 1);
