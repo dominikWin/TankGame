@@ -23,7 +23,7 @@ public class Game {
 
 	private static UserInterface userInterface;
 
-	public static GameState gameState;
+	private static GameState gameState;
 
 	private static void createDisplay() {
 		try {
@@ -52,15 +52,18 @@ public class Game {
 	}
 
 	static void exit(int status) {
+		Logger.log("Exiting");
+		Logger.log("Destroying display");
 		Display.destroy();
 		Logger.close();
 		System.exit(status);
 	}
 
 	private static void gameLoop() {
-		gameState = GameState.MAIN_MENU;
+		setGameState(GameState.MAIN_MENU);
 		long lastRunTime = 0;
 		double time = 0;
+		Logger.log("Starting Game Loop");
 		while (!Display.isCloseRequested()) {
 			long startTime = System.nanoTime();
 
@@ -108,7 +111,7 @@ public class Game {
 	private static void init() {
 		Logger.log("Starting TankGame");
 		Logger.log("Intitating gameState");
-		gameState = GameState.LOADING;
+		setGameState(GameState.LOADING);
 		Logger.log("Creating world");
 		world = new World();
 		Logger.log("Initializing OpenGL");
@@ -130,7 +133,7 @@ public class Game {
 	}
 
 	private static void renderWithShift() {
-		if (gameState == GameState.PLAYING)
+		if (getGameState() == GameState.PLAYING)
 			world.render();
 	}
 
@@ -143,8 +146,17 @@ public class Game {
 	}
 
 	private static void update(double time) {
-		if (gameState == GameState.PLAYING)
+		if (getGameState() == GameState.PLAYING)
 			world.update(time);
 		userInterface.update(time);
+	}
+
+	public static GameState getGameState() {
+		return gameState;
+	}
+
+	public static void setGameState(GameState gameState) {
+		Game.gameState = gameState;
+		Logger.log("Changed gameState to " + gameState);
 	}
 }
