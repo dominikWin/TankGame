@@ -15,6 +15,7 @@ import org.newdawn.slick.TrueTypeFont;
 
 import core.Game;
 import core.ui.menus.MainMenu;
+import core.ui.menus.PauseMenu;
 import core.util.Logger;
 
 public class UserInterface {
@@ -23,6 +24,7 @@ public class UserInterface {
 	public static final int SECONDARY_FONT_SIZE = 24;
 	
 	Menu mainMenu;
+	Menu pauseMenu;
 	Font font;
 	ArrayList<TrueTypeFont> fonts;
 	ArrayList<Integer> fontSizes;
@@ -30,6 +32,7 @@ public class UserInterface {
 	public UserInterface() {
 		loadFonts();
 		mainMenu = new MainMenu();
+		pauseMenu = new PauseMenu();
 	}
 
 	private TrueTypeFont getFont(int size) {
@@ -95,6 +98,7 @@ public class UserInterface {
 			mainMenu.render();
 			break;
 		case PAUSED:
+			pauseMenu.render();
 			break;
 		case PLAYING:
 			break;
@@ -112,6 +116,7 @@ public class UserInterface {
 			mainMenu.update(time);
 			break;
 		case PAUSED:
+			pauseMenu.update(time);
 			break;
 		case PLAYING:
 			break;
