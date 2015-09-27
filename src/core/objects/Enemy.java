@@ -1,11 +1,8 @@
 package core.objects;
 
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.geom.Line2D;
-
 import core.Game;
 import core.Map;
+import core.util.Collision;
 import core.util.Pathfinder;
 import core.util.TankModel;
 import core.util.Vector2d;
@@ -27,7 +24,7 @@ public class Enemy {
 
 	Path shortestPath;
 
-	Vector2d location;
+	public Vector2d location;
 	Vector2d lastKnownPlayerLoc;
 
 	EnemyState enemyState;
@@ -35,7 +32,9 @@ public class Enemy {
 	private int patrolY;
 	private int startY;
 	private int startX;
-	double gunAngle, bodyAngle;
+	public double gunAngle;
+
+	public double bodyAngle;
 	private int currentDestinationX;
 	private int currentDestinationY;
 	boolean going;
@@ -55,53 +54,14 @@ public class Enemy {
 		updateNextLoc();
 	}
 
-	public boolean isIntersectingBullet() {
-		Polygon polygon = getBoundingBox();
-		for (Bullet b : Game.getWorld().getBullets()) {
-			if (polygon.contains(b.location.getX(), b.location.getY()))
-				return true;
-		}
-		return false;
-	}
-
-	public Polygon getBoundingBox() {
-		Vector2d loc1 = new Vector2d(TankModel.BODY_TRACK1_X1, TankModel.BODY_TRACK1_Y1);
-		Vector2d loc2 = new Vector2d(TankModel.BODY_TRACK1_X2, TankModel.BODY_TRACK1_Y2);
-		Vector2d loc3 = new Vector2d(TankModel.BODY_TRACK2_X1, TankModel.BODY_TRACK2_Y1);
-		Vector2d loc4 = new Vector2d(TankModel.BODY_TRACK2_X2, TankModel.BODY_TRACK2_Y2);
-		loc1.rotate(bodyAngle);
-		loc2.rotate(bodyAngle);
-		loc3.rotate(bodyAngle);
-		loc4.rotate(bodyAngle);
-		loc1.add(location);
-		loc2.add(location);
-		loc3.add(location);
-		loc4.add(location);
-		return new Polygon(new int[] { (int) loc1.getX(), (int) loc2.getX(), (int) loc3.getX(), (int) loc4.getX() },
-				new int[] { (int) loc1.getY(), (int) loc2.getY(), (int) loc3.getY(), (int) loc4.getY() }, 4);
-	}
-
 	private boolean atDestinationNode() {
 		return Vector2d.distance(getLocFromMapLoc(currentDestinationX, currentDestinationY), location) < Map.BLOCK_SIZE
 				* MAP_SIZE_DESTINATION_MULTIPLYER;
 	}
 
-	private boolean canSeePlayer() {
-		Line2D line = new Line2D.Double(location.getX(), location.getY(), Game.getWorld().getPlayer().location.getX(),
-				Game.getWorld().getPlayer().location.getY());
-		int[][] map = Game.getWorld().getMap().getObsticleMap();
-		// Logger.log(Arrays.deepToString(map));
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] != 1) {
-					continue;
-				}
-				Rectangle rect = new Rectangle(x * Map.BLOCK_SIZE, y * Map.BLOCK_SIZE, Map.BLOCK_SIZE, Map.BLOCK_SIZE);
-				if (line.intersects(rect))
-					return false;
-			}
-		}
-		return true;
+	private void createPathToPlayer() {
+		shortestPath = Pathfinder.getPathToLocation(getMapLocationX(), getMapLocationY(),
+				(int) lastKnownPlayerLoc.getX() / Map.BLOCK_SIZE, (int) lastKnownPlayerLoc.getY() / Map.BLOCK_SIZE);
 	}
 
 	private void enterSightMode() {
@@ -182,7 +142,7 @@ public class Enemy {
 			updateSearch(time);
 			break;
 		}
-		if (canSeePlayer()) {
+		if (Collision.canEnemySeePlayer(this)) {
 			enterSightMode();
 			lastKnownPlayerLoc = Game.getWorld().getPlayer().location;
 		} else {
@@ -191,29 +151,8 @@ public class Enemy {
 				createPathToPlayer();
 			}
 		}
-		if (isIntersectingBullet())
+		if (Collision.isEnemyIntersectingBullet(this)) {
 			destroyed = true;
-	}
-
-	private void createPathToPlayer() {
-		shortestPath = Pathfinder.getPathToLocation(getMapLocationX(), getMapLocationY(),
-				(int) lastKnownPlayerLoc.getX() / Map.BLOCK_SIZE, (int) lastKnownPlayerLoc.getY() / Map.BLOCK_SIZE);
-	}
-
-	private void updateSearch(double time) {
-		if (atDestinationNode()) {
-			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
-			if (isFinalDestination()) {
-				enemyState = EnemyState.MOVING;
-				updateFinalLoc();
-
-			} else {
-				updateNextLoc();
-			}
-		} else {
-			gunAngle = bodyAngle = getLocFromMapLoc(currentDestinationX, currentDestinationY)
-					.getAngleFromPoint(location);
-			location = new Vector2d(location, bodyAngle, SPEED * time);
 		}
 	}
 
@@ -250,8 +189,21 @@ public class Enemy {
 		enemyState = EnemyState.MOVING;
 	}
 
-	public boolean isIntersectingBullet(Bullet bullet) {
-		return getBoundingBox().contains(bullet.location.getX(), bullet.location.getY());
+	private void updateSearch(double time) {
+		if (atDestinationNode()) {
+			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
+			if (isFinalDestination()) {
+				enemyState = EnemyState.MOVING;
+				updateFinalLoc();
+
+			} else {
+				updateNextLoc();
+			}
+		} else {
+			gunAngle = bodyAngle = getLocFromMapLoc(currentDestinationX, currentDestinationY)
+					.getAngleFromPoint(location);
+			location = new Vector2d(location, bodyAngle, SPEED * time);
+		}
 	}
 
 }

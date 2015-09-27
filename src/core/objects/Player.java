@@ -1,13 +1,12 @@
 package core.objects;
 
-import java.awt.Polygon;
-
 import org.lwjgl.input.Keyboard;
 
 import core.Game;
 import core.Game.GameState;
 import core.Input;
 import core.Map;
+import core.util.Collision;
 import core.util.Logger;
 import core.util.TankModel;
 import core.util.Vector2d;
@@ -21,8 +20,8 @@ public class Player {
 	private static final int TURNING_SPEED = 180;
 	private static final int FIRE_DELAY_MILS = 250;
 	public Vector2d location;
-	double gunAngle;
-	double bodyAngle;
+	public double gunAngle;
+	public double bodyAngle;
 
 	Path shortestPath;
 
@@ -38,43 +37,12 @@ public class Player {
 		this.gunAngle = gunAngle;
 	}
 
-	public Polygon getBoundingBox() {
-		Vector2d loc1 = new Vector2d(TankModel.BODY_TRACK1_X1, TankModel.BODY_TRACK1_Y1);
-		Vector2d loc2 = new Vector2d(TankModel.BODY_TRACK1_X2, TankModel.BODY_TRACK1_Y2);
-		Vector2d loc3 = new Vector2d(TankModel.BODY_TRACK2_X1, TankModel.BODY_TRACK2_Y1);
-		Vector2d loc4 = new Vector2d(TankModel.BODY_TRACK2_X2, TankModel.BODY_TRACK2_Y2);
-		loc1.rotate(bodyAngle);
-		loc2.rotate(bodyAngle);
-		loc3.rotate(bodyAngle);
-		loc4.rotate(bodyAngle);
-		loc1.add(location);
-		loc2.add(location);
-		loc3.add(location);
-		loc4.add(location);
-		return new Polygon(new int[] { (int) loc1.getX(), (int) loc2.getX(), (int) loc3.getX(), (int) loc4.getX() },
-				new int[] { (int) loc1.getY(), (int) loc2.getY(), (int) loc3.getY(), (int) loc4.getY() }, 4);
-	}
-
 	public int getMapLocationX() {
 		return (int) (location.getX() / Map.BLOCK_SIZE);
 	}
 
 	public int getMapLocationY() {
 		return (int) (location.getY() / Map.BLOCK_SIZE);
-	}
-
-	public boolean isIntersectingBullet() {
-		Polygon polygon = getBoundingBox();
-		for (Bullet b : Game.getWorld().getBullets()) {
-			if (polygon.contains(b.location.getX(), b.location.getY()))
-				return true;
-		}
-		return false;
-	}
-
-	public boolean isIntersectingBullet(Bullet bullet) {
-		Polygon polygon = getBoundingBox();
-		return polygon.contains(bullet.location.getX(), bullet.location.getY());
 	}
 
 	private void kill() {
@@ -101,7 +69,7 @@ public class Player {
 			bodyAngle += TURNING_SPEED * time;
 		}
 
-		if (Game.getWorld().getMap().isPlayerIntersecting()) {
+		if (Collision.isPlayerIntersectingMap(this)) {
 			location = new Vector2d(x, y);
 			bodyAngle = angle;
 		}
@@ -116,7 +84,7 @@ public class Player {
 
 		gunAngle = mouseAngle;
 
-		if (isIntersectingBullet()) {
+		if (Collision.isPlayerIntersectingBullet()) {
 			kill();
 		}
 

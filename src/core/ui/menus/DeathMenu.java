@@ -4,8 +4,8 @@ import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
 import core.Game;
-import core.Input;
 import core.Game.GameState;
+import core.Input;
 import core.ui.Menu;
 import core.ui.UserInterface;
 
