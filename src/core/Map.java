@@ -1,5 +1,11 @@
 package core;
 
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glColor3d;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex2d;
+
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Polygon;
@@ -11,8 +17,6 @@ import core.objects.Enemy;
 import core.util.CSVParser;
 import core.util.Logger;
 import core.util.Vector2d;
-
-import static org.lwjgl.opengl.GL11.*;
 
 public class Map {
 

@@ -1,9 +1,11 @@
 package core.objects;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_POINTS;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glPointSize;
 
 import core.Game;
-import core.util.Logger;
 import core.util.Vector2d;
 
 public class Bullet {
@@ -24,15 +26,15 @@ public class Bullet {
 		this.bounces = bounces;
 	}
 
-	public Bullet removeFromPlayer() {
-		while (Game.getWorld().getPlayer().isIntersectingBullet(this)) {
+	public Bullet removeFromEnemy(Enemy e) {
+		while (e.isIntersectingBullet(this)) {
 			location.add(Vector2d.multiply(velocity, .01));
 		}
 		return this;
 	}
 
-	public Bullet removeFromEnemy(Enemy e) {
-		while (e.isIntersectingBullet(this)) {
+	public Bullet removeFromPlayer() {
+		while (Game.getWorld().getPlayer().isIntersectingBullet(this)) {
 			location.add(Vector2d.multiply(velocity, .01));
 		}
 		return this;
