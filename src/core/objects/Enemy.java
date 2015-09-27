@@ -20,6 +20,10 @@ public class Enemy {
 
 	private static final double MAP_SIZE_DESTINATION_MULTIPLYER = .01;
 
+	private static final long FIRE_DELAY_MILS = 350;
+
+	long lastFireTime = 0;
+
 	Path shortestPath;
 
 	Vector2d location;
@@ -74,6 +78,15 @@ public class Enemy {
 	private void enterSightMode() {
 		enemyState = EnemyState.SHOOTING;
 		gunAngle = Game.getWorld().getPlayer().location.getAngleFromPoint(location);
+		if (System.currentTimeMillis() > lastFireTime + FIRE_DELAY_MILS) {
+			lastFireTime = System.currentTimeMillis();
+			fire();
+		}
+	}
+
+	private void fire() {
+		Game.getWorld().getBullets()
+				.add(new Bullet(new Vector2d(location.getX(), location.getY()), gunAngle, Player.BULLET_SPEED));
 	}
 
 	private Vector2d getLocFromMapLoc(int x, int y) {
@@ -161,7 +174,7 @@ public class Enemy {
 			if (isFinalDestination()) {
 				enemyState = EnemyState.MOVING;
 				updateFinalLoc();
-				
+
 			} else {
 				updateNextLoc();
 			}

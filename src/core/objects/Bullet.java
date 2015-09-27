@@ -10,7 +10,7 @@ public class Bullet {
 	public Vector2d location;
 	Vector2d velocity;
 	public boolean destroyed = false;
-	int bounces = 2;
+	int bounces = 1;
 
 	public Bullet(Vector2d location, double angle, double speed) {
 		this.location = location;

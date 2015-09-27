@@ -15,6 +15,7 @@ import core.util.astar.Path;
 
 public class Player {
 
+	public static final int BULLET_SPEED = 500;
 	private static final int DRIVE_SPEED_BACKWARD = 250;
 	private static final int DRIVE_SPEED_FOREWARD = 250;
 	private static final int TURNING_SPEED = 180;
@@ -123,7 +124,7 @@ public class Player {
 			Game.getWorld().getBullets()
 					.add(new Bullet(
 							new Vector2d(location, gunAngle, TankModel.GUN_LENGTH + TankModel.GUN_OFFSET_LENGTH),
-							gunAngle, 500));
+							gunAngle, BULLET_SPEED));
 			lastFireTime = System.currentTimeMillis();
 		}
 
