@@ -62,6 +62,25 @@ public class Player {
 		return (int) (location.getY() / Map.BLOCK_SIZE);
 	}
 
+	public boolean isIntersectingBullet() {
+		Polygon polygon = getBoundingBox();
+		for (Bullet b : Game.getWorld().getBullets()) {
+			if (polygon.contains(b.location.getX(), b.location.getY()))
+				return true;
+		}
+		return false;
+	}
+
+	public boolean isIntersectingBullet(Bullet bullet) {
+		Polygon polygon = getBoundingBox();
+		return polygon.contains(bullet.location.getX(), bullet.location.getY());
+	}
+
+	private void kill() {
+		Logger.log("Player died");
+		Game.setGameState(GameState.DEAD);
+	}
+
 	public void render() {
 		TankModel.renderTank(location, bodyAngle, gunAngle);
 	}
@@ -96,8 +115,9 @@ public class Player {
 
 		gunAngle = mouseAngle;
 
-		if (isIntersectingBullet())
+		if (isIntersectingBullet()) {
 			kill();
+		}
 
 		if (Input.getKey(Keyboard.KEY_SPACE) && lastFireTime + FIRE_DELAY_MILS < System.currentTimeMillis()) {
 			Game.getWorld().getBullets()
@@ -117,24 +137,5 @@ public class Player {
 		gunAngle %= 360;
 		bodyAngle %= 360;
 
-	}
-
-	public boolean isIntersectingBullet() {
-		Polygon polygon = getBoundingBox();
-		for (Bullet b : Game.getWorld().getBullets()) {
-			if (polygon.contains(b.location.getX(), b.location.getY()))
-				return true;
-		}
-		return false;
-	}
-
-	private void kill() {
-		Logger.log("Player died");
-		Game.setGameState(GameState.DEAD);
-	}
-
-	public boolean isIntersectingBullet(Bullet bullet) {
-		Polygon polygon = getBoundingBox();
-		return polygon.contains(bullet.location.getX(), bullet.location.getY());
 	}
 }

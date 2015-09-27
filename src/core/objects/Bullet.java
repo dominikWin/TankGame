@@ -18,16 +18,17 @@ public class Bullet {
 		removeFromPlayer();
 	}
 
-	private void removeFromPlayer() {
-		while(Game.getWorld().getPlayer().isIntersectingBullet(this))
-			location.add(Vector2d.multiply(velocity, .01));
-	}
-
 	public Bullet(Vector2d location, double angle, double speed, int bounces) {
 		this.location = location;
 		velocity = new Vector2d(new Vector2d(0, 0), angle, speed);
 		this.bounces = bounces;
 		removeFromPlayer();
+	}
+
+	private void removeFromPlayer() {
+		while (Game.getWorld().getPlayer().isIntersectingBullet(this)) {
+			location.add(Vector2d.multiply(velocity, .01));
+		}
 	}
 
 	public void render() {

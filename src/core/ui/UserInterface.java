@@ -23,7 +23,7 @@ public class UserInterface {
 	private static final boolean ANTI_ALIAS_FONT = true;
 	public static final int PRIMARY_FONT_SIZE = 32;
 	public static final int SECONDARY_FONT_SIZE = 24;
-	
+
 	Menu mainMenu;
 	Menu pauseMenu;
 	Menu deathMenu;
@@ -36,14 +36,6 @@ public class UserInterface {
 		mainMenu = new MainMenu();
 		pauseMenu = new PauseMenu();
 		deathMenu = new DeathMenu();
-	}
-
-	private TrueTypeFont getFont(int size) {
-		for (int i = 0; i < fontSizes.size(); i++) {
-			if (fontSizes.get(i) == size)
-				return fonts.get(i);
-		}
-		return addFont(size);
 	}
 
 	private TrueTypeFont addFont(float size) {
@@ -66,9 +58,17 @@ public class UserInterface {
 	}
 
 	public void drawTextCentered(float x, float y, int size, String text, Color color) {
-		float _x = x - (getFont(size).getWidth(text) / 2);
-		float _y = y - (getFont(size).getHeight(text) / 2);
+		float _x = x - getFont(size).getWidth(text) / 2;
+		float _y = y - getFont(size).getHeight(text) / 2;
 		drawText(_x, _y, size, text, color);
+	}
+
+	private TrueTypeFont getFont(int size) {
+		for (int i = 0; i < fontSizes.size(); i++) {
+			if (fontSizes.get(i) == size)
+				return fonts.get(i);
+		}
+		return addFont(size);
 	}
 
 	private void loadFonts() {

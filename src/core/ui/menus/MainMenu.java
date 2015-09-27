@@ -16,27 +16,13 @@ public class MainMenu implements Menu {
 		selectedOption = 0;
 	}
 
-	@Override
-	public void update(double time) {
-		if (Input.getKeyDown(Keyboard.KEY_W) || Input.getKeyDown(Keyboard.KEY_UP)) {
-			if (selectedOption > 0)
-				selectedOption--;
-		}
-		if (Input.getKeyDown(Keyboard.KEY_S) || Input.getKeyDown(Keyboard.KEY_DOWN)) {
-			if (selectedOption < 1)
-				selectedOption++;
-		}
-
-		if (Input.getKeyDown(Keyboard.KEY_RETURN))
-			buttonPressed();
-	}
-
 	private void buttonPressed() {
 		if (selectedOption == 0) {
 			Game.start();
 		}
-		if (selectedOption == 1)
+		if (selectedOption == 1) {
 			Game.exit();
+		}
 	}
 
 	@Override
@@ -47,6 +33,24 @@ public class MainMenu implements Menu {
 				selectedOption == 0 ? Color.red : Color.white);
 		Game.getUserInterface().drawTextCentered(Game.WIDTH / 2, 200, UserInterface.SECONDARY_FONT_SIZE, "Exit",
 				selectedOption == 1 ? Color.red : Color.white);
+	}
+
+	@Override
+	public void update(double time) {
+		if (Input.getKeyDown(Keyboard.KEY_W) || Input.getKeyDown(Keyboard.KEY_UP)) {
+			if (selectedOption > 0) {
+				selectedOption--;
+			}
+		}
+		if (Input.getKeyDown(Keyboard.KEY_S) || Input.getKeyDown(Keyboard.KEY_DOWN)) {
+			if (selectedOption < 1) {
+				selectedOption++;
+			}
+		}
+
+		if (Input.getKeyDown(Keyboard.KEY_RETURN)) {
+			buttonPressed();
+		}
 	}
 
 }

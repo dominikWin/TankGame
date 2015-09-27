@@ -2,13 +2,9 @@ package core.objects;
 
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
-import java.util.Arrays;
-
-import org.lwjgl.opengl.Display;
 
 import core.Game;
 import core.Map;
-import core.util.Logger;
 import core.util.Pathfinder;
 import core.util.TankModel;
 import core.util.Vector2d;
@@ -54,6 +50,29 @@ public class Enemy {
 	private boolean atDestinationNode() {
 		return Vector2d.distance(getLocFromMapLoc(currentDestinationX, currentDestinationY), location) < Map.BLOCK_SIZE
 				* MAP_SIZE_DESTINATION_MULTIPLYER;
+	}
+
+	private boolean canSeePlayer() {
+		Line2D line = new Line2D.Double(location.getX(), location.getY(), Game.getWorld().getPlayer().location.getX(),
+				Game.getWorld().getPlayer().location.getY());
+		int[][] map = Game.getWorld().getMap().getObsticleMap();
+		// Logger.log(Arrays.deepToString(map));
+		for (int y = 0; y < map.length; y++) {
+			for (int x = 0; x < map[0].length; x++) {
+				if (map[y][x] != 1) {
+					continue;
+				}
+				Rectangle rect = new Rectangle(x * Map.BLOCK_SIZE, y * Map.BLOCK_SIZE, Map.BLOCK_SIZE, Map.BLOCK_SIZE);
+				if (line.intersects(rect))
+					return false;
+			}
+		}
+		return true;
+	}
+
+	private void enterSightMode() {
+		enemyState = EnemyState.SHOOTING;
+		gunAngle = Game.getWorld().getPlayer().location.getAngleFromPoint(location);
 	}
 
 	private Vector2d getLocFromMapLoc(int x, int y) {
@@ -122,28 +141,6 @@ public class Enemy {
 			enterSightMode();
 		} else {
 		}
-	}
-
-	private void enterSightMode() {
-		enemyState = EnemyState.SHOOTING;
-		gunAngle = Game.getWorld().getPlayer().location.getAngleFromPoint(location);
-	}
-
-	private boolean canSeePlayer() {
-		Line2D line = new Line2D.Double(location.getX(), location.getY(), Game.getWorld().getPlayer().location.getX(),
-				Game.getWorld().getPlayer().location.getY());
-		int[][] map = Game.getWorld().getMap().getObsticleMap();
-//		Logger.log(Arrays.deepToString(map));
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] != 1)
-					continue;
-				Rectangle rect = new Rectangle(x * Map.BLOCK_SIZE, y * Map.BLOCK_SIZE, Map.BLOCK_SIZE, Map.BLOCK_SIZE);
-				if (line.intersects(rect))
-					return false;
-			}
-		}
-		return true;
 	}
 
 	private void updateFinalLoc() {

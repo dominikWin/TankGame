@@ -83,17 +83,8 @@ public class Game {
 		exit();
 	}
 
-	private static void render() {
-		renderWithoutShift();
-		
-		glTranslated(-(world.getPlayer().location.getX() - Game.WIDTH / 2),
-				-(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
-		
-		renderWithShift();
-		
-		glTranslated(world.getPlayer().location.getX() - Game.WIDTH / 2,
-				world.getPlayer().location.getY() - Game.HEIGHT / 2, 0);
-		
+	public static GameState getGameState() {
+		return gameState;
 	}
 
 	public static UserInterface getUserInterface() {
@@ -112,13 +103,6 @@ public class Game {
 		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 	}
-	
-	public static void lightInit() {
-		Logger.log("Creating world");
-		world = new World();
-		Logger.log("Initializing world");
-		world.init();
-	}
 
 	private static void init() {
 		Logger.log("Starting TankGame");
@@ -131,6 +115,13 @@ public class Game {
 		lightInit();
 	}
 
+	public static void lightInit() {
+		Logger.log("Creating world");
+		world = new World();
+		Logger.log("Initializing world");
+		world.init();
+	}
+
 	public static void main(String[] args) {
 		// Windows runs Java?
 		createDisplay();
@@ -138,13 +129,32 @@ public class Game {
 		gameLoop();
 	}
 
+	private static void render() {
+		renderWithoutShift();
+
+		glTranslated(-(world.getPlayer().location.getX() - Game.WIDTH / 2),
+				-(world.getPlayer().location.getY() - Game.HEIGHT / 2), 0);
+
+		renderWithShift();
+
+		glTranslated(world.getPlayer().location.getX() - Game.WIDTH / 2,
+				world.getPlayer().location.getY() - Game.HEIGHT / 2, 0);
+
+	}
+
 	private static void renderWithoutShift() {
 		userInterface.render();
 	}
 
 	private static void renderWithShift() {
-		if (getGameState() == GameState.PLAYING)
+		if (getGameState() == GameState.PLAYING) {
 			world.render();
+		}
+	}
+
+	public static void setGameState(GameState gameState) {
+		Game.gameState = gameState;
+		Logger.log("Changed gameState to " + gameState);
 	}
 
 	public static void setUserInterface(UserInterface userInterface) {
@@ -155,8 +165,14 @@ public class Game {
 		Game.world = world;
 	}
 
+	public static void start() {
+		Logger.log("Starting game");
+		Game.setGameState(GameState.PLAYING);
+		lightInit();
+	}
+
 	private static void update(double time) {
-		if(Input.getKeyDown(Keyboard.KEY_ESCAPE)) {
+		if (Input.getKeyDown(Keyboard.KEY_ESCAPE)) {
 			switch (getGameState()) {
 			case DEAD:
 				break;
@@ -172,23 +188,9 @@ public class Game {
 				break;
 			}
 		}
-		if (getGameState() == GameState.PLAYING)
+		if (getGameState() == GameState.PLAYING) {
 			world.update(time);
+		}
 		userInterface.update(time);
-	}
-
-	public static GameState getGameState() {
-		return gameState;
-	}
-
-	public static void setGameState(GameState gameState) {
-		Game.gameState = gameState;
-		Logger.log("Changed gameState to " + gameState);
-	}
-
-	public static void start() {
-		Logger.log("Starting game");
-		Game.setGameState(GameState.PLAYING);
-		lightInit();
 	}
 }
