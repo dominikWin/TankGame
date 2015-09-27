@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glPointSize;
 
-import core.Game;
+import core.util.Collision;
 import core.util.Vector2d;
 
 public class Bullet {
@@ -27,14 +27,14 @@ public class Bullet {
 	}
 
 	public Bullet removeFromEnemy(Enemy e) {
-		while (e.isIntersectingBullet(this)) {
+		while (Collision.isEnemyIntersectingBullet(e, this)) {
 			location.add(Vector2d.multiply(velocity, .01));
 		}
 		return this;
 	}
 
 	public Bullet removeFromPlayer() {
-		while (Game.getWorld().getPlayer().isIntersectingBullet(this)) {
+		while (Collision.isPlayerIntersectingBullet(this)) {
 			location.add(Vector2d.multiply(velocity, .01));
 		}
 		return this;
@@ -57,7 +57,7 @@ public class Bullet {
 	public void update(double time) {
 		Vector2d _location = new Vector2d(location.getX(), location.getY());
 		location.add(Vector2d.multiply(velocity, time));
-		if (Game.getWorld().getMap().isBulletIntersecting(this)) {
+		if (Collision.isBulletIntersectingMap(this)) {
 			if (bounces <= 0) {
 				destroyed = true;
 				return;
@@ -68,7 +68,7 @@ public class Bullet {
 			Vector2d xIncrease = Vector2d.multiply(velocity, time);
 			xIncrease.setY(0);
 			location.add(xIncrease);
-			if (Game.getWorld().getMap().isBulletIntersecting(this)) {
+			if (Collision.isBulletIntersectingMap(this)) {
 				velocity.setX(-velocity.getX());
 			}
 
@@ -76,7 +76,7 @@ public class Bullet {
 			Vector2d yIncrease = Vector2d.multiply(velocity, time);
 			xIncrease.setX(0);
 			location.add(yIncrease);
-			if (Game.getWorld().getMap().isBulletIntersecting(this)) {
+			if (Collision.isBulletIntersectingMap(this)) {
 				velocity.setY(-velocity.getY());
 			}
 

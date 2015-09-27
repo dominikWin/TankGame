@@ -7,14 +7,12 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 
 import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import core.objects.Bullet;
 import core.objects.Enemy;
 import core.util.CSVParser;
+import core.util.Collision;
 import core.util.Logger;
 import core.util.Vector2d;
 
@@ -48,20 +46,7 @@ public class Map {
 		return out;
 	}
 
-	public static boolean polygonIntersectPolygon(Polygon p1, Polygon p2) {
-		Point p;
-		for (int i = 0; i < p2.npoints; i++) {
-			p = new Point(p2.xpoints[i], p2.ypoints[i]);
-			if (p1.contains(p))
-				return true;
-		}
-		for (int i = 0; i < p1.npoints; i++) {
-			p = new Point(p1.xpoints[i], p1.ypoints[i]);
-			if (p2.contains(p))
-				return true;
-		}
-		return false;
-	}
+	int[][] obsticalMap = null;
 
 	int[][] map;
 
@@ -136,13 +121,16 @@ public class Map {
 	}
 
 	public int[][] getObsticleMap() {
-		int[][] tmp = new int[map.length][map[0].length];
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[0].length; x++) {
-				tmp[y][x] = map[y][x] != 1 ? 0 : 1;
+		if (obsticalMap == null) {
+			int[][] tmp = new int[map.length][map[0].length];
+			for (int y = 0; y < map.length; y++) {
+				for (int x = 0; x < map[0].length; x++) {
+					tmp[y][x] = map[y][x] != 1 ? 0 : 1;
+				}
 			}
+			obsticalMap = tmp;
 		}
-		return tmp;
+		return obsticalMap;
 	}
 
 	public Vector2d getPlayerSpawn() {
@@ -164,56 +152,13 @@ public class Map {
 		Game.getWorld().initiateEnemys();
 	}
 
-	public boolean isBulletIntersecting(Bullet b) {
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] == 1) {
-					Polygon p = new Polygon(
-							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
-									x * BLOCK_SIZE },
-							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
-									y * BLOCK_SIZE + BLOCK_SIZE },
-							4);
-					if (p.intersects(b.location.getX(), b.location.getY(), Bullet.RADIUS, Bullet.RADIUS))
-						return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	public boolean isPlayerIntersecting() {
-		for (int y = 0; y < map.length; y++) {
-			for (int x = 0; x < map[0].length; x++) {
-				if (map[y][x] == 1) {
-					Polygon p = new Polygon(
-							new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
-									x * BLOCK_SIZE },
-							new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
-									y * BLOCK_SIZE + BLOCK_SIZE },
-							4);
-					if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox()))
-						return true;
-
-				}
-			}
-		}
-		return false;
-	}
-
 	public void render() {
 		glBegin(GL_QUADS);
 		{
 			for (int y = 0; y < map.length; y++) {
 				for (int x = 0; x < map[0].length; x++) {
 					if (map[y][x] == 1) {
-						Polygon p = new Polygon(
-								new int[] { x * BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE, x * BLOCK_SIZE + BLOCK_SIZE,
-										x * BLOCK_SIZE },
-								new int[] { y * BLOCK_SIZE, y * BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE,
-										y * BLOCK_SIZE + BLOCK_SIZE },
-								4);
-						if (polygonIntersectPolygon(p, Game.getWorld().getPlayer().getBoundingBox())) {
+						if (Collision.isPlayerIntersectingBlock(getObsticleMap(), x, y)) {
 							glColor3d(1, 0, 0);
 						}
 						glVertex2d(x * BLOCK_SIZE, y * BLOCK_SIZE);
