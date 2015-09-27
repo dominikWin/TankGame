@@ -23,6 +23,7 @@ public class Enemy {
 	Path shortestPath;
 
 	Vector2d location;
+	Vector2d lastKnownPlayerLoc;
 
 	EnemyState enemyState;
 	private int patrolX;
@@ -135,20 +136,48 @@ public class Enemy {
 		case SHOOTING:
 			break;
 		case SEARCHING:
+			updateSearch(time);
 			break;
 		}
 		if (canSeePlayer()) {
 			enterSightMode();
+			lastKnownPlayerLoc = Game.getWorld().getPlayer().location;
 		} else {
+			if (enemyState == EnemyState.SHOOTING) {
+				enemyState = EnemyState.SEARCHING;
+				createPathToPlayer();
+			}
+		}
+	}
+
+	private void createPathToPlayer() {
+		shortestPath = Pathfinder.getPathToLocation(getMapLocationX(), getMapLocationY(),
+				(int) lastKnownPlayerLoc.getX() / Map.BLOCK_SIZE, (int) lastKnownPlayerLoc.getY() / Map.BLOCK_SIZE);
+	}
+
+	private void updateSearch(double time) {
+		if (atDestinationNode()) {
+			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
+			if (isFinalDestination()) {
+				enemyState = EnemyState.MOVING;
+				updateFinalLoc();
+				
+			} else {
+				updateNextLoc();
+			}
+		} else {
+			gunAngle = bodyAngle = getLocFromMapLoc(currentDestinationX, currentDestinationY)
+					.getAngleFromPoint(location);
+			location = new Vector2d(location, bodyAngle, SPEED * time);
 		}
 	}
 
 	private void updateFinalLoc() {
 		if (going) {
-			shortestPath = Pathfinder.getPathToLocation(patrolX, patrolY, startX, startY);
+			shortestPath = Pathfinder.getPathToLocation(getMapLocationX(), getMapLocationY(), startX, startY);
 			going = false;
 		} else {
-			shortestPath = Pathfinder.getPathToLocation(startX, startY, patrolX, patrolY);
+			shortestPath = Pathfinder.getPathToLocation(getMapLocationX(), getMapLocationY(), patrolX, patrolY);
 			going = true;
 		}
 		updateNextLoc();

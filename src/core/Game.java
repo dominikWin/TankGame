@@ -28,7 +28,7 @@ public class Game {
 
 	private static void createDisplay() {
 		try {
-			Display.setDisplayModeAndFullscreen(new DisplayMode(1280, 720));
+			Display.setDisplayModeAndFullscreen(new DisplayMode(1600, 900));
 			Display.setFullscreen(false);
 			Display.setVSyncEnabled(true);
 			Display.setResizable(false);
