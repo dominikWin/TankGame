@@ -124,7 +124,7 @@ public class Player {
 			Game.getWorld().getBullets()
 					.add(new Bullet(
 							new Vector2d(location, gunAngle, TankModel.GUN_LENGTH + TankModel.GUN_OFFSET_LENGTH),
-							gunAngle, BULLET_SPEED));
+							gunAngle, BULLET_SPEED).removeFromPlayer());
 			lastFireTime = System.currentTimeMillis();
 		}
 

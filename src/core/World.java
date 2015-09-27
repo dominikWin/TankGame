@@ -74,5 +74,6 @@ public class World {
 		getMap().update(time);
 		bullets.forEach(b -> b.update(time));
 		bullets.removeIf(b -> b.destroyed);
+		enemies.removeIf(e -> e.destroyed);
 	}
 }

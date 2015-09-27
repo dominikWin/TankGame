@@ -3,6 +3,7 @@ package core.objects;
 import static org.lwjgl.opengl.GL11.*;
 
 import core.Game;
+import core.util.Logger;
 import core.util.Vector2d;
 
 public class Bullet {
@@ -15,20 +16,26 @@ public class Bullet {
 	public Bullet(Vector2d location, double angle, double speed) {
 		this.location = location;
 		velocity = new Vector2d(new Vector2d(0, 0), angle, speed);
-		removeFromPlayer();
 	}
 
 	public Bullet(Vector2d location, double angle, double speed, int bounces) {
 		this.location = location;
 		velocity = new Vector2d(new Vector2d(0, 0), angle, speed);
 		this.bounces = bounces;
-		removeFromPlayer();
 	}
 
-	private void removeFromPlayer() {
+	public Bullet removeFromPlayer() {
 		while (Game.getWorld().getPlayer().isIntersectingBullet(this)) {
 			location.add(Vector2d.multiply(velocity, .01));
 		}
+		return this;
+	}
+
+	public Bullet removeFromEnemy(Enemy e) {
+		while (e.isIntersectingBullet(this)) {
+			location.add(Vector2d.multiply(velocity, .01));
+		}
+		return this;
 	}
 
 	public void render() {

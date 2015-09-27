@@ -1,5 +1,6 @@
 package core.objects;
 
+import java.awt.Polygon;
 import java.awt.Rectangle;
 import java.awt.geom.Line2D;
 
@@ -39,6 +40,8 @@ public class Enemy {
 	private int currentDestinationY;
 	boolean going;
 
+	public boolean destroyed = false;
+
 	public Enemy(int x, int y, int patrolX, int patrolY) {
 		going = true;
 		bodyAngle = gunAngle = 0;
@@ -50,6 +53,32 @@ public class Enemy {
 		enemyState = EnemyState.SEARCHING;
 		shortestPath = Pathfinder.getPathToLocation(x, y, patrolX, patrolY);
 		updateNextLoc();
+	}
+
+	public boolean isIntersectingBullet() {
+		Polygon polygon = getBoundingBox();
+		for (Bullet b : Game.getWorld().getBullets()) {
+			if (polygon.contains(b.location.getX(), b.location.getY()))
+				return true;
+		}
+		return false;
+	}
+
+	public Polygon getBoundingBox() {
+		Vector2d loc1 = new Vector2d(TankModel.BODY_TRACK1_X1, TankModel.BODY_TRACK1_Y1);
+		Vector2d loc2 = new Vector2d(TankModel.BODY_TRACK1_X2, TankModel.BODY_TRACK1_Y2);
+		Vector2d loc3 = new Vector2d(TankModel.BODY_TRACK2_X1, TankModel.BODY_TRACK2_Y1);
+		Vector2d loc4 = new Vector2d(TankModel.BODY_TRACK2_X2, TankModel.BODY_TRACK2_Y2);
+		loc1.rotate(bodyAngle);
+		loc2.rotate(bodyAngle);
+		loc3.rotate(bodyAngle);
+		loc4.rotate(bodyAngle);
+		loc1.add(location);
+		loc2.add(location);
+		loc3.add(location);
+		loc4.add(location);
+		return new Polygon(new int[] { (int) loc1.getX(), (int) loc2.getX(), (int) loc3.getX(), (int) loc4.getX() },
+				new int[] { (int) loc1.getY(), (int) loc2.getY(), (int) loc3.getY(), (int) loc4.getY() }, 4);
 	}
 
 	private boolean atDestinationNode() {
@@ -86,7 +115,8 @@ public class Enemy {
 
 	private void fire() {
 		Game.getWorld().getBullets()
-				.add(new Bullet(new Vector2d(location.getX(), location.getY()), gunAngle, Player.BULLET_SPEED));
+				.add(new Bullet(new Vector2d(location.getX(), location.getY()), gunAngle, Player.BULLET_SPEED)
+						.removeFromEnemy(this));
 	}
 
 	private Vector2d getLocFromMapLoc(int x, int y) {
@@ -161,6 +191,8 @@ public class Enemy {
 				createPathToPlayer();
 			}
 		}
+		if (isIntersectingBullet())
+			destroyed = true;
 	}
 
 	private void createPathToPlayer() {
@@ -216,6 +248,10 @@ public class Enemy {
 		currentDestinationX = tmp.getY();
 		currentDestinationY = tmp.getX();
 		enemyState = EnemyState.MOVING;
+	}
+
+	public boolean isIntersectingBullet(Bullet bullet) {
+		return getBoundingBox().contains(bullet.location.getX(), bullet.location.getY());
 	}
 
 }
