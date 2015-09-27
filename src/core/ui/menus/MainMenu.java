@@ -5,7 +5,6 @@ import org.newdawn.slick.Color;
 
 import core.Game;
 import core.Input;
-import core.Game.GameState;
 import core.ui.Menu;
 import core.ui.UserInterface;
 
@@ -20,22 +19,23 @@ public class MainMenu implements Menu {
 	@Override
 	public void update(double time) {
 		if (Input.getKeyDown(Keyboard.KEY_W) || Input.getKeyDown(Keyboard.KEY_UP)) {
-			if(selectedOption > 0)
+			if (selectedOption > 0)
 				selectedOption--;
 		}
 		if (Input.getKeyDown(Keyboard.KEY_S) || Input.getKeyDown(Keyboard.KEY_DOWN)) {
-			if(selectedOption < 1)
+			if (selectedOption < 1)
 				selectedOption++;
 		}
-		
-		if( Input.getKeyDown(Keyboard.KEY_RETURN))
+
+		if (Input.getKeyDown(Keyboard.KEY_RETURN))
 			buttonPressed();
 	}
 
 	private void buttonPressed() {
-		if(selectedOption == 0)
-			Game.setGameState(GameState.PLAYING);
-		if(selectedOption == 1)
+		if (selectedOption == 0) {
+			Game.start();
+		}
+		if (selectedOption == 1)
 			Game.exit();
 	}
 

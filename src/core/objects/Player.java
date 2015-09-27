@@ -8,6 +8,7 @@ import core.Game;
 import core.Game.GameState;
 import core.Input;
 import core.Map;
+import core.util.Logger;
 import core.util.TankModel;
 import core.util.Vector2d;
 import core.util.astar.Path;
@@ -128,6 +129,7 @@ public class Player {
 	}
 
 	private void kill() {
+		Logger.log("Player died");
 		Game.setGameState(GameState.DEAD);
 	}
 

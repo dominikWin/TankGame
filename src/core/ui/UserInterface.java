@@ -14,6 +14,7 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 
 import core.Game;
+import core.ui.menus.DeathMenu;
 import core.ui.menus.MainMenu;
 import core.ui.menus.PauseMenu;
 import core.util.Logger;
@@ -25,6 +26,7 @@ public class UserInterface {
 	
 	Menu mainMenu;
 	Menu pauseMenu;
+	Menu deathMenu;
 	Font font;
 	ArrayList<TrueTypeFont> fonts;
 	ArrayList<Integer> fontSizes;
@@ -33,6 +35,7 @@ public class UserInterface {
 		loadFonts();
 		mainMenu = new MainMenu();
 		pauseMenu = new PauseMenu();
+		deathMenu = new DeathMenu();
 	}
 
 	private TrueTypeFont getFont(int size) {
@@ -91,6 +94,7 @@ public class UserInterface {
 		GL11.glEnable(GL11.GL_BLEND);
 		switch (Game.getGameState()) {
 		case DEAD:
+			deathMenu.render();
 			break;
 		case LOADING:
 			break;
@@ -109,6 +113,7 @@ public class UserInterface {
 	public void update(double time) {
 		switch (Game.getGameState()) {
 		case DEAD:
+			deathMenu.update(time);
 			break;
 		case LOADING:
 			break;

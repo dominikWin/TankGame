@@ -112,19 +112,23 @@ public class Game {
 		glOrtho(0, WIDTH, HEIGHT, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 	}
+	
+	public static void lightInit() {
+		Logger.log("Creating world");
+		world = new World();
+		Logger.log("Initializing world");
+		world.init();
+	}
 
 	private static void init() {
 		Logger.log("Starting TankGame");
 		Logger.log("Intitating gameState");
 		setGameState(GameState.LOADING);
-		Logger.log("Creating world");
-		world = new World();
 		Logger.log("Initializing OpenGL");
 		glInit();
-		Logger.log("Initializing world");
-		world.init();
 		Logger.log("Creating user interface");
 		userInterface = new UserInterface();
+		lightInit();
 	}
 
 	public static void main(String[] args) {
@@ -180,5 +184,11 @@ public class Game {
 	public static void setGameState(GameState gameState) {
 		Game.gameState = gameState;
 		Logger.log("Changed gameState to " + gameState);
+	}
+
+	public static void start() {
+		Logger.log("Starting game");
+		Game.setGameState(GameState.PLAYING);
+		lightInit();
 	}
 }
