@@ -8,7 +8,7 @@ TankGame was built with [LWJGL2](http://legacy.lwjgl.org), [Slick-Util](http://s
 
 To run on a non-linux based operating system change LWJGLs native librarys to the folder with the operating systems name.
 
-TankGame was built to run on eclipse without and modification; No other IDEs were tested.
+TankGame was built to run on eclipse without any modification; No other IDEs were tested.
 
 ## Licence
 
