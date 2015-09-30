@@ -6,9 +6,33 @@ TankGame was built with [LWJGL2](http://legacy.lwjgl.org), [Slick-Util](http://s
 
 ## Running
 
+For a executable for this game look under [releases](https://github.com/dominikWin/TankGame/releases)
+
 To run on a non-linux based operating system change LWJGLs native librarys to the folder with the operating systems name.
 
 TankGame was built to run on eclipse without any modification; No other IDEs were tested.
+
+## Controls
+
+### Menus
+
+All menus can be navigated with the arrow keys or WASD, and Enter/Return is for select.
+
+### Gameplay
+##### General
+
+Escape key pauses the game.
+##### Movement
+
+WASD moves the tank in the direction relative to the direction of the body.
+##### Firing
+
+The mouse location on screen controls direction and the space key fires.
+
+## Performance
+
+TankGame requires a graphics processor that suports OpenGl.
+Currently the game only uses a single core, but a multithreaded update is in development.
 
 ## Licence
 
@@ -41,3 +65,5 @@ An example:
 1,0,0,0,257,1
 1,1,1,1,1,1
 ```
+
+To load a map change the constructor peramiters of the map in the World class constructor (On the latest release, v1.0-alpha, this line 16 of World.java).
