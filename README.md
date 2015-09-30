@@ -17,15 +17,12 @@ TankGame was built to run on eclipse without any modification; No other IDEs wer
 All menus can be navigated with the arrow keys or WASD, and Enter/Return is for select.
 
 ### Gameplay
-
 #### General
 
 Escape key pauses the game.
-
 #### Movement
 
 WASD moves the tank in the direction relative to the direction of the body.
-
 #### Firing
 
 The mouse location on screen controls direction and the space key fires.
