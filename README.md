@@ -2,7 +2,7 @@
 
 TankGame is a simple game writen in Java for DCHS Programming Club
 
-TankGame was built with [LWJGL2](http://legacy.lwjgl.org), [Slick-Util](http://slick.ninjacave.com), and [AStar](https://code.google.com/p/a-star-java).
+TankGame was built with [LWJGL2](http://legacy.lwjgl.org), [Slick-Util](http://slick.ninjacave.com), [AStar](https://code.google.com/p/a-star-java), and [Open Sans](http://www.fontsquirrel.com/fonts/open-sans).
 
 ## Running
 
