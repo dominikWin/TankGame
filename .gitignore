@@ -1,6 +1,11 @@
 *.class
 
 bin/
+build/
+
+
+# HTML
+*.html
 
 # Vim swap files
 *.swp
