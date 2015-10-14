@@ -12,6 +12,12 @@ import core.util.TankModel;
 import core.util.Vector2d;
 import core.util.astar.Path;
 
+/**
+ * Class for representing a player object.
+ * @author Dominik Winecki
+
+ *
+ */
 public class Player {
 
 	public static final int BULLET_SPEED = 500;
@@ -27,10 +33,20 @@ public class Player {
 
 	long lastFireTime = 0;
 
+	/**
+	 * Creates a player at the location.
+	 * @param location
+	 */
 	Player(Vector2d location) {
 		this.location = location;
 	}
 
+	/**
+	 * Created a player at the location with the body and gun angles.
+	 * @param location
+	 * @param gunAngle
+	 * @param bodyAngle
+	 */
 	public Player(Vector2d location, double gunAngle, double bodyAngle) {
 		this.location = location;
 		this.bodyAngle = bodyAngle;
@@ -45,15 +61,25 @@ public class Player {
 		return (int) (location.getY() / Map.BLOCK_SIZE);
 	}
 
+	/**
+	 * Kills the payer, only called when the player is hit by a bullet.
+	 */
 	private void kill() {
 		Logger.log("Player died");
 		Game.setGameState(GameState.DEAD);
 	}
 
+	/**
+	 * Renders the player.
+	 */
 	public void render() {
 		TankModel.renderTank(location, bodyAngle, gunAngle);
 	}
 
+	/**
+	 * Updates the player based on the controls.
+	 * @param time
+	 */
 	public void update(double time) {
 		double x = location.getX(), y = location.getY(), angle = bodyAngle;
 		if (Input.getKey(Keyboard.KEY_W)) {

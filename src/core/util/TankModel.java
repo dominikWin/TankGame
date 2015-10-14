@@ -6,6 +6,12 @@ import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glColor3d;
 import static org.lwjgl.opengl.GL11.glEnd;
 
+/**
+ * A class for rendering tanks.
+ * @author Dominik Winecki
+
+ *
+ */
 public class TankModel {
 
 	public static final double GUN_LENGTH = 20;
@@ -54,6 +60,12 @@ public class TankModel {
 	public static final double GUN_MAIN_X6 = 0;
 	public static final double GUN_MAIN_Y6 = -7;
 
+	/**
+	 * Renders a tank body at the given location and angles.
+	 * @param location
+	 * @param bodyAngle
+	 * @param gunAngle
+	 */
 	private static void renderBody(Vector2d location, double bodyAngle, double gunAngle) {
 		glBegin(GL_LINES);
 		{
@@ -119,6 +131,12 @@ public class TankModel {
 		glEnd();
 	}
 
+	/**
+	 * Renders a tank gun at the given location.
+	 * @param location
+	 * @param bodyAngle
+	 * @param gunAngle
+	 */
 	private static void renderGun(Vector2d location, double bodyAngle, double gunAngle) {
 		renderGunChassis(location, bodyAngle, gunAngle);
 		renderGunBarrel(location, bodyAngle, gunAngle);

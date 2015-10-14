@@ -8,6 +8,12 @@ import core.Input;
 import core.ui.Menu;
 import core.ui.UserInterface;
 
+/**
+ * Menu to show when the player first starts the game.
+ * @author Dominik Winecki
+
+ *
+ */
 public class MainMenu implements Menu {
 	static final int OPTION_COUNT = 2;
 	int selectedOption;

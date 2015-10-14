@@ -19,6 +19,12 @@ import core.ui.menus.MainMenu;
 import core.ui.menus.PauseMenu;
 import core.util.Logger;
 
+/**
+ * Class for managing the User Interface for the game.
+ * @author Dominik Winecki
+
+ *
+ */
 public class UserInterface {
 	private static final boolean ANTI_ALIAS_FONT = true;
 	public static final int PRIMARY_FONT_SIZE = 32;
@@ -31,6 +37,9 @@ public class UserInterface {
 	ArrayList<TrueTypeFont> fonts;
 	ArrayList<Integer> fontSizes;
 
+	/**
+	 * Created a user interface with default settings.
+	 */
 	public UserInterface() {
 		loadFonts();
 		mainMenu = new MainMenu();
@@ -38,6 +47,10 @@ public class UserInterface {
 		deathMenu = new DeathMenu();
 	}
 
+	/**
+	 * @param size
+	 * @return a TrueTypeFont of the specified size.
+	 */
 	private TrueTypeFont addFont(float size) {
 		Logger.log("Adding font in size " + size);
 		fonts.add(new TrueTypeFont(font.deriveFont(size), ANTI_ALIAS_FONT));
@@ -45,24 +58,58 @@ public class UserInterface {
 		return fonts.get(fonts.size() - 1);
 	}
 
+	/**
+	 * Draws text to the screen with the given position and size.
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @param text
+	 */
 	public void drawText(float x, float y, int size, String text) {
 		drawText(x, y, size, text, Color.white);
 	}
 
+	/**
+	 * Draws text to the screen with the given position and size in the given color.
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @param text
+	 * @param color
+	 */
 	public void drawText(float x, float y, int size, String text, Color color) {
 		getFont(size).drawString(x, y, text, color);
 	}
 
+	/**
+	 * Draws text to the screen and centers it on the x.
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @param text
+	 */
 	public void drawTextCentered(float x, float y, int size, String text) {
 		drawTextCentered(x, y, size, text, Color.white);
 	}
 
+	/**
+	 * Draws text to the screen in the given color and centers it on the x.
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @param text
+	 * @param color
+	 */
 	public void drawTextCentered(float x, float y, int size, String text, Color color) {
 		float _x = x - getFont(size).getWidth(text) / 2;
 		float _y = y - getFont(size).getHeight(text) / 2;
 		drawText(_x, _y, size, text, color);
 	}
 
+	/**
+	 * @param size
+	 * @return a TrueTypeFont in the size given.
+	 */
 	private TrueTypeFont getFont(int size) {
 		for (int i = 0; i < fontSizes.size(); i++) {
 			if (fontSizes.get(i) == size)
@@ -71,6 +118,9 @@ public class UserInterface {
 		return addFont(size);
 	}
 
+	/**
+	 * Loads the fonts from the font files. 
+	 */
 	private void loadFonts() {
 		fonts = new ArrayList<>();
 		fontSizes = new ArrayList<>();
@@ -90,6 +140,9 @@ public class UserInterface {
 		}
 	}
 
+	/**
+	 * Renders the user interface and all components.
+	 */
 	public void render() {
 		GL11.glEnable(GL11.GL_BLEND);
 		switch (Game.getGameState()) {
@@ -110,6 +163,10 @@ public class UserInterface {
 		GL11.glDisable(GL11.GL_BLEND);
 	}
 
+	/**
+	 * Updates the menu and all components.
+	 * @param time
+	 */
 	public void update(double time) {
 		switch (Game.getGameState()) {
 		case DEAD:
