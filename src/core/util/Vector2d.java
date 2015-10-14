@@ -35,25 +35,6 @@ public class Vector2d {
 				obj1.y * object1Bias + obj2.y * (1 - object1Bias) / 2);
 	}
 
-	public static Vector2d crappyRotate(Vector2d obj, Vector2d base, double angle) {
-		// if (angle == 0) return obj;
-		// Convert to radians
-		angle = Math.toRadians(angle);
-		// Define values
-		double sin = Math.sin(angle);
-		double cos = Math.cos(angle);
-		// Remove offset
-		obj.x -= base.x;
-		obj.y -= base.y;
-		// Calculate new pos
-		double x = obj.x * cos + obj.y * sin;
-		double y = obj.x * sin + obj.y * cos;
-		// Re-add base offset
-		x += base.x;
-		y += base.y;
-		return new Vector2d(x, y);
-	}
-
 	/**
 	 * @param obj1
 	 * @param obj2
@@ -122,26 +103,6 @@ public class Vector2d {
 	public void add(Vector2d other) {
 		x += other.x;
 		y += other.y;
-	}
-
-	public void crappyRotate(double angle) {
-		// double _x = Vector2d.rotate(this, new Vector2d(0, 0), angle).x;
-		// double _y = Vector2d.rotate(this, new Vector2d(0, 0), angle).y;
-		// x = _x;
-		// y = _y;
-		crappyRotate(new Vector2d(0, 0), angle);
-	}
-
-	/**
-	 * @param base
-	 * @param angle
-	 *            Rotates Vector2d around base by angle degrees
-	 */
-	public void crappyRotate(Vector2d base, double angle) {
-		double _x = Vector2d.crappyRotate(this, base, angle).x;
-		double _y = Vector2d.crappyRotate(this, base, angle).y;
-		x = _x;
-		y = _y;
 	}
 
 	public double getAngleFromOrigin() {
