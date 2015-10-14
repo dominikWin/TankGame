@@ -1,6 +1,6 @@
 # TankGame
 
-TankGame is a simple game writen in Java for DCHS Programming Club
+TankGame is a simple game written in Java for DCHS Programming Club
 
 TankGame was built with [LWJGL2](http://legacy.lwjgl.org), [Slick-Util](http://slick.ninjacave.com), [AStar](https://code.google.com/p/a-star-java), and [Open Sans](http://www.fontsquirrel.com/fonts/open-sans).
 
@@ -8,7 +8,7 @@ TankGame was built with [LWJGL2](http://legacy.lwjgl.org), [Slick-Util](http://s
 
 For a executable for this game look under [releases](https://github.com/dominikWin/TankGame/releases)
 
-To run on a non-linux based operating system change LWJGLs native librarys to the folder with the operating systems name.
+To run on a non-linux based operating system change LWJGLs native libraries to the folder with the operating systems name.
 
 TankGame was built to run on eclipse without any modification; No other IDEs were tested.
 
@@ -31,19 +31,18 @@ The mouse location on screen controls direction and the space key fires.
 
 ## Performance
 
-TankGame requires a graphics processor that suports OpenGl.
-Currently the game only uses a single core, but a multithreaded update is in development.
+TankGame requires a graphics processor that supports OpenGl.
 
-## Licence
+## License
 
-TankGame is released under GPL3 Licence.
+TankGame is released under GPL3 License.
 Anyone is free to use this code for any reason.
 
 ## Map Creation
 
 Maps for TankGame are stored in CSV files in the res/maps directory.
 
-It is highly recomended to outline the map with walls. Only rectangle map types are permited.
+It is highly recommended to outline the map with walls. Only rectangle map types are permitted.
 
 ```
 0 represents an empty square
@@ -66,4 +65,4 @@ An example:
 1,1,1,1,1,1
 ```
 
-To load a map change the constructor peramiters of the map in the World class constructor (On the latest release, v1.0-alpha, this line 16 of World.java).
+To load a map change the constructor parameters of the map in the World class constructor (On the latest release, v1.0-alpha, this line 16 of World.java).
