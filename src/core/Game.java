@@ -21,21 +21,35 @@ import org.lwjgl.opengl.GL11;
 import core.ui.UserInterface;
 import core.util.Logger;
 
+/**
+ * This is the main class for the TankGame project.
+ * TankGame is a small game written in Java using LWJGL, Slick-Util and AStar.
+ * @author Dominik Winecki
+ *
+ */
 public class Game {
 
+	/**
+	 * Enum for storing all possible states for the game.
+	 * @author Dominik Winecki
+	 *
+	 */
 	public enum GameState {
 		LOADING, MAIN_MENU, PLAYING, PAUSED, DEAD;
 	}
 
 	public static int WIDTH;
-
 	public static int HEIGHT;
+	
 	private static World world;
 
 	private static UserInterface userInterface;
 
 	private static GameState gameState;
 
+	/**
+	 * Creates a window for the game to use.
+	 */
 	private static void createDisplay() {
 		try {
 			Display.setDisplayModeAndFullscreen(new DisplayMode(1600, 900));
@@ -58,10 +72,17 @@ public class Game {
 
 	}
 
+	/**
+	 * Method that ends the game and returns 0.
+	 */
 	public static void exit() {
 		exit(0);
 	}
 
+	/**
+	 * Exits the game with and closes the Logger.
+	 * @param status
+	 */
 	static void exit(int status) {
 		Logger.log("Exiting");
 		Logger.log("Destroying display");
@@ -69,7 +90,9 @@ public class Game {
 		Logger.close();
 		System.exit(status);
 	}
-
+	/**
+	 * Starts the game loop, this will continue until the Display requests an exit.
+	 */
 	private static void gameLoop() {
 		setGameState(GameState.MAIN_MENU);
 		long lastRunTime = 0;
@@ -105,6 +128,9 @@ public class Game {
 		return world;
 	}
 
+	/**
+	 * Initializes OpenGL.
+	 */
 	private static void glInit() {
 		glEnable(GL_TEXTURE_2D);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -114,6 +140,9 @@ public class Game {
 		glMatrixMode(GL_MODELVIEW);
 	}
 
+	/**
+	 * Sets variables to properly start the game.
+	 */
 	private static void init() {
 		Logger.log("Starting TankGame");
 		Logger.log("Intitating gameState");
@@ -125,6 +154,9 @@ public class Game {
 		lightInit();
 	}
 
+	/**
+	 * Lightweight init that resets the world.
+	 */
 	public static void lightInit() {
 		Logger.log("Creating world");
 		world = new World();
@@ -132,6 +164,10 @@ public class Game {
 		world.init();
 	}
 
+	/**
+	 * Starts the program
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		// Windows runs Java?
 		createDisplay();
@@ -139,6 +175,9 @@ public class Game {
 		gameLoop();
 	}
 
+	/**
+	 * Renders all renderable objects in the project.
+	 */
 	private static void render() {
 		renderWithoutShift();
 
@@ -152,10 +191,16 @@ public class Game {
 
 	}
 
+	/**
+	 * Renders all parts of the game that should not follow the player.
+	 */
 	private static void renderWithoutShift() {
 		userInterface.render();
 	}
 
+	/**
+	 * Renders the parts of the game that follow the player.
+	 */
 	private static void renderWithShift() {
 		if (getGameState() == GameState.PLAYING) {
 			world.render();
@@ -175,12 +220,19 @@ public class Game {
 		Game.world = world;
 	}
 
+	/**
+	 * Starts the game.
+	 */
 	public static void start() {
 		Logger.log("Starting game");
 		Game.setGameState(GameState.PLAYING);
 		lightInit();
 	}
 
+	/**
+	 * Updates the game
+	 * @param time The time it took for the last method to execute, should add up to 1 every second.
+	 */
 	private static void update(double time) {
 		if (Input.getKeyDown(Keyboard.KEY_ESCAPE)) {
 			switch (getGameState()) {

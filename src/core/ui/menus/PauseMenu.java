@@ -4,6 +4,12 @@ import core.Game;
 import core.ui.Menu;
 import core.ui.UserInterface;
 
+/**
+ * Menu to show when the player pauses the game.
+ * @author Dominik Winecki
+
+ *
+ */
 public class PauseMenu implements Menu {
 
 	@Override

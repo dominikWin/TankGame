@@ -8,7 +8,8 @@ import org.lwjgl.input.Mouse;
 import core.util.Vector2d;
 
 /**
- * @author Dominik Handles input
+ * A class that handles input.
+ * @author Dominik
  */
 public class Input {
 	private static ArrayList<Integer> currentKeys = new ArrayList<Integer>();
