@@ -202,6 +202,9 @@ public class Enemy {
 		}
 	}
 
+	/**
+	 * Updates the final location of the path, starts path back.
+	 */
 	private void updateFinalLoc() {
 		if (going) {
 			shortestPath = Pathfinder.getPathToLocation(getMapLocationX(), getMapLocationY(), startX, startY);
@@ -213,6 +216,10 @@ public class Enemy {
 		updateNextLoc();
 	}
 
+	/**
+	 * Updates the AI movement.
+	 * @param time
+	 */
 	private void updateMovement(double time) {
 		if (atDestinationNode()) {
 			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
@@ -228,6 +235,9 @@ public class Enemy {
 		}
 	}
 
+	/**
+	 * Moves to the next tile.
+	 */
 	private void updateNextLoc() {
 		Node tmp = shortestPath.waypoints.remove(0);
 		currentDestinationX = tmp.getY();
@@ -235,6 +245,10 @@ public class Enemy {
 		enemyState = EnemyState.MOVING;
 	}
 
+	/**
+	 * Updates search for the player.
+	 * @param time
+	 */
 	private void updateSearch(double time) {
 		if (atDestinationNode()) {
 			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);

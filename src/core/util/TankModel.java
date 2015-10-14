@@ -142,6 +142,12 @@ public class TankModel {
 		renderGunBarrel(location, bodyAngle, gunAngle);
 	}
 
+	/**
+	 * Renders a gun at location with angle.
+	 * @param location
+	 * @param bodyAngle
+	 * @param gunAngle
+	 */
 	private static void renderGunBarrel(Vector2d location, double bodyAngle, double gunAngle) {
 		glBegin(GL_LINES);
 		{
@@ -154,6 +160,12 @@ public class TankModel {
 		glEnd();
 	}
 
+	/**
+	 * Renders gun tank gun chassis.
+	 * @param location
+	 * @param bodyAngle
+	 * @param gunAngle
+	 */
 	private static void renderGunChassis(Vector2d location, double bodyAngle, double gunAngle) {
 		glBegin(GL_LINE_LOOP);
 		{
@@ -186,12 +198,27 @@ public class TankModel {
 		glEnd();
 	}
 
+	/**
+	 * Renders full tank at location with angles.
+	 * @param location
+	 * @param bodyAngle
+	 * @param gunAngle
+	 */
 	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle) {
 		glColor3d(1, 1, 1);
 		renderBody(location, bodyAngle, gunAngle);
 		renderGun(location, bodyAngle, gunAngle);
 	}
 
+	/**
+	 * Renders tank at location with color.
+	 * @param location
+	 * @param bodyAngle
+	 * @param gunAngle
+	 * @param r
+	 * @param g
+	 * @param b
+	 */
 	public static void renderTank(Vector2d location, double bodyAngle, double gunAngle, double r, double g, double b) {
 		glColor3d(r, g, b);
 		renderBody(location, bodyAngle, gunAngle);
