@@ -16,10 +16,20 @@ import core.util.Collision;
 import core.util.Logger;
 import core.util.Vector2d;
 
+/**
+ * A class for opening and storing a map.
+ * @author Dominik Winecki
+ *
+ */
 public class Map {
 
 	public static int BLOCK_SIZE = 100;
 
+	/**
+	 * Turns a String[][] into an int[][].
+	 * @param array Array to parse.
+	 * @return The int[][] from the array.
+	 */
 	public static int[][] extractMap(String[][] array) {
 		int[][] out = new int[array.length][array[0].length];
 		for (int line = 0; line < out.length; line++) {
@@ -36,6 +46,11 @@ public class Map {
 		return out;
 	}
 
+	/**
+	 * 
+	 * @param array Array to invert.
+	 * @return The inverse of the array.
+	 */
 	public static int[][] inverse(int[][] array) {
 		int[][] out = new int[array[0].length][array.length];
 		for (int line = 0; line < array.length; line++) {
@@ -50,10 +65,19 @@ public class Map {
 
 	int[][] map;
 
+	/**
+	 * Constructor that .
+	 * @param fileName Path to the map CSV file.
+	 */
 	public Map(String fileName) {
 		map = extractMap(CSVParser.parseCSVFile("res/maps/map.csv"));
 	}
 
+	/**
+	 * Checks if the map contains the number.
+	 * @param number
+	 * @return
+	 */
 	private boolean containsNumber(int number) {
 		for (int[] i : map) {
 			for (int j : i)
@@ -63,6 +87,9 @@ public class Map {
 		return false;
 	}
 
+	/**
+	 * @return a list of all the enemy locations.
+	 */
 	public ArrayList<Enemy> getEnemes() {
 		ArrayList<Enemy> enemies = new ArrayList<>();
 		for (int i = 0; i < getEnemyCount(); i++) {
@@ -74,6 +101,9 @@ public class Map {
 		return enemies;
 	}
 
+	/**
+	 * @return the amount of enemies found in the map.
+	 */
 	public int getEnemyCount() {
 		int enemys = 0;
 		int number = 256;
@@ -92,10 +122,17 @@ public class Map {
 		}
 	}
 
+	/**
+	 * @return the height of the map.
+	 */
 	public int getLines() {
 		return map.length;
 	}
 
+	/**
+	 * @param number to find.
+	 * @return X location of the number.
+	 */
 	public int getNumberLocX(int number) {
 		for (int[] element : map) {
 			for (int x = 0; x < map[0].length; x++) {
@@ -108,6 +145,10 @@ public class Map {
 		return -1;
 	}
 
+	/**
+	 * @param number to find.
+	 * @return Y location of the number.
+	 */
 	public int getNumberLocY(int number) {
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[0].length; x++) {
@@ -120,6 +161,9 @@ public class Map {
 		return -1;
 	}
 
+	/**
+	 * @return An map composed of only 1 and 0 values to use in pathfinding.
+	 */
 	public int[][] getObsticleMap() {
 		if (obsticalMap == null) {
 			int[][] tmp = new int[map.length][map[0].length];
@@ -133,6 +177,9 @@ public class Map {
 		return obsticalMap;
 	}
 
+	/**
+	 * @return The location where the player is supposed to spawn.
+	 */
 	public Vector2d getPlayerSpawn() {
 		for (int y = 0; y < map.length; y++) {
 			for (int x = 0; x < map[0].length; x++) {
@@ -144,14 +191,23 @@ public class Map {
 		return new Vector2d(0, 0);
 	}
 
+	/**
+	 * @return The size of the map.
+	 */
 	public Dimension getSize() {
 		return new Dimension(map[0].length, map.length);
 	}
 
+	/**
+	 * Puts the enemies into the world.
+	 */
 	void init() {
 		Game.getWorld().initiateEnemys();
 	}
 
+	/**
+	 * Renders the map.
+	 */
 	public void render() {
 		glBegin(GL_QUADS);
 		{
@@ -178,6 +234,10 @@ public class Map {
 		return Arrays.deepToString(map);
 	}
 
+	/**
+	 * Updates the map, currently does nothing.
+	 * @param time
+	 */
 	public void update(double time) {
 
 	}

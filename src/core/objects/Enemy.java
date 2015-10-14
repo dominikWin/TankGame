@@ -16,11 +16,9 @@ import core.util.astar.Path;
  *
  */
 public class Enemy {
-	
 	/**
 	 * Enum for storing all of the possible states of the enemy AI.
 	 * @author Dominik Winecki
-	
 	 *
 	 */
 	enum EnemyState {
