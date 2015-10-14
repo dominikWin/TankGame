@@ -9,7 +9,17 @@ import core.util.Vector2d;
 import core.util.astar.Node;
 import core.util.astar.Path;
 
+/**
+ * Class that represents an enemy.
+ * @author Dominik Winecki
+ *
+ */
 public class Enemy {
+	/**
+	 * 
+	 * @author Dominik Winecki
+	 *
+	 */
 	enum EnemyState {
 		MOVING, SHOOTING, SEARCHING;
 	}

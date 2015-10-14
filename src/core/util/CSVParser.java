@@ -45,6 +45,7 @@ public class CSVParser {
 		while (s.hasNextLine()) {
 			out += s.nextLine() + "\n";
 		}
+		s.close();
 		return out;
 	}
 }

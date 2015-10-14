@@ -8,6 +8,11 @@ import static org.lwjgl.opengl.GL11.glPointSize;
 import core.util.Collision;
 import core.util.Vector2d;
 
+/**
+ * Class for creating and rendering bullets.
+ * @author Dominik Winecki
+ *
+ */
 public class Bullet {
 	public static final double RADIUS = 3;
 	public Vector2d location;
@@ -26,6 +31,11 @@ public class Bullet {
 		this.bounces = bounces;
 	}
 
+	/**
+	 * Keeps moving the bullet until it no longer hits the enemy.
+	 * @param e the Enemy.
+	 * @return this.
+	 */
 	public Bullet removeFromEnemy(Enemy e) {
 		while (Collision.isEnemyIntersectingBullet(e, this)) {
 			location.add(Vector2d.multiply(velocity, .01));
@@ -33,6 +43,10 @@ public class Bullet {
 		return this;
 	}
 
+	/**
+	 * Keeps moving the bullet until it no longer hits the player.
+	 * @return this.
+	 */
 	public Bullet removeFromPlayer() {
 		while (Collision.isPlayerIntersectingBullet(this)) {
 			location.add(Vector2d.multiply(velocity, .01));
@@ -40,6 +54,9 @@ public class Bullet {
 		return this;
 	}
 
+	/**
+	 * Renders the bullet.
+	 */
 	public void render() {
 		glPointSize(3);
 		glBegin(GL_POINTS);
@@ -54,6 +71,10 @@ public class Bullet {
 		return "Bullet[" + location + "]";
 	}
 
+	/**
+	 * Updates the bullet.
+	 * @param time
+	 */
 	public void update(double time) {
 		Vector2d _location = new Vector2d(location.getX(), location.getY());
 		location.add(Vector2d.multiply(velocity, time));
