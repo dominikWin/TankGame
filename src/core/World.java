@@ -6,12 +6,20 @@ import core.objects.Bullet;
 import core.objects.Enemy;
 import core.objects.Player;
 
+/**
+ * A class for all elements of the game that are in the world.
+ * @author Dominik Winecki
+ *
+ */
 public class World {
 	private Player player;
 	private Map map;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Enemy> enemies;
 
+	/**
+	 * Creates a new world with the default map.
+	 */
 	public World() {
 		setMap(new Map("res/maps/map2.csv"));
 		setPlayer(new Player(getMap().getPlayerSpawn(), 0, 0));
@@ -35,16 +43,25 @@ public class World {
 		return player;
 	}
 
+	/**
+	 * Initiated the world and all subobjects.
+	 */
 	public void init() {
 		map.init();
 	}
 
+	/**
+	 * Adds the enemies to the world from the map.
+	 */
 	public void initiateEnemys() {
 		for (Enemy e : map.getEnemes()) {
 			enemies.add(e);
 		}
 	}
 
+	/**
+	 * Renders all world objects.
+	 */
 	public void render() {
 		enemies.forEach(e -> e.render());
 		getPlayer().render();
@@ -68,6 +85,10 @@ public class World {
 		this.player = player;
 	}
 
+	/**
+	 * Updates the world and all objects.
+	 * @param time
+	 */
 	public void update(double time) {
 		getPlayer().update(time);
 		enemies.forEach(e -> e.update(time));

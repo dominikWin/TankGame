@@ -9,7 +9,18 @@ import core.util.Vector2d;
 import core.util.astar.Node;
 import core.util.astar.Path;
 
+/**
+ * A class for handling enemies.
+ * @author Dominik Winecki
+
+ *
+ */
 public class Enemy {
+	/**
+	 * Enum for storing all of the possible states of the enemy AI.
+	 * @author Dominik Winecki
+	 *
+	 */
 	enum EnemyState {
 		MOVING, SHOOTING, SEARCHING;
 	}
@@ -41,6 +52,13 @@ public class Enemy {
 
 	public boolean destroyed = false;
 
+	/**
+	 * Creates an enemy at a location specified by a x and y, and will patrol to patorlX and patrolY.
+	 * @param x
+	 * @param y
+	 * @param patrolX
+	 * @param patrolY
+	 */
 	public Enemy(int x, int y, int patrolX, int patrolY) {
 		going = true;
 		bodyAngle = gunAngle = 0;
@@ -54,16 +72,25 @@ public class Enemy {
 		updateNextLoc();
 	}
 
+	/**
+	 * @return true if the enemy is at the destination.
+	 */
 	private boolean atDestinationNode() {
 		return Vector2d.distance(getLocFromMapLoc(currentDestinationX, currentDestinationY), location) < Map.BLOCK_SIZE
 				* MAP_SIZE_DESTINATION_MULTIPLYER;
 	}
 
+	/**
+	 * Creates a new path to follow the player.
+	 */
 	private void createPathToPlayer() {
 		shortestPath = Pathfinder.getPathToLocation(getMapLocationX(), getMapLocationY(),
 				(int) lastKnownPlayerLoc.getX() / Map.BLOCK_SIZE, (int) lastKnownPlayerLoc.getY() / Map.BLOCK_SIZE);
 	}
 
+	/**
+	 * Runs AI code for when the enemy sees the player.
+	 */
 	private void enterSightMode() {
 		enemyState = EnemyState.SHOOTING;
 		gunAngle = Game.getWorld().getPlayer().location.getAngleFromPoint(location);
@@ -73,12 +100,21 @@ public class Enemy {
 		}
 	}
 
+	/**
+	 * Fires a bullet at the player.
+	 */
 	private void fire() {
 		Game.getWorld().getBullets()
 				.add(new Bullet(new Vector2d(location.getX(), location.getY()), gunAngle, Player.BULLET_SPEED)
 						.removeFromEnemy(this));
 	}
 
+
+	/**
+	 * @param x
+	 * @param y
+	 * @return a vector for the location on the map.
+	 */
 	private Vector2d getLocFromMapLoc(int x, int y) {
 		return new Vector2d(x * Map.BLOCK_SIZE + Map.BLOCK_SIZE / 2, y * Map.BLOCK_SIZE + Map.BLOCK_SIZE / 2);
 	}
@@ -107,10 +143,16 @@ public class Enemy {
 		return startY;
 	}
 
+	/**
+	 * @return true if the tank has completed its patrol route.
+	 */
 	private boolean isFinalDestination() {
 		return shortestPath.waypoints.isEmpty();
 	}
 
+	/**
+	 * Renders the enemy.
+	 */
 	public void render() {
 		TankModel.renderTank(location, bodyAngle, gunAngle, 1, 0, 0);
 	}
@@ -131,6 +173,10 @@ public class Enemy {
 		startY = y;
 	}
 
+	/**
+	 * Updates the tank AI.
+	 * @param time
+	 */
 	public void update(double time) {
 		switch (enemyState) {
 		case MOVING:
@@ -156,6 +202,9 @@ public class Enemy {
 		}
 	}
 
+	/**
+	 * Updates the final location of the path, starts path back.
+	 */
 	private void updateFinalLoc() {
 		if (going) {
 			shortestPath = Pathfinder.getPathToLocation(getMapLocationX(), getMapLocationY(), startX, startY);
@@ -167,6 +216,10 @@ public class Enemy {
 		updateNextLoc();
 	}
 
+	/**
+	 * Updates the AI movement.
+	 * @param time
+	 */
 	private void updateMovement(double time) {
 		if (atDestinationNode()) {
 			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
@@ -182,6 +235,9 @@ public class Enemy {
 		}
 	}
 
+	/**
+	 * Moves to the next tile.
+	 */
 	private void updateNextLoc() {
 		Node tmp = shortestPath.waypoints.remove(0);
 		currentDestinationX = tmp.getY();
@@ -189,6 +245,10 @@ public class Enemy {
 		enemyState = EnemyState.MOVING;
 	}
 
+	/**
+	 * Updates search for the player.
+	 * @param time
+	 */
 	private void updateSearch(double time) {
 		if (atDestinationNode()) {
 			location = getLocFromMapLoc(currentDestinationX, currentDestinationY);
