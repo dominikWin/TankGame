@@ -18,6 +18,7 @@ import core.util.Vector2d;
 
 /**
  * A class for opening and storing a map.
+ * 
  * @author Dominik Winecki
  *
  */
@@ -27,7 +28,9 @@ public class Map {
 
 	/**
 	 * Turns a String[][] into an int[][].
-	 * @param array Array to parse.
+	 * 
+	 * @param array
+	 *            Array to parse.
 	 * @return The int[][] from the array.
 	 */
 	public static int[][] extractMap(String[][] array) {
@@ -48,7 +51,8 @@ public class Map {
 
 	/**
 	 * 
-	 * @param array Array to invert.
+	 * @param array
+	 *            Array to invert.
 	 * @return The inverse of the array.
 	 */
 	public static int[][] inverse(int[][] array) {
@@ -61,13 +65,15 @@ public class Map {
 		return out;
 	}
 
-	int[][] obsticalMap = null;
-
 	int[][] map;
+
+	int[][] obsticalMap = null;
 
 	/**
 	 * Constructor that .
-	 * @param fileName Path to the map CSV file.
+	 * 
+	 * @param fileName
+	 *            Path to the map CSV file.
 	 */
 	public Map(String fileName) {
 		map = extractMap(CSVParser.parseCSVFile("res/maps/map.csv"));
@@ -75,6 +81,7 @@ public class Map {
 
 	/**
 	 * Checks if the map contains the number.
+	 * 
 	 * @param number
 	 * @return
 	 */
@@ -130,7 +137,8 @@ public class Map {
 	}
 
 	/**
-	 * @param number to find.
+	 * @param number
+	 *            to find.
 	 * @return X location of the number.
 	 */
 	public int getNumberLocX(int number) {
@@ -146,7 +154,8 @@ public class Map {
 	}
 
 	/**
-	 * @param number to find.
+	 * @param number
+	 *            to find.
 	 * @return Y location of the number.
 	 */
 	public int getNumberLocY(int number) {
@@ -236,6 +245,7 @@ public class Map {
 
 	/**
 	 * Updates the map, currently does nothing.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {

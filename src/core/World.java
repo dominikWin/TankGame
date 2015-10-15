@@ -8,14 +8,15 @@ import core.objects.Player;
 
 /**
  * A class for all elements of the game that are in the world.
+ * 
  * @author Dominik Winecki
  *
  */
 public class World {
-	private Player player;
-	private Map map;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Enemy> enemies;
+	private Map map;
+	private Player player;
 
 	/**
 	 * Creates a new world with the default map.
@@ -87,6 +88,7 @@ public class World {
 
 	/**
 	 * Updates the world and all objects.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {
