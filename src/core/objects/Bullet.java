@@ -10,6 +10,7 @@ import core.util.Vector2d;
 
 /**
  * Class for creating and rendering bullets.
+ * 
  * @author Dominik Winecki
  *
  */
@@ -33,7 +34,9 @@ public class Bullet {
 
 	/**
 	 * Keeps moving the bullet until it no longer hits the enemy.
-	 * @param e the Enemy.
+	 * 
+	 * @param e
+	 *            the Enemy.
 	 * @return this.
 	 */
 	public Bullet removeFromEnemy(Enemy e) {
@@ -45,6 +48,7 @@ public class Bullet {
 
 	/**
 	 * Keeps moving the bullet until it no longer hits the player.
+	 * 
 	 * @return this.
 	 */
 	public Bullet removeFromPlayer() {
@@ -73,6 +77,7 @@ public class Bullet {
 
 	/**
 	 * Updates the bullet.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {

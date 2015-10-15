@@ -14,9 +14,10 @@ import core.util.astar.Path;
 
 /**
  * Class for representing a player object.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class Player {
 
@@ -35,6 +36,7 @@ public class Player {
 
 	/**
 	 * Creates a player at the location.
+	 * 
 	 * @param location
 	 */
 	Player(Vector2d location) {
@@ -43,6 +45,7 @@ public class Player {
 
 	/**
 	 * Created a player at the location with the body and gun angles.
+	 * 
 	 * @param location
 	 * @param gunAngle
 	 * @param bodyAngle
@@ -78,6 +81,7 @@ public class Player {
 
 	/**
 	 * Updates the player based on the controls.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {

@@ -8,6 +8,7 @@ import core.objects.Player;
 
 /**
  * A class for all elements of the game that are in the world.
+ * 
  * @author Dominik Winecki
  *
  */
@@ -87,6 +88,7 @@ public class World {
 
 	/**
 	 * Updates the world and all objects.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {

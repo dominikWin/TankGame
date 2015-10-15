@@ -8,9 +8,10 @@ import core.util.astar.Path;
 
 /**
  * A class to interact with the AStar source code.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class Pathfinder {
 	/**

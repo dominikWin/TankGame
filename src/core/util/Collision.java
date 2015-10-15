@@ -14,9 +14,10 @@ import core.objects.Player;
 
 /**
  * Class for doing collision testing.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class Collision {
 	/**
@@ -101,7 +102,8 @@ public class Collision {
 	 * @param location
 	 * @param bodyAngle
 	 * @param gunAngle
-	 * @return a polygon for the outside bounds of a tank at location with the given body and gun angles.
+	 * @return a polygon for the outside bounds of a tank at location with the
+	 *         given body and gun angles.
 	 */
 	public static Polygon getTankBoundingBox(Vector2d location, double bodyAngle, double gunAngle) {
 		Vector2d loc1 = new Vector2d(TankModel.BODY_TRACK1_X1, TankModel.BODY_TRACK1_Y1);
@@ -131,7 +133,7 @@ public class Collision {
 	/**
 	 * @param bullet
 	 * @param map
-	 * @return true if the bullet is intersecting  square on the given map.
+	 * @return true if the bullet is intersecting square on the given map.
 	 */
 	public static boolean isBulletIntersectingMap(Bullet bullet, int[][] map) {
 		for (int y = 0; y < map.length; y++) {
@@ -196,7 +198,8 @@ public class Collision {
 	 * @param map
 	 * @param x
 	 * @param y
-	 * @return true if the player is intersecting the block x and y in the given map.
+	 * @return true if the player is intersecting the block x and y in the given
+	 *         map.
 	 */
 	public static boolean isPlayerIntersectingBlock(int[][] map, int x, int y) {
 		if (map[y][x] == 1) {
@@ -212,7 +215,8 @@ public class Collision {
 	 * @param map
 	 * @param x
 	 * @param y
-	 * @return true if the player is intersecting the block x and y in the given map.
+	 * @return true if the player is intersecting the block x and y in the given
+	 *         map.
 	 */
 	public static boolean isPlayerIntersectingBlock(Player player, int[][] map, int x, int y) {
 		if (map[y][x] == 1) {
@@ -255,7 +259,8 @@ public class Collision {
 	/**
 	 * @param player
 	 * @param bullets
-	 * @return true if the player is intersecting a bullet from the list bullets.
+	 * @return true if the player is intersecting a bullet from the list
+	 *         bullets.
 	 */
 	public static boolean isPlayerIntersectingBullet(Player player, ArrayList<Bullet> bullets) {
 		for (Bullet bullet : bullets)

@@ -11,9 +11,10 @@ import core.ui.UserInterface;
 
 /**
  * Menu to show when the player dies.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class DeathMenu implements Menu {
 

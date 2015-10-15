@@ -8,9 +8,10 @@ import java.util.Date;
 
 /**
  * A class for logging data.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class Logger {
 	public static final int ERROR = 1, FINE = 0, INFO = 2;
@@ -71,6 +72,7 @@ public class Logger {
 
 	/**
 	 * Logs the given message.
+	 * 
 	 * @param message
 	 */
 	public static void log(String message) {
@@ -86,6 +88,7 @@ public class Logger {
 
 	/**
 	 * Logs the given message with a specified log type.
+	 * 
 	 * @param message
 	 * @param type
 	 */
@@ -104,6 +107,7 @@ public class Logger {
 
 	/**
 	 * A method for writing the log message out.
+	 * 
 	 * @param out
 	 */
 	private static void output(String out) {
@@ -127,6 +131,7 @@ public class Logger {
 
 	/**
 	 * Writes a message with a given type to the log.
+	 * 
 	 * @param message
 	 * @param type
 	 */
@@ -141,6 +146,7 @@ public class Logger {
 
 	/**
 	 * Writes a message with multiple lines and a given type to the log.
+	 * 
 	 * @param message
 	 * @param type
 	 */
@@ -156,6 +162,7 @@ public class Logger {
 
 	/**
 	 * Writes message out to the log file.
+	 * 
 	 * @param out
 	 */
 	private static void writeToFile(String out) {

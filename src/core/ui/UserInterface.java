@@ -21,9 +21,10 @@ import core.util.Logger;
 
 /**
  * Class for managing the User Interface for the game.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class UserInterface {
 	private static final boolean ANTI_ALIAS_FONT = true;
@@ -60,6 +61,7 @@ public class UserInterface {
 
 	/**
 	 * Draws text to the screen with the given position and size.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param size
@@ -70,7 +72,9 @@ public class UserInterface {
 	}
 
 	/**
-	 * Draws text to the screen with the given position and size in the given color.
+	 * Draws text to the screen with the given position and size in the given
+	 * color.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param size
@@ -83,6 +87,7 @@ public class UserInterface {
 
 	/**
 	 * Draws text to the screen and centers it on the x.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param size
@@ -94,6 +99,7 @@ public class UserInterface {
 
 	/**
 	 * Draws text to the screen in the given color and centers it on the x.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param size
@@ -119,7 +125,7 @@ public class UserInterface {
 	}
 
 	/**
-	 * Loads the fonts from the font files. 
+	 * Loads the fonts from the font files.
 	 */
 	private void loadFonts() {
 		fonts = new ArrayList<>();
@@ -165,6 +171,7 @@ public class UserInterface {
 
 	/**
 	 * Updates the menu and all components.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {

@@ -11,13 +11,15 @@ import core.util.astar.Path;
 
 /**
  * A class for handling enemies.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class Enemy {
 	/**
 	 * Enum for storing all of the possible states of the enemy AI.
+	 * 
 	 * @author Dominik Winecki
 	 *
 	 */
@@ -53,7 +55,9 @@ public class Enemy {
 	private int startY;
 
 	/**
-	 * Creates an enemy at a location specified by a x and y, and will patrol to patorlX and patrolY.
+	 * Creates an enemy at a location specified by a x and y, and will patrol to
+	 * patorlX and patrolY.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param patrolX
@@ -108,7 +112,6 @@ public class Enemy {
 				.add(new Bullet(new Vector2d(location.getX(), location.getY()), gunAngle, Player.BULLET_SPEED)
 						.removeFromEnemy(this));
 	}
-
 
 	/**
 	 * @param x
@@ -175,6 +178,7 @@ public class Enemy {
 
 	/**
 	 * Updates the tank AI.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {
@@ -218,6 +222,7 @@ public class Enemy {
 
 	/**
 	 * Updates the AI movement.
+	 * 
 	 * @param time
 	 */
 	private void updateMovement(double time) {
@@ -247,6 +252,7 @@ public class Enemy {
 
 	/**
 	 * Updates search for the player.
+	 * 
 	 * @param time
 	 */
 	private void updateSearch(double time) {

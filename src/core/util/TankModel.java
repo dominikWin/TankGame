@@ -8,9 +8,10 @@ import static org.lwjgl.opengl.GL11.glEnd;
 
 /**
  * A class for rendering tanks.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class TankModel {
 
@@ -19,7 +20,7 @@ public class TankModel {
 	public static final double BODY_MAIN_X3 = -30;
 
 	public static final double TRACK_WIDTH = 10;
-	
+
 	public static final double BODY_MAIN_X4 = 30;
 	public static final double BODY_MAIN_Y1 = 25;
 
@@ -63,6 +64,7 @@ public class TankModel {
 
 	/**
 	 * Renders a tank body at the given location and angles.
+	 * 
 	 * @param location
 	 * @param bodyAngle
 	 * @param gunAngle
@@ -134,6 +136,7 @@ public class TankModel {
 
 	/**
 	 * Renders a tank gun at the given location.
+	 * 
 	 * @param location
 	 * @param bodyAngle
 	 * @param gunAngle
@@ -145,6 +148,7 @@ public class TankModel {
 
 	/**
 	 * Renders a gun at location with angle.
+	 * 
 	 * @param location
 	 * @param bodyAngle
 	 * @param gunAngle
@@ -163,6 +167,7 @@ public class TankModel {
 
 	/**
 	 * Renders gun tank gun chassis.
+	 * 
 	 * @param location
 	 * @param bodyAngle
 	 * @param gunAngle
@@ -201,6 +206,7 @@ public class TankModel {
 
 	/**
 	 * Renders full tank at location with angles.
+	 * 
 	 * @param location
 	 * @param bodyAngle
 	 * @param gunAngle
@@ -213,6 +219,7 @@ public class TankModel {
 
 	/**
 	 * Renders tank at location with color.
+	 * 
 	 * @param location
 	 * @param bodyAngle
 	 * @param gunAngle
