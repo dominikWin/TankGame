@@ -14,51 +14,52 @@ import static org.lwjgl.opengl.GL11.glEnd;
  */
 public class TankModel {
 
-	public static final double GUN_LENGTH = 20;
-	public static final double GUN_OFFSET_LENGTH = 10;
-	public static final double TRACK_WIDTH = 10;
-
 	public static final double BODY_MAIN_X1 = 30;
+	public static final double BODY_MAIN_X2 = -30;
+	public static final double BODY_MAIN_X3 = -30;
+
+	public static final double TRACK_WIDTH = 10;
+	
+	public static final double BODY_MAIN_X4 = 30;
 	public static final double BODY_MAIN_Y1 = 25;
 
-	public static final double BODY_MAIN_X2 = -30;
 	public static final double BODY_MAIN_Y2 = 25;
-
-	public static final double BODY_MAIN_X3 = -30;
 	public static final double BODY_MAIN_Y3 = -25;
 
-	public static final double BODY_MAIN_X4 = 30;
 	public static final double BODY_MAIN_Y4 = -25;
-
 	public static final double BODY_TRACK1_X1 = BODY_MAIN_X1;
-	public static final double BODY_TRACK1_Y1 = BODY_MAIN_Y1 + TRACK_WIDTH;
 
 	public static final double BODY_TRACK1_X2 = BODY_MAIN_X2;
-	public static final double BODY_TRACK1_Y2 = BODY_MAIN_Y2 + TRACK_WIDTH;
+	public static final double BODY_TRACK1_Y1 = BODY_MAIN_Y1 + TRACK_WIDTH;
 
+	public static final double BODY_TRACK1_Y2 = BODY_MAIN_Y2 + TRACK_WIDTH;
 	public static final double BODY_TRACK2_X1 = BODY_MAIN_X3;
-	public static final double BODY_TRACK2_Y1 = BODY_MAIN_Y3 - TRACK_WIDTH;
 
 	public static final double BODY_TRACK2_X2 = BODY_MAIN_X4;
+	public static final double BODY_TRACK2_Y1 = BODY_MAIN_Y3 - TRACK_WIDTH;
+
 	public static final double BODY_TRACK2_Y2 = BODY_MAIN_Y4 - TRACK_WIDTH;
+	public static final double GUN_LENGTH = 20;
 
 	public static final double GUN_MAIN_X1 = 10;
-	public static final double GUN_MAIN_Y1 = -5;
-
 	public static final double GUN_MAIN_X2 = 10;
-	public static final double GUN_MAIN_Y2 = 5;
 
 	public static final double GUN_MAIN_X3 = 0;
-	public static final double GUN_MAIN_Y3 = 7;
-
 	public static final double GUN_MAIN_X4 = -10;
-	public static final double GUN_MAIN_Y4 = 5;
 
 	public static final double GUN_MAIN_X5 = -10;
-	public static final double GUN_MAIN_Y5 = -5;
-
 	public static final double GUN_MAIN_X6 = 0;
+
+	public static final double GUN_MAIN_Y1 = -5;
+	public static final double GUN_MAIN_Y2 = 5;
+
+	public static final double GUN_MAIN_Y3 = 7;
+	public static final double GUN_MAIN_Y4 = 5;
+
+	public static final double GUN_MAIN_Y5 = -5;
 	public static final double GUN_MAIN_Y6 = -7;
+
+	public static final double GUN_OFFSET_LENGTH = 10;
 
 	/**
 	 * Renders a tank body at the given location and angles.

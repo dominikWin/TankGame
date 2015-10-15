@@ -15,10 +15,10 @@ import core.util.Vector2d;
  */
 public class Bullet {
 	public static final double RADIUS = 3;
+	int bounces = 1;
+	public boolean destroyed = false;
 	public Vector2d location;
 	Vector2d velocity;
-	public boolean destroyed = false;
-	int bounces = 1;
 
 	public Bullet(Vector2d location, double angle, double speed) {
 		this.location = location;

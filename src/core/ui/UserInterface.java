@@ -30,12 +30,12 @@ public class UserInterface {
 	public static final int PRIMARY_FONT_SIZE = 32;
 	public static final int SECONDARY_FONT_SIZE = 24;
 
-	Menu mainMenu;
-	Menu pauseMenu;
 	Menu deathMenu;
 	Font font;
 	ArrayList<TrueTypeFont> fonts;
 	ArrayList<Integer> fontSizes;
+	Menu mainMenu;
+	Menu pauseMenu;
 
 	/**
 	 * Created a user interface with default settings.

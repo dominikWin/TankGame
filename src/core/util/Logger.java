@@ -13,14 +13,14 @@ import java.util.Date;
  *
  */
 public class Logger {
+	public static final int ERROR = 1, FINE = 0, INFO = 2;
+	private static FileWriter fileWriter;
+
 	private static final String format = "[<timestamp>] [<type>] <id> <message>\n";
+
 	private static final String formatMultiline = "[<timestamp>] [<type>] <id> >>\n<message>\n<<END>>\n";
 
 	private static final boolean LIVE_PRINT = true, FILE_PRINT = true;
-
-	public static final int ERROR = 1, FINE = 0, INFO = 2;
-
-	private static FileWriter fileWriter;
 
 	/**
 	 * Closes the logger.

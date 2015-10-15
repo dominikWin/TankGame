@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class AreaMap {
 
-	private int mapWith;
-	private int mapHeight;
-	public ArrayList<ArrayList<Node>> map;
-	private int startLocationX = 0;
-	private int startLocationY = 0;
 	private int goalLocationX = 0;
 	private int goalLocationY = 0;
+	public ArrayList<ArrayList<Node>> map;
+	private int mapHeight;
+	private int mapWith;
 	private int[][] obstacleMap;
+	private int startLocationX = 0;
+	private int startLocationY = 0;
 
 	public AreaMap(int mapWith, int mapHeight, int[][] obstacleMap) {
 		this.mapWith = mapWith;

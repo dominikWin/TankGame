@@ -12,10 +12,10 @@ import core.objects.Player;
  *
  */
 public class World {
-	private Player player;
-	private Map map;
 	private ArrayList<Bullet> bullets;
 	private ArrayList<Enemy> enemies;
+	private Map map;
+	private Player player;
 
 	/**
 	 * Creates a new world with the default map.

@@ -35,17 +35,17 @@ public class Game {
 	 *
 	 */
 	public enum GameState {
-		LOADING, MAIN_MENU, PLAYING, PAUSED, DEAD;
+		DEAD, LOADING, MAIN_MENU, PAUSED, PLAYING;
 	}
 
-	public static int WIDTH;
+	private static GameState gameState;
 	public static int HEIGHT;
 	
-	private static World world;
-
 	private static UserInterface userInterface;
 
-	private static GameState gameState;
+	public static int WIDTH;
+
+	private static World world;
 
 	/**
 	 * Creates a window for the game to use.

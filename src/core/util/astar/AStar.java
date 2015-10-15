@@ -34,8 +34,6 @@ public class AStar {
 		}
 	}
 
-	private AreaMap map;
-	private AStarHeuristic heuristic;
 	// private int startX;
 	// private int startY;
 	// private int goalX;
@@ -45,6 +43,8 @@ public class AStar {
 	 * to the goal as guessed by our heuristic.
 	 */
 	private ArrayList<Node> closedList;
+	private AStarHeuristic heuristic;
+	private AreaMap map;
 	private SortedNodeList openList;
 
 	public Path shortestPath;

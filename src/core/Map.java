@@ -61,9 +61,9 @@ public class Map {
 		return out;
 	}
 
-	int[][] obsticalMap = null;
-
 	int[][] map;
+
+	int[][] obsticalMap = null;
 
 	/**
 	 * Constructor that .

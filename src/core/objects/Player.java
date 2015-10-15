@@ -23,15 +23,15 @@ public class Player {
 	public static final int BULLET_SPEED = 500;
 	private static final int DRIVE_SPEED_BACKWARD = 250;
 	private static final int DRIVE_SPEED_FOREWARD = 250;
-	private static final int TURNING_SPEED = 180;
 	private static final int FIRE_DELAY_MILS = 250;
-	public Vector2d location;
-	public double gunAngle;
+	private static final int TURNING_SPEED = 180;
 	public double bodyAngle;
+	public double gunAngle;
+	long lastFireTime = 0;
+
+	public Vector2d location;
 
 	Path shortestPath;
-
-	long lastFireTime = 0;
 
 	/**
 	 * Creates a player at the location.
