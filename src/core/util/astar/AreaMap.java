@@ -1,18 +1,20 @@
 package core.util.astar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AreaMap {
 
 	private int goalLocationX = 0;
+
 	private int goalLocationY = 0;
+
 	public ArrayList<ArrayList<Node>> map;
 	private int mapHeight;
 	private int mapWith;
 	private int[][] obstacleMap;
 	private int startLocationX = 0;
 	private int startLocationY = 0;
-
 	public AreaMap(int mapWith, int mapHeight, int[][] obstacleMap) {
 		this.mapWith = mapWith;
 		this.mapHeight = mapHeight;
@@ -21,7 +23,6 @@ public class AreaMap {
 		createMap();
 		registerEdges();
 	}
-
 	public void clear() {
 		startLocationX = 0;
 		startLocationY = 0;
@@ -44,6 +45,37 @@ public class AreaMap {
 				map.get(x).add(node);
 			}
 		}
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AreaMap other = (AreaMap) obj;
+		if (goalLocationX != other.goalLocationX)
+			return false;
+		if (goalLocationY != other.goalLocationY)
+			return false;
+		if (map == null) {
+			if (other.map != null)
+				return false;
+		} else if (!map.equals(other.map))
+			return false;
+		if (mapHeight != other.mapHeight)
+			return false;
+		if (mapWith != other.mapWith)
+			return false;
+		if (!Arrays.deepEquals(obstacleMap, other.obstacleMap))
+			return false;
+		if (startLocationX != other.startLocationX)
+			return false;
+		if (startLocationY != other.startLocationY)
+			return false;
+		return true;
 	}
 
 	public float getDistanceBetween(Node node1, Node node2) {
@@ -92,6 +124,21 @@ public class AreaMap {
 
 	public Node getStartNode() {
 		return map.get(startLocationX).get(startLocationY);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + goalLocationX;
+		result = prime * result + goalLocationY;
+		result = prime * result + ((map == null) ? 0 : map.hashCode());
+		result = prime * result + mapHeight;
+		result = prime * result + mapWith;
+		result = prime * result + Arrays.deepHashCode(obstacleMap);
+		result = prime * result + startLocationX;
+		result = prime * result + startLocationY;
+		return result;
 	}
 
 	/**

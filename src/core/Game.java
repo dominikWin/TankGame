@@ -162,7 +162,7 @@ public class Game {
 	/**
 	 * Lightweight init that resets the world.
 	 */
-	public static void lightInit() {
+	private static void lightInit() {
 		Logger.log("Creating world");
 		world = new World();
 		Logger.log("Initializing world");
@@ -216,14 +216,6 @@ public class Game {
 	public static void setGameState(GameState gameState) {
 		Game.gameState = gameState;
 		Logger.log("Changed gameState to " + gameState);
-	}
-
-	public static void setUserInterface(UserInterface userInterface) {
-		Game.userInterface = userInterface;
-	}
-
-	public static void setWorld(World world) {
-		Game.world = world;
 	}
 
 	/**

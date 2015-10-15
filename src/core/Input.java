@@ -17,7 +17,7 @@ public class Input {
 	private static ArrayList<Integer> currentMouse = new ArrayList<Integer>();
 	private static ArrayList<Integer> downKeys = new ArrayList<Integer>();
 	private static ArrayList<Integer> downMouse = new ArrayList<Integer>();
-	public static final int NUM_KEYCODES = 256;
+	static final int NUM_KEYCODES = 256;
 	public static final int NUM_MOUSEBUTTONS = 5;
 	private static ArrayList<Integer> upKeys = new ArrayList<Integer>();
 	private static ArrayList<Integer> upMouse = new ArrayList<Integer>();

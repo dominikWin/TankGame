@@ -10,7 +10,6 @@ public class Node implements Comparable<Node> {
 	boolean isObstacle;
 	boolean isStart;
 	/* Nodes that this is connected to */
-	AreaMap map;
 	ArrayList<Node> neighborList;
 	Node north;
 	Node northEast;
@@ -60,7 +59,85 @@ public class Node implements Comparable<Node> {
 	}
 
 	public boolean equals(Node node) {
-		return node.x == x && node.y == y;
+		return (node.x == x) && (node.y == y);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Node other = (Node) obj;
+		if (Float.floatToIntBits(distanceFromStart) != Float.floatToIntBits(other.distanceFromStart))
+			return false;
+		if (east == null) {
+			if (other.east != null)
+				return false;
+		} else if (!east.equals(other.east))
+			return false;
+		if (Float.floatToIntBits(heuristicDistanceFromGoal) != Float.floatToIntBits(other.heuristicDistanceFromGoal))
+			return false;
+		if (isGoal != other.isGoal)
+			return false;
+		if (isObstacle != other.isObstacle)
+			return false;
+		if (isStart != other.isStart)
+			return false;
+		if (neighborList == null) {
+			if (other.neighborList != null)
+				return false;
+		} else if (!neighborList.equals(other.neighborList))
+			return false;
+		if (north == null) {
+			if (other.north != null)
+				return false;
+		} else if (!north.equals(other.north))
+			return false;
+		if (northEast == null) {
+			if (other.northEast != null)
+				return false;
+		} else if (!northEast.equals(other.northEast))
+			return false;
+		if (northWest == null) {
+			if (other.northWest != null)
+				return false;
+		} else if (!northWest.equals(other.northWest))
+			return false;
+		if (previousNode == null) {
+			if (other.previousNode != null)
+				return false;
+		} else if (!previousNode.equals(other.previousNode))
+			return false;
+		if (south == null) {
+			if (other.south != null)
+				return false;
+		} else if (!south.equals(other.south))
+			return false;
+		if (southEast == null) {
+			if (other.southEast != null)
+				return false;
+		} else if (!southEast.equals(other.southEast))
+			return false;
+		if (southWest == null) {
+			if (other.southWest != null)
+				return false;
+		} else if (!southWest.equals(other.southWest))
+			return false;
+		if (visited != other.visited)
+			return false;
+		if (west == null) {
+			if (other.west != null)
+				return false;
+		} else if (!west.equals(other.west))
+			return false;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
 	}
 
 	public float getDistanceFromStart() {
@@ -117,6 +194,31 @@ public class Node implements Comparable<Node> {
 
 	public int getY() {
 		return y;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(distanceFromStart);
+		result = prime * result + ((east == null) ? 0 : east.hashCode());
+		result = prime * result + Float.floatToIntBits(heuristicDistanceFromGoal);
+		result = prime * result + (isGoal ? 1231 : 1237);
+		result = prime * result + (isObstacle ? 1231 : 1237);
+		result = prime * result + (isStart ? 1231 : 1237);
+		result = prime * result + ((neighborList == null) ? 0 : neighborList.hashCode());
+		result = prime * result + ((north == null) ? 0 : north.hashCode());
+		result = prime * result + ((northEast == null) ? 0 : northEast.hashCode());
+		result = prime * result + ((northWest == null) ? 0 : northWest.hashCode());
+		result = prime * result + ((previousNode == null) ? 0 : previousNode.hashCode());
+		result = prime * result + ((south == null) ? 0 : south.hashCode());
+		result = prime * result + ((southEast == null) ? 0 : southEast.hashCode());
+		result = prime * result + ((southWest == null) ? 0 : southWest.hashCode());
+		result = prime * result + (visited ? 1231 : 1237);
+		result = prime * result + ((west == null) ? 0 : west.hashCode());
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
 	}
 
 	public boolean isGoal() {
