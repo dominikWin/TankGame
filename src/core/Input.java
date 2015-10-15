@@ -9,6 +9,7 @@ import core.util.Vector2d;
 
 /**
  * A class that handles input.
+ * 
  * @author Dominik
  */
 public class Input {

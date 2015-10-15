@@ -3,26 +3,26 @@ package core.util.astar;
 import java.util.ArrayList;
 
 public class Node implements Comparable<Node> {
-	/* Nodes that this is connected to */
-	AreaMap map;
-	Node north;
-	Node northEast;
-	Node east;
-	Node southEast;
-	Node south;
-	Node southWest;
-	Node west;
-	Node northWest;
-	ArrayList<Node> neighborList;
-	boolean visited;
 	float distanceFromStart;
+	Node east;
 	float heuristicDistanceFromGoal;
-	Node previousNode;
-	int x;
-	int y;
+	boolean isGoal;
 	boolean isObstacle;
 	boolean isStart;
-	boolean isGoal;
+	/* Nodes that this is connected to */
+	AreaMap map;
+	ArrayList<Node> neighborList;
+	Node north;
+	Node northEast;
+	Node northWest;
+	Node previousNode;
+	Node south;
+	Node southEast;
+	Node southWest;
+	boolean visited;
+	Node west;
+	int x;
+	int y;
 
 	Node(int x, int y) {
 		neighborList = new ArrayList<Node>();

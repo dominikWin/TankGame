@@ -14,27 +14,29 @@ import core.util.astar.Path;
 
 /**
  * Class for representing a player object.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class Player {
 
 	public static final int BULLET_SPEED = 500;
 	private static final int DRIVE_SPEED_BACKWARD = 250;
 	private static final int DRIVE_SPEED_FOREWARD = 250;
-	private static final int TURNING_SPEED = 180;
 	private static final int FIRE_DELAY_MILS = 250;
-	public Vector2d location;
-	public double gunAngle;
+	private static final int TURNING_SPEED = 180;
 	public double bodyAngle;
+	public double gunAngle;
+	long lastFireTime = 0;
+
+	public Vector2d location;
 
 	Path shortestPath;
 
-	long lastFireTime = 0;
-
 	/**
 	 * Creates a player at the location.
+	 * 
 	 * @param location
 	 */
 	Player(Vector2d location) {
@@ -43,6 +45,7 @@ public class Player {
 
 	/**
 	 * Created a player at the location with the body and gun angles.
+	 * 
 	 * @param location
 	 * @param gunAngle
 	 * @param bodyAngle
@@ -78,6 +81,7 @@ public class Player {
 
 	/**
 	 * Updates the player based on the controls.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {

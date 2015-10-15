@@ -7,9 +7,10 @@ import java.util.Scanner;
 
 /**
  * A class for parsing CSV files.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class CSVParser {
 	/**

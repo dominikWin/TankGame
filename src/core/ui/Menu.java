@@ -11,6 +11,7 @@ public interface Menu {
 
 	/**
 	 * Updated the menu.
+	 * 
 	 * @param time
 	 */
 	public void update(double time);

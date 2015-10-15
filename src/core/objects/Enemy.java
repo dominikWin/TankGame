@@ -11,49 +11,53 @@ import core.util.astar.Path;
 
 /**
  * A class for handling enemies.
+ * 
  * @author Dominik Winecki
-
  *
+ * 
  */
 public class Enemy {
 	/**
 	 * Enum for storing all of the possible states of the enemy AI.
+	 * 
 	 * @author Dominik Winecki
 	 *
 	 */
 	enum EnemyState {
-		MOVING, SHOOTING, SEARCHING;
+		MOVING, SEARCHING, SHOOTING;
 	}
-
-	private static final int SPEED = 100;
-
-	private static final double MAP_SIZE_DESTINATION_MULTIPLYER = .01;
 
 	private static final long FIRE_DELAY_MILS = 350;
 
-	long lastFireTime = 0;
+	private static final double MAP_SIZE_DESTINATION_MULTIPLYER = .01;
 
-	Path shortestPath;
-
-	public Vector2d location;
-	Vector2d lastKnownPlayerLoc;
-
-	EnemyState enemyState;
-	private int patrolX;
-	private int patrolY;
-	private int startY;
-	private int startX;
-	public double gunAngle;
+	private static final int SPEED = 100;
 
 	public double bodyAngle;
-	private int currentDestinationX;
-	private int currentDestinationY;
-	boolean going;
 
+	private int currentDestinationX;
+
+	private int currentDestinationY;
 	public boolean destroyed = false;
 
+	EnemyState enemyState;
+	boolean going;
+	public double gunAngle;
+	long lastFireTime = 0;
+	Vector2d lastKnownPlayerLoc;
+	public Vector2d location;
+
+	private int patrolX;
+	private int patrolY;
+	Path shortestPath;
+	private int startX;
+
+	private int startY;
+
 	/**
-	 * Creates an enemy at a location specified by a x and y, and will patrol to patorlX and patrolY.
+	 * Creates an enemy at a location specified by a x and y, and will patrol to
+	 * patorlX and patrolY.
+	 * 
 	 * @param x
 	 * @param y
 	 * @param patrolX
@@ -108,7 +112,6 @@ public class Enemy {
 				.add(new Bullet(new Vector2d(location.getX(), location.getY()), gunAngle, Player.BULLET_SPEED)
 						.removeFromEnemy(this));
 	}
-
 
 	/**
 	 * @param x
@@ -175,6 +178,7 @@ public class Enemy {
 
 	/**
 	 * Updates the tank AI.
+	 * 
 	 * @param time
 	 */
 	public void update(double time) {
@@ -218,6 +222,7 @@ public class Enemy {
 
 	/**
 	 * Updates the AI movement.
+	 * 
 	 * @param time
 	 */
 	private void updateMovement(double time) {
@@ -247,6 +252,7 @@ public class Enemy {
 
 	/**
 	 * Updates search for the player.
+	 * 
 	 * @param time
 	 */
 	private void updateSearch(double time) {

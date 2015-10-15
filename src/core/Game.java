@@ -22,8 +22,9 @@ import core.ui.UserInterface;
 import core.util.Logger;
 
 /**
- * This is the main class for the TankGame project.
- * TankGame is a small game written in Java using LWJGL, Slick-Util and AStar.
+ * This is the main class for the TankGame project. TankGame is a small game
+ * written in Java using LWJGL, Slick-Util and AStar.
+ * 
  * @author Dominik Winecki
  *
  */
@@ -31,21 +32,22 @@ public class Game {
 
 	/**
 	 * Enum for storing all possible states for the game.
+	 * 
 	 * @author Dominik Winecki
 	 *
 	 */
 	public enum GameState {
-		LOADING, MAIN_MENU, PLAYING, PAUSED, DEAD;
+		DEAD, LOADING, MAIN_MENU, PAUSED, PLAYING;
 	}
 
-	public static int WIDTH;
+	private static GameState gameState;
 	public static int HEIGHT;
-	
-	private static World world;
 
 	private static UserInterface userInterface;
 
-	private static GameState gameState;
+	public static int WIDTH;
+
+	private static World world;
 
 	/**
 	 * Creates a window for the game to use.
@@ -81,6 +83,7 @@ public class Game {
 
 	/**
 	 * Exits the game with and closes the Logger.
+	 * 
 	 * @param status
 	 */
 	static void exit(int status) {
@@ -90,8 +93,10 @@ public class Game {
 		Logger.close();
 		System.exit(status);
 	}
+
 	/**
-	 * Starts the game loop, this will continue until the Display requests an exit.
+	 * Starts the game loop, this will continue until the Display requests an
+	 * exit.
 	 */
 	private static void gameLoop() {
 		setGameState(GameState.MAIN_MENU);
@@ -166,6 +171,7 @@ public class Game {
 
 	/**
 	 * Starts the program
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
@@ -231,7 +237,10 @@ public class Game {
 
 	/**
 	 * Updates the game
-	 * @param time The time it took for the last method to execute, should add up to 1 every second.
+	 * 
+	 * @param time
+	 *            The time it took for the last method to execute, should add up
+	 *            to 1 every second.
 	 */
 	private static void update(double time) {
 		if (Input.getKeyDown(Keyboard.KEY_ESCAPE)) {
