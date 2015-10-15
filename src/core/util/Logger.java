@@ -31,13 +31,11 @@ public class Logger {
 		try {
 			fileWriter.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			fileWriter.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -96,7 +94,7 @@ public class Logger {
 		assert type >= 0 && type <= 2;
 		message = message.trim();
 		assert message != null;
-		message.trim();
+		message = message.trim();
 		assert message.length() != 0;
 		if (message.contains("\n")) {
 			write(message, type);
@@ -175,13 +173,15 @@ public class Logger {
 			}
 		}
 		try {
-			fileWriter.write(out);
+			if (fileWriter != null)
+				fileWriter.write(out);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			fileWriter.flush();
+			if (fileWriter != null)
+				fileWriter.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
