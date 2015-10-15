@@ -63,31 +63,6 @@ public class Node implements Comparable<Node> {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + Float.floatToIntBits(distanceFromStart);
-		result = prime * result + ((east == null) ? 0 : east.hashCode());
-		result = prime * result + Float.floatToIntBits(heuristicDistanceFromGoal);
-		result = prime * result + (isGoal ? 1231 : 1237);
-		result = prime * result + (isObstacle ? 1231 : 1237);
-		result = prime * result + (isStart ? 1231 : 1237);
-		result = prime * result + ((neighborList == null) ? 0 : neighborList.hashCode());
-		result = prime * result + ((north == null) ? 0 : north.hashCode());
-		result = prime * result + ((northEast == null) ? 0 : northEast.hashCode());
-		result = prime * result + ((northWest == null) ? 0 : northWest.hashCode());
-		result = prime * result + ((previousNode == null) ? 0 : previousNode.hashCode());
-		result = prime * result + ((south == null) ? 0 : south.hashCode());
-		result = prime * result + ((southEast == null) ? 0 : southEast.hashCode());
-		result = prime * result + ((southWest == null) ? 0 : southWest.hashCode());
-		result = prime * result + (visited ? 1231 : 1237);
-		result = prime * result + ((west == null) ? 0 : west.hashCode());
-		result = prime * result + x;
-		result = prime * result + y;
-		return result;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -219,6 +194,31 @@ public class Node implements Comparable<Node> {
 
 	public int getY() {
 		return y;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(distanceFromStart);
+		result = prime * result + ((east == null) ? 0 : east.hashCode());
+		result = prime * result + Float.floatToIntBits(heuristicDistanceFromGoal);
+		result = prime * result + (isGoal ? 1231 : 1237);
+		result = prime * result + (isObstacle ? 1231 : 1237);
+		result = prime * result + (isStart ? 1231 : 1237);
+		result = prime * result + ((neighborList == null) ? 0 : neighborList.hashCode());
+		result = prime * result + ((north == null) ? 0 : north.hashCode());
+		result = prime * result + ((northEast == null) ? 0 : northEast.hashCode());
+		result = prime * result + ((northWest == null) ? 0 : northWest.hashCode());
+		result = prime * result + ((previousNode == null) ? 0 : previousNode.hashCode());
+		result = prime * result + ((south == null) ? 0 : south.hashCode());
+		result = prime * result + ((southEast == null) ? 0 : southEast.hashCode());
+		result = prime * result + ((southWest == null) ? 0 : southWest.hashCode());
+		result = prime * result + (visited ? 1231 : 1237);
+		result = prime * result + ((west == null) ? 0 : west.hashCode());
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
 	}
 
 	public boolean isGoal() {

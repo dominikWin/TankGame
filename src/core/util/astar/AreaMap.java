@@ -5,19 +5,46 @@ import java.util.Arrays;
 
 public class AreaMap {
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + goalLocationX;
-		result = prime * result + goalLocationY;
-		result = prime * result + ((map == null) ? 0 : map.hashCode());
-		result = prime * result + mapHeight;
-		result = prime * result + mapWith;
-		result = prime * result + Arrays.deepHashCode(obstacleMap);
-		result = prime * result + startLocationX;
-		result = prime * result + startLocationY;
-		return result;
+	private int goalLocationX = 0;
+
+	private int goalLocationY = 0;
+
+	public ArrayList<ArrayList<Node>> map;
+	private int mapHeight;
+	private int mapWith;
+	private int[][] obstacleMap;
+	private int startLocationX = 0;
+	private int startLocationY = 0;
+	public AreaMap(int mapWith, int mapHeight, int[][] obstacleMap) {
+		this.mapWith = mapWith;
+		this.mapHeight = mapHeight;
+		this.obstacleMap = obstacleMap;
+
+		createMap();
+		registerEdges();
+	}
+	public void clear() {
+		startLocationX = 0;
+		startLocationY = 0;
+		goalLocationX = 0;
+		goalLocationY = 0;
+		createMap();
+		registerEdges();
+	}
+
+	private void createMap() {
+		Node node;
+		map = new ArrayList<ArrayList<Node>>();
+		for (int x = 0; x < mapWith; x++) {
+			map.add(new ArrayList<Node>());
+			for (int y = 0; y < mapHeight; y++) {
+				node = new Node(x, y);
+				if (obstacleMap[x][y] == 1) {
+					node.setObstical(true);
+				}
+				map.get(x).add(node);
+			}
+		}
 	}
 
 	@Override
@@ -49,48 +76,6 @@ public class AreaMap {
 		if (startLocationY != other.startLocationY)
 			return false;
 		return true;
-	}
-
-	private int goalLocationX = 0;
-	private int goalLocationY = 0;
-	public ArrayList<ArrayList<Node>> map;
-	private int mapHeight;
-	private int mapWith;
-	private int[][] obstacleMap;
-	private int startLocationX = 0;
-	private int startLocationY = 0;
-
-	public AreaMap(int mapWith, int mapHeight, int[][] obstacleMap) {
-		this.mapWith = mapWith;
-		this.mapHeight = mapHeight;
-		this.obstacleMap = obstacleMap;
-
-		createMap();
-		registerEdges();
-	}
-
-	public void clear() {
-		startLocationX = 0;
-		startLocationY = 0;
-		goalLocationX = 0;
-		goalLocationY = 0;
-		createMap();
-		registerEdges();
-	}
-
-	private void createMap() {
-		Node node;
-		map = new ArrayList<ArrayList<Node>>();
-		for (int x = 0; x < mapWith; x++) {
-			map.add(new ArrayList<Node>());
-			for (int y = 0; y < mapHeight; y++) {
-				node = new Node(x, y);
-				if (obstacleMap[x][y] == 1) {
-					node.setObstical(true);
-				}
-				map.get(x).add(node);
-			}
-		}
 	}
 
 	public float getDistanceBetween(Node node1, Node node2) {
@@ -139,6 +124,21 @@ public class AreaMap {
 
 	public Node getStartNode() {
 		return map.get(startLocationX).get(startLocationY);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + goalLocationX;
+		result = prime * result + goalLocationY;
+		result = prime * result + ((map == null) ? 0 : map.hashCode());
+		result = prime * result + mapHeight;
+		result = prime * result + mapWith;
+		result = prime * result + Arrays.deepHashCode(obstacleMap);
+		result = prime * result + startLocationX;
+		result = prime * result + startLocationY;
+		return result;
 	}
 
 	/**
